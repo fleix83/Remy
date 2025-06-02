@@ -1,0 +1,75 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Asap:ital,wght@0,100..900;1,100..900&family=Borel&family=Lora:ital,wght@0,400..700;1,400..700&family=M+PLUS+Rounded+1c&family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=Noto+Serif:ital,wght@0,100..900;1,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Asap:ital,wght@0,100..900;1,100..900&family=Borel&family=Lora:ital,wght@0,400..700;1,400..700&family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=Noto+Serif:ital,wght@0,100..900;1,100..900&display=swap');
+
+:root {
+    --primary: #ff4732f7; /* #ff7648f7 tomate #5b99e0f7 lavendel  #0c66cdf7 royal */
+    --action: #ff4732f7;
+    --background: rgb(255, 237, 200);      /* #f1d4be; */
+    --background_elements: rgb(255, 237, 200); /*rgb(253, 241, 241);*/
+}
+
+
+h1 {
+    color: aquamarine;
+    font-family: 'Borel';
+}
+
+.messages-wrapper {
+    /* background: #b7b599ab; */
+    /* background: #b7b599;*/
+    /* background: linear-gradient(180deg, rgb(248, 227, 192) 0%, rgba(255,255,255,1) 30%); */
+    /* background: no-repeat url("../../uploads/logo/swiss.jpg");    */
+    /* background: no-repeat url("../../uploads/background/maski.png");  */
+    /* background: no-repeat url("../../uploads/background/swiss-landscape-henri-matisse-green.png");  */
+    /* background:  url("../../uploads/background/matisse_red.png"); */
+    /* background: rgb(235, 235, 235); */
+    background: #f1d4be;
+    background-size: 100%;
+    font-family: "M PLUS Rounded 1c", sans-serif;
+    overflow-x: hidden;
+    width: 100%;
+}
+
+
+/* NAVBAR.PHP */
+h1.logo {
+    font-family: "Noto Sans", sans-serif;
+    font-family: "M PLUS Rounded 1c", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 700;
+    font-style: normal;
+    font-variation-settings: "wdth" 100;
+    font-size: 2.1rem;
+    line-height: 1.8rem;
+    /* padding: 10px; */
+}
+h2.logo {
+    font-family: "Open Sans";
+    font-size: 1.0rem;
+    font-weight: 700;
+    margin: -20px 0px;
+    line-height: 1.1rem;
+    /* padding: 10px; */
+
+}
+
+/* Form Styling */
+.form-control {
+    display: block;
+    width: 100%;
+    padding: .375rem .75rem;
+    font-size: 0.8rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: var(--bs-body-color);
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background-color: var(--bs-body-bg);
+    background-clip: padding-box;
+    border: var(--bs-border-width) solid var(--bs-border-color);
+    border-radius: var(--bs-border-radius);
+    transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+    text-align: left;
+}

@@ -1,0 +1,11 @@
+[2024-09-23 14:59:38] Error: Failed to save post: SQLSTATE[23000]: Integrity constraint violation: 1048 Column 'designation' cannot be null
+[2024-09-23 14:59:54] Error: Failed to save post: SQLSTATE[23000]: Integrity constraint violation: 1048 Column 'designation' cannot be null
+[2024-09-23 14:59:58] Error: Failed to save post: SQLSTATE[23000]: Integrity constraint violation: 1048 Column 'designation' cannot be null
+[2024-09-23 15:09:35] Error: Failed to save post: SQLSTATE[23000]: Integrity constraint violation: 1048 Column 'designation' cannot be null
+[2024-09-23 15:09:53] Error: Failed to save post: SQLSTATE[23000]: Integrity constraint violation: 1048 Column 'designation' cannot be null
+[2024-09-23 15:12:20] Error: Failed to save post: SQLSTATE[23000]: Integrity constraint violation: 1048 Column 'designation' cannot be null
+[2024-09-23 15:12:33] Error: Failed to save post: SQLSTATE[23000]: Integrity constraint violation: 1048 Column 'designation' cannot be null
+[2024-09-23 15:13:44] Error: Failed to save post: SQLSTATE[23000]: Integrity constraint violation: 1048 Column 'designation' cannot be null
+[2024-09-23 15:14:30] Error: Failed to save post: SQLSTATE[23000]: Integrity constraint violation: 1048 Column 'designation' cannot be null
+[2024-09-23 15:14:45] Error: Failed to save post: SQLSTATE[HY000]: General error: 1366 Incorrect integer value: '' for column 'category_id' at row 1
+[2024-09-23 15:20:47] Error: Failed to save post: SQLSTATE[23000]: Integrity constraint violation: 1048 Column 'designation' cannot be null

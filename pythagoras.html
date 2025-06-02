@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <title>Satz des Pythagoras – Interaktive Grafik mit Beschriftungen</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      text-align: center;
+      margin: 20px;
+    }
+    canvas {
+      border: 1px solid #ccc;
+      background: #fff;
+    }
+    #formula {
+      margin-top: 10px;
+      font-size: 18px;
+      line-height: 1.4;
+    }
+  </style>
+</head>
+<body>
+  <h1>Satz des Pythagoras – Interaktive Grafik mit Beschriftungen</h1>
+  <p>Ziehe den roten bzw. grünen Punkt, um die Kathetenlängen zu verändern.</p>
+  <canvas id="canvas" width="600" height="600"></canvas>
+  <div id="formula"></div>
+
+  <script>
+    // Hole Canvas und Kontext
+    const canvas = document.getElementById("canvas");
+    const ctx = canvas.getContext("2d");
+
+    // Festgelegter rechter Winkel bei Punkt A
+    const A = { x: 100, y: 100 };
+    // Startpositionen für B und C (Katheten)
+    const B = { x: 300, y: A.y };  // horizontal (Kathete a)
+    const C = { x: A.x, y: 300 };  // vertikal (Kathete b)
+
+    // Zum Erkennen, welcher Punkt gerade gezogen wird
+    let dragPoint = null;
+    const pointRadius = 8; // Radius für die Drag-Punkte
+
+    // Funktion zum Zeichnen eines Kreises (Drag-Griff)
+    function drawCircle(x, y, radius, color) {
+      ctx.beginPath();
+      ctx.arc(x, y, radius, 0, Math.PI * 2);
+      ctx.fillStyle = color;
+      ctx.fill();
+    }
+
+    // Funktion, um den Abstand zweier Punkte zu berechnen
+    function distance(x1, y1, x2, y2) {
+      return Math.sqrt((x1 - x2) ** 2 + (y1 - y2) ** 2);
+    }
+
+    // Hauptfunktion, um die Grafik neu zu zeichnen
+    function draw() {
+      // Canvas leeren
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      // Berechne die Längen der Katheten (a, b) und der Hypotenuse c
+      const a = Math.abs(B.x - A.x);
+      const b = Math.abs(C.y - A.y);
+      const c = Math.sqrt(a * a + b * b);
+
+      // --- Quadrate zeichnen ---
+
+      // Quadrat an der Kathete AB (horizontal)
+      // Da das Dreieck im Inneren liegt (Punkt C liegt unter AB),
+      // zeichnen wir das Quadrat oberhalb von AB.
+      const A_AB = { x: A.x, y: A.y };
+      const B_AB = { x: B.x, y: B.y };
+      const B_AB2 = { x: B.x, y: B.y - a };
+      const A_AB2 = { x: A.x, y: A.y - a };
+
+      ctx.beginPath();
+      ctx.moveTo(A_AB.x, A_AB.y);
+      ctx.lineTo(B_AB.x, B_AB.y);
+      ctx.lineTo(B_AB2.x, B_AB2.y);
+      ctx.lineTo(A_AB2.x, A_AB2.y);
+      ctx.closePath();
+      ctx.fillStyle = "rgba(255, 0, 0, 0.3)"; // Rot
+      ctx.fill();
+      ctx.stroke();
+
+      // Quadrat an der Kathete AC (vertikal)
+      // Da der Punkt B rechts von AC liegt, zeichnen wir das Quadrat links von AC.
+      const A_AC = { x: A.x, y: A.y };
+      const C_AC = { x: C.x, y: C.y };
+      const C_AC2 = { x: C.x - b, y: C.y };
+      const A_AC2 = { x: A.x - b, y: A.y };
+
+      ctx.beginPath();
+      ctx.moveTo(A_AC.x, A_AC.y);
+      ctx.lineTo(C_AC.x, C_AC.y);
+      ctx.lineTo(C_AC2.x, C_AC2.y);
+      ctx.lineTo(A_AC2.x, A_AC2.y);
+      ctx.closePath();
+      ctx.fillStyle = "rgba(0, 200, 0, 0.3)"; // Grün
+      ctx.fill();
+      ctx.stroke();
+
+      // Quadrat an der Hypotenuse BC
+      // Berechne zunächst den Vektor von B nach C:
+      const d = { x: C.x - B.x, y: C.y - B.y };
+      // Bestimme die Vektor-Permutation (Rotation um 90° im Uhrzeigersinn),
+      // damit das Quadrat außen am Dreieck liegt.
+      const p = { x: d.y, y: -d.x };
+      // Bestimme die beiden zusätzlichen Eckpunkte:
+      const B_BC = { x: B.x + p.x, y: B.y + p.y };
+      const C_BC = { x: C.x + p.x, y: C.y + p.y };
+
+      ctx.beginPath();
+      ctx.moveTo(B.x, B.y);
+      ctx.lineTo(C.x, C.y);
+      ctx.lineTo(C_BC.x, C_BC.y);
+      ctx.lineTo(B_BC.x, B_BC.y);
+      ctx.closePath();
+      ctx.fillStyle = "rgba(0, 0, 255, 0.3)"; // Blau
+      ctx.fill();
+      ctx.stroke();
+
+      // --- Das Dreieck zeichnen ---
+      ctx.beginPath();
+      ctx.moveTo(A.x, A.y);
+      ctx.lineTo(B.x, B.y);
+      ctx.lineTo(C.x, C.y);
+      ctx.closePath();
+      ctx.fillStyle = "rgba(220, 220, 220, 0.8)";
+      ctx.fill();
+      ctx.strokeStyle = "black";
+      ctx.stroke();
+
+      // --- Kantenlängen beschriften ---
+      ctx.fillStyle = "black";
+      ctx.font = "16px sans-serif";
+      ctx.textBaseline = "middle";
+      
+      // Horizontale Seite (a) von A nach B:
+      ctx.textAlign = "center";
+      const midAB = { x: (A.x + B.x) / 2, y: A.y };
+      ctx.fillText(a.toFixed(1), midAB.x, midAB.y + 20);
+      
+      // Vertikale Seite (b) von A nach C:
+      ctx.textAlign = "left";
+      const midAC = { x: A.x, y: (A.y + C.y) / 2 };
+      ctx.fillText(b.toFixed(1), midAC.x + 20, midAC.y);
+      
+      // Hypotenuse (c) von B nach C:
+      ctx.textAlign = "center";
+      const midBC = { x: (B.x + C.x) / 2, y: (B.y + C.y) / 2 };
+      ctx.fillText(c.toFixed(1), midBC.x, midBC.y - 10);
+
+      // --- Kontrollpunkte zeichnen ---
+      // Für Punkt B (horizontal verschiebbar)
+      drawCircle(B.x, B.y, pointRadius, "red");
+      // Für Punkt C (vertikal verschiebbar)
+      drawCircle(C.x, C.y, pointRadius, "green");
+
+      // --- Aktualisierte Formeldarstellung ---
+      const formulaDiv = document.getElementById("formula");
+      formulaDiv.innerHTML = `
+        <strong>Satz des Pythagoras:</strong> a² + b² = c²<br>
+        <em>a</em> = ${a.toFixed(1)} &rarr; a² = ${(a * a).toFixed(1)}<br>
+        <em>b</em> = ${b.toFixed(1)} &rarr; b² = ${(b * b).toFixed(1)}<br>
+        <em>c</em> = ${c.toFixed(1)} &rarr; c² = ${(c * c).toFixed(1)}<br>
+        ${(a * a).toFixed(1)} + ${(b * b).toFixed(1)} = ${(a * a + b * b).toFixed(1)}
+      `;
+    }
+
+    // --- Maus-Interaktion ---
+    function getMousePos(evt) {
+      const rect = canvas.getBoundingClientRect();
+      return {
+        x: evt.clientX - rect.left,
+        y: evt.clientY - rect.top
+      };
+    }
+
+    canvas.addEventListener("mousedown", function (evt) {
+      const pos = getMousePos(evt);
+      // Prüfe, ob in der Nähe von Punkt B geklickt wurde:
+      if (distance(pos.x, pos.y, B.x, B.y) < pointRadius + 2) {
+        dragPoint = "B";
+      }
+      // Prüfe, ob in der Nähe von Punkt C geklickt wurde:
+      else if (distance(pos.x, pos.y, C.x, C.y) < pointRadius + 2) {
+        dragPoint = "C";
+      }
+    });
+
+    canvas.addEventListener("mousemove", function (evt) {
+      if (dragPoint) {
+        const pos = getMousePos(evt);
+        // Für Punkt B: nur horizontale Bewegung (x-Achse), y bleibt fix (gleicher y-Wert wie A)
+        if (dragPoint === "B") {
+          // Verhindere, dass B zu nah an A kommt (mindestens 20px Abstand)
+          B.x = Math.max(A.x + 20, pos.x);
+          B.y = A.y;
+        }
+        // Für Punkt C: nur vertikale Bewegung (y-Achse), x bleibt fix (gleicher x-Wert wie A)
+        else if (dragPoint === "C") {
+          C.y = Math.max(A.y + 20, pos.y);
+          C.x = A.x;
+        }
+        draw();
+      }
+    });
+
+    canvas.addEventListener("mouseup", function () {
+      dragPoint = null;
+    });
+
+    canvas.addEventListener("mouseleave", function () {
+      dragPoint = null;
+    });
+
+    // Initiales Zeichnen
+    draw();
+  </script>
+</body>
+</html>

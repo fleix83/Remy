@@ -1,0 +1,347 @@
+name = "project"
+skipFolders = [ "node_modules", ".vscode", "out", "dist", ".vscode-test" ]
+skipFiles = [ ".gitignore", "package.json" ]
+
+[[processes]]
+id = "process1"
+name = "To Do"
+
+  [[processes.tasks]]
+  id = "i8euq6sdr0ge5stj8a5u7w8j"
+  title = "REFINE CSS"
+  description = ""
+  tag = "backlog"
+  linkFiles = [ ]
+  dueDate = ""
+  checkList = [ ]
+  priority = ""
+  linkCommits = [ ]
+
+  [[processes.tasks]]
+  id = "yyw4nmlqvevefx0bfnesghil"
+  title = "Community-Guidelines, content, css"
+  description = ""
+  tag = "backlog"
+  linkFiles = [ ]
+  dueDate = ""
+  checkList = [ ]
+  priority = ""
+  linkCommits = [ ]
+
+  [[processes.tasks]]
+  id = "xxibyh8130wpcbw88fp9jc0s"
+  title = "categeory_panel.php language problem"
+  description = ""
+  tag = "backlog"
+  linkFiles = [ ]
+  dueDate = ""
+  checkList = [ ]
+  priority = ""
+  linkCommits = [ ]
+
+  [[processes.tasks]]
+  id = "lpu4dm3d7qbivex7tk3vgiz7"
+  title = "forum.php search input schöner"
+  description = ""
+  tag = "backlog"
+  linkFiles = [ ]
+  dueDate = ""
+  checkList = [ ]
+  priority = ""
+  linkCommits = [ ]
+
+  [[processes.tasks]]
+  id = "um3w5zp4usla3yk38ptmi621"
+  title = "edit_post.php Preview stylen"
+  description = ""
+  tag = "backlog"
+  linkFiles = [ ]
+  dueDate = ""
+  checkList = [ ]
+  priority = ""
+  linkCommits = [ ]
+
+  [[processes.tasks]]
+  id = "kmta0i3uxwrld0hoe2h8vvme"
+  title = "Summernote editor configuration"
+  description = ""
+  tag = "backlog"
+  linkFiles = [ ]
+  dueDate = ""
+  checkList = [ ]
+  priority = ""
+  linkCommits = [ ]
+
+  [[processes.tasks]]
+  id = "aoiwjd1pxacnmag3q3owu5iz"
+  title = "Moderation Panle fertig stylen"
+  description = ""
+  tag = "backlog"
+  linkFiles = [ ]
+  dueDate = ""
+  checkList = [ ]
+  priority = ""
+  linkCommits = [ ]
+
+  [[processes.tasks]]
+  id = "v55nnplqzuargnjotni9tanz"
+  title = "Messages.php - delete button unschön gelöst, ev in conversation rechts"
+  description = ""
+  tag = "backlog"
+  linkFiles = [ ]
+  dueDate = ""
+  checkList = [ ]
+  priority = ""
+  linkCommits = [ ]
+
+  [[processes.tasks]]
+  id = "f2vq05i6nrgp8ad5xm57dhep"
+  title = "User.php Private nachricht teinstellung zweimal?"
+  description = ""
+  tag = "backlog"
+  linkFiles = [ ]
+  dueDate = ""
+  checkList = [ ]
+  priority = ""
+  linkCommits = [ ]
+
+  [[processes.tasks]]
+  id = "t8afftn92x1q0tu5wtyzhmxa"
+  title = "User.php Tab Post actions gehen nicht"
+  description = ""
+  tag = "backlog"
+  linkFiles = [ ]
+  dueDate = ""
+  checkList = [ ]
+  priority = ""
+  linkCommits = [ ]
+
+  [[processes.tasks]]
+  id = "qqmenim7rfxtve337iuclqjo"
+  title = "Pagination"
+  description = ""
+  tag = "backlog"
+  linkFiles = [ ]
+  dueDate = ""
+  checkList = [ ]
+  priority = ""
+  linkCommits = [ ]
+
+  [[processes.tasks]]
+  id = "dauchs2fb1ky76i7uxp57jjp"
+  title = "User Profil - edit ohne wrapper?"
+  description = ""
+  tag = "backlog"
+  linkFiles = [ ]
+  dueDate = ""
+  checkList = [ ]
+  priority = ""
+  linkCommits = [ ]
+
+  [[processes.tasks]]
+  id = "mm92vw0xeqbpn2httckpwiiw"
+  title = "TEST - Bezeichnung löschen, sind Posts noch da?"
+  description = ""
+  tag = "backlog"
+  linkFiles = [ ]
+  dueDate = ""
+  checkList = [ ]
+  priority = ""
+  linkCommits = [ ]
+
+  [[processes.tasks]]
+  id = "qtkusmxf14zllpzn1ia5kehy"
+  title = "TEST - Kategory löschen, sind Posts noch da?"
+  description = ""
+  tag = "backlog"
+  linkFiles = [ ]
+  dueDate = ""
+  checkList = [ ]
+  priority = ""
+  linkCommits = [ ]
+
+[[processes]]
+id = "process2"
+name = "In Progress"
+
+  [[processes.tasks]]
+  id = "l1hk1i7xnsde1octrmheo6a1"
+  title = "Messages fixen moderation.php und user.php"
+  description = ""
+  tag = "backlog"
+  linkFiles = [ ]
+  dueDate = ""
+  checkList = [ ]
+  priority = ""
+  linkCommits = [ ]
+
+  [[processes.tasks]]
+  id = "cr76p7hg9rqsjpkmdyihc8e3"
+  title = "LANGUAGE"
+  description = """
+- database
+- php langauge files"""
+  tag = "backlog"
+  linkFiles = [ ]
+  dueDate = ""
+  checkList = [ ]
+  priority = ""
+  linkCommits = [ ]
+
+[[processes]]
+id = "process3"
+name = "Done"
+
+  [[processes.tasks]]
+  id = "zm39ngflb3daxgvr9668b5cb"
+  title = "post.php implement summernote editor"
+  description = "<p></p>"
+  tag = "backlog"
+  linkFiles = [ ]
+  dueDate = ""
+  checkList = [ ]
+  priority = ""
+  linkCommits = [ ]
+
+  [[processes.tasks]]
+  id = "kb1abc7yf38qwgpfwjhnf9rm"
+  title = "create_post.php Fixing the add tags feature"
+  description = "<ul><li><p>- tags functinoality in edit_post.php</p><p></p></li></ul>"
+  tag = "backlog"
+  linkFiles = [ ]
+  dueDate = ""
+  checkList = [ ]
+  priority = ""
+  linkCommits = [ ]
+
+  [[processes.tasks]]
+  id = "sya1nz7u8ncyxft4v9f7ki3z"
+  title = "Moderation neue posts nicht mehr löschbar!"
+  description = "<p></p>"
+  tag = "backlog"
+  linkFiles = [ ]
+  dueDate = ""
+  checkList = [ ]
+  priority = "Normal"
+  linkCommits = [ ]
+
+  [[processes.tasks]]
+  id = "task1"
+  title = "user_admin.php delete user issue"
+  description = "<p></p>"
+  tag = "backlog"
+  linkFiles = [ ]
+  dueDate = ""
+  checkList = [ ]
+  priority = ""
+  linkCommits = [ ]
+
+  [[processes.tasks]]
+  id = "vnwj0haiu06w7bl2iccatnto"
+  title = "post.php fetching therapist details and display"
+  description = ""
+  tag = "backlog"
+  linkFiles = [ ]
+  dueDate = ""
+  checkList = [ ]
+  priority = ""
+  linkCommits = [ ]
+
+  [[processes.tasks]]
+  id = "ndgbl9o8h5vrf881rx5njbd4"
+  title = "post-moderation.php filename inconsistent"
+  description = "<p></p>"
+  tag = "backlog"
+  linkFiles = [ ]
+  dueDate = ""
+  checkList = [ ]
+  priority = ""
+  linkCommits = [ ]
+
+  [[processes.tasks]]
+  id = "xywqv5ie5snwbquuqw310ltr"
+  title = "New feature - add/edit designations"
+  description = ""
+  tag = "backlog"
+  linkFiles = [ ]
+  dueDate = ""
+  checkList = [ ]
+  priority = ""
+  linkCommits = [ ]
+
+  [[processes.tasks]]
+  id = "c4eezmpim1kxqzp41lw343pz"
+  title = "Forum filter felder müssen von DB gefetched werden"
+  description = "<p></p>"
+  tag = "backlog"
+  linkFiles = [ ]
+  dueDate = ""
+  checkList = [ ]
+  priority = ""
+  linkCommits = [ ]
+
+  [[processes.tasks]]
+  id = "qsraaipkuo8hb1r71w10gcfd"
+  title = "Categories issue - forum.php filter fetch category_panel.php delete"
+  description = "<p></p>"
+  tag = "backlog"
+  linkFiles = [ ]
+  dueDate = ""
+  checkList = [ ]
+  priority = ""
+  linkCommits = [ ]
+
+  [[processes.tasks]]
+  id = "plp5ct1xcrbj2d551qzdktic"
+  title = "catgeory_panel.php delete categories completly and css"
+  description = ""
+  tag = "backlog"
+  linkFiles = [ ]
+  dueDate = ""
+  checkList = [ ]
+  priority = ""
+  linkCommits = [ ]
+
+  [[processes.tasks]]
+  id = "s4m3n892nadjbx4fwhp9cuc1"
+  title = "Filter ist kaputt"
+  description = ""
+  tag = "backlog"
+  linkFiles = [ ]
+  dueDate = ""
+  checkList = [ ]
+  priority = ""
+  linkCommits = [ ]
+
+  [[processes.tasks]]
+  id = "ehe57b65qtrh0op5twfsn6j8"
+  title = "Banned User können noch antworten"
+  description = ""
+  tag = "backlog"
+  linkFiles = [ ]
+  dueDate = ""
+  checkList = [ ]
+  priority = ""
+  linkCommits = [ ]
+
+  [[processes.tasks]]
+  id = "o8vunkgn1bdyb43uvw45er3h"
+  title = "Mobile Menu"
+  description = ""
+  tag = "backlog"
+  linkFiles = [ ]
+  dueDate = ""
+  checkList = [ ]
+  priority = ""
+  linkCommits = [ ]
+
+  [[processes.tasks]]
+  id = "kp97b57oyr5v6gflksgnovzc"
+  title = "Create Post/ new therapist SEARCH"
+  description = ""
+  tag = "backlog"
+  linkFiles = [ ]
+  dueDate = ""
+  checkList = [ ]
+  priority = ""
+  linkCommits = [ ]

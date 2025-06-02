@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Calendar Scheduler</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .month-title {
+            text-align: center;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        .calendar {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 10px;
+        }
+
+        .day-card {
+            border: 1px solid #ccc;
+            padding: 10px;
+            min-height: 60px;
+            cursor: pointer;
+            position: relative;
+            display: flex;
+        }
+
+        .day-number {
+            position: absolute;
+            top: 5px;
+            left: 5px;
+            font-size: 14px;
+        }
+
+        .shift-container {
+            display: flex;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        .shift-left, .shift-right {
+            flex: 1;
+            height: 40px;
+        }
+
+        .shift-left {
+            margin-right: 1px;
+        }
+
+        .shift-right {
+            margin-left: 1px;
+        }
+
+        .detailed-card {
+            margin-top: 20px;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            display: none;
+        }
+
+        .detailed-card.active {
+            display: block;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        td {
+            padding: 10px;
+            border: 1px solid #ccc;
+        }
+
+        select {
+            width: 100%;
+            padding: 5px;
+        }
+
+        .red {
+            background-color: #ffcccc;
+        }
+
+        .orange {
+            background-color: #ffd699;
+        }
+
+        .green {
+            background-color: #ccffcc;
+        }
+    </style>
+</head>
+<body>
+    <div class="month-title">February 2025</div>
+    <div class="calendar" id="calendar"></div>
+    <div class="detailed-card" id="detailedCard">
+        <table>
+            <tr>
+                <td>E1</td>
+                <td>
+                    <select class="user-select" data-shift="E1" data-position="1">
+                        <option value="">Select user</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>E1</td>
+                <td>
+                    <select class="user-select" data-shift="E1" data-position="2">
+                        <option value="">Select user</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>E2</td>
+                <td>
+                    <select class="user-select" data-shift="E2" data-position="1">
+                        <option value="">Select user</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>E2</td>
+                <td>
+                    <select class="user-select" data-shift="E2" data-position="2">
+                        <option value="">Select user</option>
+                    </select>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <script>
+        const users = [
+            'John Smith',
+            'Emma Wilson',
+            'Michael Brown',
+            'Sarah Davis',
+            'James Johnson',
+            'Lisa Anderson',
+            'David Miller'
+        ];
+
+        const calendar = document.getElementById('calendar');
+        const detailedCard = document.getElementById('detailedCard');
+        let selectedDay = null;
+        const scheduleData = {};
+
+        // Populate select dropdowns with users
+        document.querySelectorAll('.user-select').forEach(select => {
+            users.forEach(user => {
+                const option = document.createElement('option');
+                option.value = user;
+                option.textContent = user;
+                select.appendChild(option);
+            });
+        });
+
+        // Create calendar days
+        function createCalendar() {
+            const daysInMonth = 28; // February 2025
+            const firstDay = 5; // First day of February 2025 (Saturday)
+
+            // Add empty cells for days before the 1st
+            for (let i = 0; i < firstDay; i++) {
+                const emptyDay = document.createElement('div');
+                calendar.appendChild(emptyDay);
+            }
+
+            // Create day cards
+            for (let day = 1; day <= daysInMonth; day++) {
+                const dayCard = document.createElement('div');
+                dayCard.className = 'day-card';
+                dayCard.innerHTML = `
+                    <span class="day-number">${day}</span>
+                    <div class="shift-container">
+                        <div class="shift-left red"></div>
+                        <div class="shift-right red"></div>
+                    </div>
+                `;
+
+                dayCard.addEventListener('click', () => showDetailedCard(day));
+                calendar.appendChild(dayCard);
+
+                // Initialize schedule data for this day
+                scheduleData[day] = {
+                    E1: ['', ''],
+                    E2: ['', '']
+                };
+            }
+        }
+
+        function showDetailedCard(day) {
+            selectedDay = day;
+            detailedCard.className = 'detailed-card active';
+
+            // Update select values based on stored data
+            document.querySelectorAll('.user-select').forEach(select => {
+                const shift = select.dataset.shift;
+                const position = parseInt(select.dataset.position) - 1;
+                select.value = scheduleData[day][shift][position];
+            });
+        }
+
+        function updateDayCard(day) {
+            const dayCard = calendar.children[day + 4]; // Adjust for empty cells
+            const shiftLeft = dayCard.querySelector('.shift-left');
+            const shiftRight = dayCard.querySelector('.shift-right');
+
+            // Update E1 (left) side
+            const e1Users = scheduleData[day].E1.filter(user => user !== '');
+            if (e1Users.length === 2) {
+                shiftLeft.className = 'shift-left green';
+            } else if (e1Users.length === 1) {
+                shiftLeft.className = 'shift-left orange';
+            } else {
+                shiftLeft.className = 'shift-left red';
+            }
+
+            // Update E2 (right) side
+            const e2Users = scheduleData[day].E2.filter(user => user !== '');
+            if (e2Users.length === 2) {
+                shiftRight.className = 'shift-right green';
+            } else if (e2Users.length === 1) {
+                shiftRight.className = 'shift-right orange';
+            } else {
+                shiftRight.className = 'shift-right red';
+            }
+        }
+
+        // Handle user selection changes
+        document.querySelectorAll('.user-select').forEach(select => {
+            select.addEventListener('change', (e) => {
+                const shift = e.target.dataset.shift;
+                const position = parseInt(e.target.dataset.position) - 1;
+                scheduleData[selectedDay][shift][position] = e.target.value;
+                updateDayCard(selectedDay);
+            });
+        });
+
+        createCalendar();
+    </script>
+</body>
+</html>
