@@ -167,6 +167,18 @@ require_once 'navbar.php';
     #defaultCanton {
         max-width: 300px;
     }
+    
+    /* Profile info container and edit button positioning */
+    #profileInfo {
+        position: relative;
+    }
+    
+    .edit-btn-top-right {
+        position: absolute;
+        top: 0;
+        right: 0;
+        z-index: 10;
+    }
     </style>
 
 
@@ -217,9 +229,9 @@ $cantons = [
             <input type="file" id="avatarInput" name="avatar" accept="image/*" style="display: none;">
         </div>
 
-        <!-- Edit Button -->
-        <button type="button" id="editBtn" class="btn btn-outline-secondary">Ändern</button>
     <div id="profileInfo">
+        <!-- Edit Button -->
+        <button type="button" id="editBtn" class="btn btn-outline-secondary edit-btn-top-right">Ändern</button>
         <h2 id="usernameDisplay"><?= htmlspecialchars($user['username'] ?? '', ENT_QUOTES, 'UTF-8') ?></h2>
         <p id="bioDisplay"><?= htmlspecialchars($user['bio'] ?? '', ENT_QUOTES, 'UTF-8') ?: 'Kein Profiltext hinterlegt.' ?></p>
     

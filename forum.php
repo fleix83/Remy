@@ -234,81 +234,19 @@ require_once __DIR__ . '/includes/header.php';
 <html>
 <head>
     <title>Forum</title>
-    
+    <!-- CSS für Peek CSS <link rel="stylesheet" type="text/css" href="<?php echo BASE_URL; ?>assets/css/custom.css"> --> 
 </head>
 
-<style>
-    /* Add this to your existing CSS */
-
-.post-wrapper {
-    display: flex;
-    align-items: flex-start;  /* This ensures top alignment */
-}
-
-.post-user-stats {
-    margin-top: 57px;  /* Adjust this value to match the top padding/margin of user-date */
-}
-
-.post-user {
-    position: relative;
-    top: 0;
-}
-
-.post-content {
-    display: flex;
-    flex-direction: column;
-}
-
-.user-info-container {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    margin-bottom: 1rem;
-}
-
-.user-date-wrapper {
-    display: flex;
-    flex-direction: column;
-    /* gap: 0.25rem; */
-}
-
-.username {
-    margin: 0;
-    font-size: 0.775rem;
-    font-weight: 500;
-    color: #4b5563;
-    line-height: 0.8rem;
-}
-
-.post-date {
-    margin: 0;
-    color: #6b7280;
-    font-size: 0.675rem;
-    line-height: 0.8rem;
-}
-
-.post-avatar {
-    width: 2rem;
-    height: 2rem;
-    border-radius: 9999px;
-    object-fit: cover;
-}
-
-</style>
-
-<head>
-<!-- CSS für Peek CSS <link rel="stylesheet" type="text/css" href="<?php echo BASE_URL; ?>assets/css/custom.css"> -->
-</head>
 
 <body>
 <main class="container-fluid px-3">
     <div class="row justify-content-center">
             <!-- Forum Container -->
             <div class="col-12 col-lg-10">
-                <!-- <div class="forum-top-edge"></div> -->
+              
                 <!-- <section id="forum-container"> -->
                     <!-- Forum Topbar -->
-                    <div class="forum-topbar">
+                    <div class="topbar">
                         <div class="topbar-wrapper">
                             <div class="forum-topbar-buttons">
                             <?php if (isset($user) && !$user['is_banned']): ?>
@@ -441,40 +379,26 @@ require_once __DIR__ . '/includes/header.php';
                         <div id="search-results-content"></div>
                     </div>
 
-                         <!-- Post Loop -->
+                         <!-- Loop -->
                         <div id="post-load-more">
                          <?php foreach ($posts as $post): ?>
 
                         <!-- Assign a CSS class if the post is sticky -->
                         <?php $postClass = $post['sticky'] == 1 ? 'post sticky-post' : 'post'; ?>
 
-                            <!-- Post Element -->
-                            <article class="post">
-                                <div class="post-wrapper <?= $postClass ?>">
-                                    <!-- Post User and Stats -->
-                                    <div class="post-user-stats col-md-3 col-sm-3 col-xs-3">  
-                                        <div class="post-user">
-                                            <div>
-                                                <!-- <img src="<?= htmlspecialchars($post['avatar_url']) ?>" class="post-avatar" alt="Avatar"> -->
-                                            </div>  
-                                        </div>
-                                    </div>
-
-                                    <div class="post-content col-md-10 col-sm-8 col-xs-8">
-
-                                    
-
-                                        
-
-                                        <!-- Post Category -->
-                                        <div class="post-category-canton mb-3">
+                            <!-- List Element -->
+                            <article class="list-element">
+                                <div class="list-wrapper <?= $postClass ?>">
+                                    <div class="list-body col-md-10 col-sm-8 col-xs-8">
+                                        <!-- List Meta -->
+                                        <div class="list-meta mb-3">
                                             <p class="badge bg-erfahrung"><?= htmlspecialchars($post['category']) ?></p>
-                                            <div class="post-canton">
-                                                <img class="post-canton" src="uploads/kantone/<?= htmlspecialchars($post['canton']) ?>.png" alt="<?= htmlspecialchars($post['canton']) ?> Flagge" >
+                                            <div class="list-canton">
+                                                <img class="list-canton" src="uploads/kantone/<?= htmlspecialchars($post['canton']) ?>.png" alt="<?= htmlspecialchars($post['canton']) ?> Flagge" >
                                                 <?= htmlspecialchars($post['canton']) ?>
                                             </div>
                                             <!-- Answers -->
-                                            <div class="stat-item col-md-2">
+                                            <div class="list-comment col-md-2">
                                                 <!-- Comment Icon -->
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chat" viewBox="0 0 16 16">
                                                     <path d="M2.678 11.894a1 1 0 0 1 .287.801 11 11 0 0 1-.398 2c1.395-.323 2.247-.697 2.634-.893a1 1 0 0 1 .71-.074A8 8 0 0 0 8 14c3.996 0 7-2.807 7-6s-3.004-6-7-6-7 2.808-7 6c0 1.468.617 2.83 1.678 3.894m-.493 3.905a22 22 0 0 1-.713.129c-.2.032-.352-.176-.273-.362a10 10 0 0 0 .244-.637l.003-.01c.248-.72.45-1.548.524-2.319C.743 11.37 0 9.76 0 8c0-3.866 3.582-7 8-7s8 3.134 8 7-3.582 7-8 7a9 9 0 0 1-2.347-.306c-.52.263-1.639.742-3.468 1.105"/>
@@ -487,15 +411,15 @@ require_once __DIR__ . '/includes/header.php';
                                         <div class="col-md-10 col-xs-12">
                                             
                                         <!-- Username & Date -->
-                                        <div class="user-info-container">
-                                            <img src="<?= htmlspecialchars($post['avatar_url']) ?>" class="post-avatar" alt="Avatar">
-                                            <div class="user-date-wrapper">
-                                                <p class="username"><?= htmlspecialchars($post['username']) ?></p>
-                                                <p class="post-date"><?= formatCustomDate($post['post_created_at']) ?></p>
+                                        <div class="list-user-element">
+                                            <img src="<?= htmlspecialchars($post['avatar_url']) ?>" class="list-avatar" alt="Avatar">
+                                            <div class="list-user-group">
+                                                <p class="list-user"><?= htmlspecialchars($post['username']) ?></p>
+                                                <p class="list-date"><?= formatCustomDate($post['post_created_at']) ?></p>
                                             </div>
                                         </div>
 
-                                            <span><h2 class="forum-post-titel"></span>
+                                            <span><h2 class="list-title"></span>
                                             <?php if (isset($user) && !$user['is_banned']): ?>
                                                 <a href="post.php?id=<?= htmlspecialchars($post['id']) ?>"><?= htmlspecialchars($post['title']) ?></a>
                                             <?php else: ?>
@@ -528,7 +452,7 @@ require_once __DIR__ . '/includes/header.php';
                                             </div>
                                             <!-- Post Tags -->
                                             <?php if (!empty($post['tags'])): ?>
-                                                <div class="post-tags">
+                                                <div class="list-tags">
                                                     <?php foreach (explode(',', $post['tags']) as $tag): ?>
                                                         <span class="badge bg-tags me-1"><?= htmlspecialchars(trim($tag)) ?></span>
                                                     <?php endforeach; ?>
@@ -695,26 +619,26 @@ require_once __DIR__ . '/includes/header.php';
                         <div class="post-user-stats col-md-3 col-sm-3 col-xs-3">
                             <div class="post-user">
                                 <div>
-                                    <img src="${post.avatar_url}" class="post-avatar" alt="Avatar">
+                                    <img src="${post.avatar_url}" class="list-avatar" alt="Avatar">
                                 </div>
                             </div>
                         </div>
-                        <div class="post-content col-md-10 col-sm-8 col-xs-8">
-                            <div class="post-category-canton">
+                        <div class="list-body  col-md-10 col-sm-8 col-xs-8">
+                            <div class="list-meta">
                                 <p class="category badge bg-erfahrung">${post.category}</p>
-                                <div class="post-canton">
-                                    <img class="post-canton" src="uploads/kantone/${post.canton}.png" alt="${post.canton} Flagge">
+                                <div class="list-canton">
+                                    <img class="list-canton" src="uploads/kantone/${post.canton}.png" alt="${post.canton} Flagge">
                                     ${post.canton}
                                 </div>
                             </div>
                             <div class="col-md-10 col-xs-12">
-                                <p class="user-date">${post.username} • <span class="post-date">${formatCustomDate(post.post_created_at)}</span></p>
-                                <h2 class="forum-post-titel">
+                                <p class="user-date">${post.username} • <span class="list-date">${formatCustomDate(post.post_created_at)}</span></p>
+                                <h2 class="list-title">
                                     <a href="post.php?id=${post.id}">${post.title}</a>
                                 </h2>
                                 ${therapistInfo}
-                                ${tagsHtml ? `<div class="post-tags">${tagsHtml}</div>` : ''}
-                                <div class="stat-item col-md-10">
+                                ${tagsHtml ? `<div class="list-tags">${tagsHtml}</div>` : ''}
+                                <div class="list-comment col-md-10">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chat" viewBox="0 0 16 16">
                                         <path d="M2.678 11.894a1 1 0 0 1 .287.801 11 11 0 0 1-.398 2c1.395-.323 2.247-.697 2.634-.893a1 1 0 0 1 .71-.074A8 8 0 0 0 8 14c3.996 0 7-2.807 7-6s-3.004-6-7-6-7 2.808-7 6c0 1.468.617 2.83 1.678 3.894m-.493 3.905a22 22 0 0 1-.713.129c-.2.032-.352-.176-.273-.362a10 10 0 0 0 .244-.637l.003-.01c.248-.72.45-1.548.524-2.319C.743 11.37 0 9.76 0 8c0-3.866 3.582-7 8-7s8 3.134 8 7-3.582 7-8 7a9 9 0 0 1-2.347-.306c-.52.263-1.639.742-3.468 1.105"/>
                                     </svg>
@@ -794,20 +718,20 @@ document.getElementById('load-more').addEventListener('click', function() {
                 // Construct the inner HTML similarly to your PHP loop.
                 // (You can adjust this markup to match your existing structure.)
                 article.innerHTML = `
-                    <div class="post-wrapper ${post.sticky == 1 ? 'sticky-post' : ''}">
+                    <div class="list-wrapper ${post.sticky == 1 ? 'sticky-post' : ''}">
                         <div class="post-user-stats col-md-3 col-sm-3 col-xs-3">
                             <div class="post-user">
                                 
                             </div>
                         </div>
-                        <div class="post-content col-md-10 col-sm-8 col-xs-8">
-                            <div class="post-category-canton mb-3">
+                        <div class="list-body  col-md-10 col-sm-8 col-xs-8">
+                            <div class="list-meta mb-3">
                                 <p class="badge bg-erfahrung">${post.category}</p>
-                                <div class="post-canton">
-                                    <img class="post-canton" src="uploads/kantone/${post.canton}.png" alt="${post.canton} Flagge">
+                                <div class="list-canton">
+                                    <img class="list-canton" src="uploads/kantone/${post.canton}.png" alt="${post.canton} Flagge">
                                     ${post.canton}
                                 </div>
-                                <div class="stat-item col-md-2">
+                                <div class="list-comment col-md-2">
                                     <!-- Comment icon SVG can be inserted here -->
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chat" viewBox="0 0 16 16">
                                         <path d="M2.678 11.894a1 1 0 0 1 .287.801 11 11 0 0 1-.398 2c1.395-.323 2.247-.697 2.634-.893a1 1 0 0 1 .71-.074A8 8 0 0 0 8 14c3.996 0 7-2.807 7-6s-3.004-6-7-6-7 2.808-7 6c0 1.468.617 2.83 1.678 3.894m-.493 3.905a22 22 0 0 1-.713.129c-.2.032-.352-.176-.273-.362a10 10 0 0 0 .244-.637l.003-.01c.248-.72.45-1.548.524-2.319C.743 11.37 0 9.76 0 8c0-3.866 3.582-7 8-7s8 3.134 8 7-3.582 7-8 7a9 9 0 0 1-2.347-.306c-.52.263-1.639.742-3.468 1.105"/>
@@ -816,14 +740,14 @@ document.getElementById('load-more').addEventListener('click', function() {
                                 </div>
                             </div>
                             <div class="col-md-10 col-xs-12">
-                                <div class="user-info-container">
-                                    <img src="${post.avatar_url}" class="post-avatar" alt="Avatar">
-                                    <div class="user-date-wrapper">
-                                        <p class="username">${post.username}</p>
-                                        <p class="post-date">${new Date(post.post_created_at).toLocaleString()}</p>
+                                <div class="list-user-element">
+                                    <img src="${post.avatar_url}" class="list-avatar" alt="Avatar">
+                                    <div class="list-user-group">
+                                        <p class="list-user">${post.username}</p>
+                                        <p class="list-date">${new Date(post.post_created_at).toLocaleString()}</p>
                                     </div>
                                 </div>
-                                <h2 class="forum-post-titel">
+                                <h2 class="list-title">
                                     <a href="post.php?id=${post.id}">${post.title}</a>
                                 </h2>
                                 <!-- Additional elements like therapist info or tags can be added here -->

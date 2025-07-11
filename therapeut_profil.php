@@ -102,9 +102,9 @@ require_once 'navbar.php';
             background: #ffffff;
             color: white;
             padding: 2rem;
-            border-radius: 0.5rem;
-            margin-bottom: 2rem;
-        }
+            border-radius: 20px;
+            margin-bottom: 60px;
+                }
 
         .therapist-name {
             font-size: 1.75rem;
@@ -236,12 +236,11 @@ require_once 'navbar.php';
 
         /* Section headers */
         .section-title {
-            font-size: 1.25rem;
-            font-weight: 600;
-            margin-bottom: 1.5rem;
-            color: #1f2937;
-            border-bottom: 2px solid #e5e7eb;
-            padding-bottom: 0.5rem;
+           font-size: 1.15rem;
+           font-weight: 400;
+           margin-bottom: 1.5rem;
+           color: #1f2937;
+           padding-bottom: 0.5rem;
         }
 
         /* Container styling */
@@ -249,6 +248,14 @@ require_once 'navbar.php';
             max-width: 1200px;
             margin: 0 auto;
             padding: 2rem 1rem;
+        }
+
+        /* Page title styling */
+        .page-title {
+            font-size: 2rem;
+            font-weight: 600;
+            color: #1f2937;
+            text-align: center;
         }
 
         /* Empty state */
@@ -267,6 +274,9 @@ require_once 'navbar.php';
 </head>
 <body>
     <div class="profile-container">
+        <!-- Page Title -->
+        <h1 class="page-title mb-4">Therapeutenprofil</h1>
+        
         <!-- Therapist Header -->
         <div class="therapist-header">
             <h1 class="therapist-name">
@@ -281,25 +291,22 @@ require_once 'navbar.php';
                 <i class="bi bi-person-badge"></i>
                 <?php echo htmlspecialchars($therapist['designation']); ?>
             </div>
+            <?php if (!empty($therapist['description'])): ?>
+                <div class="therapist-detail">
+                    <i class="bi bi-file-text"></i>
+                    <?php echo htmlspecialchars($therapist['description']); ?>
+                </div>
+            <?php endif; ?>
             <?php if (!empty($therapist['institution'])): ?>
                 <div class="therapist-detail">
                     <i class="bi bi-building"></i>
                     <?php echo htmlspecialchars($therapist['institution']); ?>
                 </div>
             <?php endif; ?>
-            <?php if (!empty($therapist['description'])): ?>
-                <div class="therapist-description mt-3">
-                    <h4>
-                        <i class="bi bi-file-text"></i>
-                        Beschreibung
-                    </h4>
-                    <p><?php echo nl2br(htmlspecialchars($therapist['description'])); ?></p>
-                </div>
-            <?php endif; ?>
         </div>
 
         <!-- Posts Section -->
-        <h2 class="section-title">Beiträge über diesen Therapeuten</h2>
+        <h2 class="section-title">Beiträge zu <?= "{$therapist['first_name']} {$therapist['last_name']}" ?></h2>
         
         <?php if (empty($posts)): ?>
             <div class="empty-state">

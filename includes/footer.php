@@ -79,18 +79,19 @@
 
 <style>
 .footer {
-    background-color: #f8f9fa;
+    color: var(--primary);
+    background-color: none;
     padding: 0rem 0;
     margin-top: 3rem;
 }
 
-.footer-top {
+/* .footer-top {
     width: 100%;
     height: 30px;
     border-bottom-left-radius: 25px;
     border-bottom-right-radius: 25px;
     background: #ffd662ad;
-}
+} */
 
 .footer-logo {
     margin-bottom: 1rem;
@@ -100,7 +101,6 @@
     margin: 0;
     font-size: 1.5rem;
     line-height: 1.2;
-    color: #333;
 }
 
 .footer-logo h4.logo {
@@ -110,17 +110,14 @@
 
 .footer h5 {
     font-weight: 600;
-    color: #333;
 }
 
 .footer ul li a {
-    color: #666;
     text-decoration: none;
     transition: color 0.2s;
 }
 
 .footer ul li a:hover {
-    color: #333;
     text-decoration: none;
 }
 
@@ -128,13 +125,11 @@
     padding: 0;
     background: none;
     border: none;
-    color: #666;
     text-align: left;
     transition: color 0.2s;
 }
 
 .btn-feedback:hover {
-    color: #333;
 }
 
 /* Modal Styles */

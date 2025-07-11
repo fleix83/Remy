@@ -170,11 +170,11 @@ require_once __DIR__ . '/includes/header.php';
                         <div>
                             <span class="badge bg-erfahrung me-2"><?= htmlspecialchars($post['category']) ?></span>
                             <img src="uploads/kantone/<?= htmlspecialchars($post['canton']) ?>.png" alt="<?= htmlspecialchars($post['canton']) ?> Flagge" style="width: 20px; height: 20px;" class="me-1">
-                            <small class="post-post-user text-muted"><?= htmlspecialchars($post['canton']) ?></small>
+                            <small class="post-post-user"><?= htmlspecialchars($post['canton']) ?></small>
                         </div>
                         <!-- <div class="d-flex align-items-center">
                             <img src="<?= htmlspecialchars($post['avatar_url']) ?>" class="avatar rounded-circle me-2" alt="Avatar">
-                            <span class="post-post-user text-muted"><?= htmlspecialchars($post['username']) ?></span>
+                            <span class="post-post-user"><?= htmlspecialchars($post['username']) ?></span>
                         </div> -->
                     </div>
 
@@ -184,7 +184,7 @@ require_once __DIR__ . '/includes/header.php';
                         
                         <div class="d-flex align-items-center mt-2">
                             <img src="<?= htmlspecialchars($post['avatar_url']) ?>" class="avatar rounded-circle me-2" alt="Avatar">
-                            <span class="post-post-user text-muted"><?= htmlspecialchars($post['username']) ?> • <?= formatCustomDate($post['created_at']) ?></span>
+                            <span class="post-post-user"><?= htmlspecialchars($post['username']) ?> • <?= formatCustomDate($post['created_at']) ?></span>
                         </div>
                     </div>
 

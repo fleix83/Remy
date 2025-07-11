@@ -10,14 +10,23 @@
 
 /* COLOURS */
 :root {
-    --primary: #565656f7; /* #ff7648f7 tomate #5b99e0f7 lavendel  #0c66cdf7 royal */
+    /* --primary: #565656f7;  #ff7648f7 tomate #5b99e0f7 lavendel  #0c66cdf7 royal */
     --action: #ffd662ad;
-    --background: #ffd662ad;      /* #f1d4be; */
-    --background_elements: #ffffff; /*rgb(253, 241, 241);*/
-    --h2_headings: #2c2c2cf7;
-    --fonts_elements: #2c2c2cf7;
-    --focus: #ffd5625d;
     --buttons_fontsize_mobile: 0.7rem;
+
+    /* New */
+    --primary: #ffdd7e;
+    --background-body: #15272e;
+    --background-element: #203f4a;
+    --type-meta: #8d9198;
+}
+
+body {
+    background: var(--background-body);
+    background-size: 100%;
+    font-family: "M PLUS Rounded 1c", sans-serif;
+    overflow-x: hidden;
+    width: 100%;
 }
 
 h1 {
@@ -27,11 +36,6 @@ h1 {
     font-style: normal;
     width: 100%; 
 }
-
-
-h2 (
-    font-family: "Noto Sans", sans-serif;
-)
 
 p {
     font-family: "Open Sans", sans-serif;
@@ -46,23 +50,6 @@ a {
     text-decoration: none;
 }
 
-                                @media (max-width: 768px) {
-
-                                    h2 {
-                                        color: var(--h2_headings);
-                                        font-family: "Noto Sans", sans-serif;
-                                        font-weight: 600;
-                                    }
-
-                                    h1.panel {
-                                        font-size: 1.6rem;
-                                    }
-                                    h2.panel {
-                                        color: rgb(131, 131, 131);
-                                        font-size: 1.3rem;
-                                    }                                    
-                                }
-
 /* Badges */
 .bg-therapeut {
     color: rgb(255, 255, 255);
@@ -70,8 +57,8 @@ a {
 }
 
 .bg-erfahrung {
-    color: rgb(2, 2, 2);
-    background: #ffe394;
+    color: var(--background-element);
+    background: var(--primary);
     margin-right: 10px;
 }
 
@@ -92,8 +79,8 @@ a {
 }
 
 .bg-tags {
-    color: white;
-    background: black;
+    color: var(--background-element);
+    background: #ffdd7e;
     font-size: 0.8rem;
 }
 
@@ -107,68 +94,12 @@ a {
     box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
 }
 
-.action-butto-primary {
-    color: black;
-    background: var(--action); 
-    border: none;
-}
-
-
-body {
-    /* background: #b7b599ab; */
-    /* background: #b7b599;*/
-    /* background: linear-gradient(180deg, rgb(248, 227, 192) 0%, rgba(255,255,255,1) 30%); */
-    /* background: no-repeat url("../../uploads/logo/swiss.jpg");    */
-    /* background: no-repeat url("../../uploads/background/maski.png");  */
-    /* background: no-repeat url("../../uploads/background/swiss-landscape-henri-matisse-green.png");  */
-    /* background:  url("../../uploads/background/matisse_red.png"); */
-    /* background: rgb(235, 235, 235); */
-    background: #ffd662ad;
-    background-size: 100%;
-    font-family: "M PLUS Rounded 1c", sans-serif;
-    overflow-x: hidden;
-    width: 100%;
-}
-
-header {
-    /* background: #b7b599ab; */
-    height: 300px;
-    padding: 20px;
-    text-align: center;
-}
-
 /* NAVBAR.PHP */
 
-.background-swish {
-    position: absolute;
-    top: 0px; left: 0px;
-    background: white;
-    border-bottom-right-radius: 80%;
-    width: 68%;
-    height: 110px;
-    transform: rotateX('30deg');
+#logo {
+    margin: 1.5rem 0 0.5rem 18px;
 }
 
-h1.logo {
-    color: var(--fonts_elements);
-    font-family: "M PLUS Rounded 1c", sans-serif;
-    font-optical-sizing: auto;
-    font-weight: 500;
-    font-style: normal;
-    font-variation-settings: "wdth" 100;
-    font-size: 2.1rem;
-    line-height: 1.8rem;
-    /* padding: 10px; */
-}
-h2.logo {
-    font-family: "Open Sans";
-    font-size: 1.0rem;
-    font-weight: 700;
-    margin: 0px 0px;
-    line-height: 1.1rem;
-    /* padding: 10px; */
-
-}
 
 img.navbar-avatar {
     width: 40px; /* Adjust size as needed */
@@ -180,17 +111,24 @@ img.navbar-avatar {
 
 .navbar {
     background: none !important;
-    background: rgba(255, 255, 255, 0.891);
     position: relative;
-    top: 0;
+    top: 0px;
     width: 100%;
     margin-bottom: 4rem;
+    justify-content: start;
     padding: 2rem 4rem;
     z-index: 1000;
 }
 
-#navbarNav {
-    justify-content: end;
+.navbar-brand {
+    color: var(--primary);
+    font-size: 2rem;
+    font-weight: 400;
+    margin: 10px 10px;
+}
+
+.navbar-brand:hover {
+    color: var(--primary);
 }
 
 .navbar-expand-lg .navbar-nav !important {
@@ -198,86 +136,24 @@ img.navbar-avatar {
     align-items: center;
 }
 
+.navbar-expand-lg .navbar-collapse {
+    justify-content: flex-end;
+}
+
 nav a {
     margin: 0 10px;
     text-decoration: none;
     color: #007bff;
 }
+ 
+    /* Smartphone Screen  */
+    @media (max-width: 768px) {
 
-
-.forum-header {
-    width: 90%;
-    height:40px;
-    background: #ffeeed;
-    border-top: 1px solid rgb(210, 210, 210);
-    border-left: 1px solid rgb(210, 210, 210);
-    border-right: 1px solid rgb(210, 210, 210);
-    border-top-left-radius: 15px;
-    border-top-right-radius: 15px;
-    margin: auto;
-    box-shadow: 0 8px 6px -6px black;
-}   
-
-                                /* Smartphone Screen  */
-
-                                @media (max-width: 768px) {
-
-                                body {
-                                    /* background: var(--background);
-
-                                    background: 
-                                    radial-gradient(
-                                        farthest-corner at top left,
-                                        rgba(218, 76, 76, 0.5), 
-                                        transparent 600px
-                                    ),
-                                    radial-gradient(
-                                        farthest-corner at top right,
-                                        var(--background), 
-                                        transparent 400px
-                                    ),
-                                    radial-gradient(
-                                        farthest-side at top center,
-                                        rgb(255, 255, 255), 
-                                        transparent 400px
-                                        ); */
-                                    }
-
-                                    .navbar {
-                                        padding: 0px 5px;
-                                        margin-bottom: 10rem;
-                                    }
-
-                                    .background-swish {
-                                        position: absolute;
-                                        top: -15px; left: -3px;
-                                        background: white;
-                                        border-bottom-right-radius: 80%;
-                                        width: 73%;
-                                        height: 130px;
-                                        transform: rotate(3deg);
-                                    }
-
-                                    #logo {
-                                        transform: rotate(-3deg);
-                                        border-radius: 10px;
-                                        padding: 10px 27px;
-                                    }
-
-                                    h1.logo {
-                                        font-size: 1.7rem;
-                                        line-height: 1.1rem;
-                                        margin: 0 0;
-                                       
-                                    }
-                                    h2.logo {
-                                        font-size: 0.7rem;
-                                        line-height: 0.7rem;
-                                        font-weight: 700;
-                                        margin: 3px 0; 
-                                    }
-
-                                }
+        .navbar {
+            padding: 0px 5px;
+            margin-bottom: 1rem;
+        }
+    }
 
 /* INDEX.PHP */
 
@@ -299,12 +175,7 @@ p.intro {
         font-size: 1.6rem;
     }
 
-
-.index.text-center {
-    background: rgba(255, 255, 255, 0);
-}
-
-/* Smartphone Screen  */
+/* Mobile Screen  */
 
 @media (max-width: 768px) {
 
@@ -358,58 +229,23 @@ p.intro {
 
 /* FORUM.PHP */
 
-/* intro */
-/* p.intro {
-    color: #009198;
-    font-family: "Merriweather", serif;
-    font-weight: 900;
-    font-size: 2.5rem;
-    font-style: normal;
-} */
-
-/* span.highlite {
-    background-color: rgb(247 184 153 / 85%);
-    font-size: 2.8rem;
-    padding: 3px 2px;
-} */
-
-.forum-top-edge {
-    width: 100%;
-    height: 30px;
-    background: #f8b89c;
-    border-top-left-radius: 15px;
-    border-top-right-radius: 15px;
-}
-
- /* Forum Container */
-#forum-container {
-    font-family: "Lora", serif;
-    border: 0px solid rgba(200, 182, 92, 0.99); 
-    border-top: 0;
-    background: #f6f1eb;
-    border-bottom-left-radius: 15px;
-    border-bottom-right-radius: 15px;
-    overflow: hidden;
-    box-shadow: 0 20px 20px rgba(0, 0, 0, 0.2);
-}
-
-/* Forum Topbar */
-.forum-topbar {
+/* Topbar  */
+.topbar {
     display: flex;
+    background: none;
+    border-radius: 20px;
     justify-content: space-between;
     align-items: center;
+    height: 7rem;
     background-color: rgba(245, 245, 245, 0.4);
-    height: 10rem;
     border-bottom: 0px solid rgba(255, 255, 255, 1.0);
     padding: 0px 60px;
     margin: 0px 0px 0px 0px;
 }
 
 .topbar-wrapper {
-    border: 1px solid rgb(226, 226, 226);
-    border-radius: 15px;
+    border: 0px solid rgb(226, 226, 226);
     padding: 30px 10px;
-    margin-top: 30px;
     width: 100%;
     display: flex;
     flex-direction: row;
@@ -424,32 +260,16 @@ p.intro {
 }
 
 .new-post {
-    background: var(--action);
-    border: 1px solid rgb(237, 236, 236);
+    background: var(--primary);
     width: auto;
     margin-right: 15px;
     padding: 8px 10px;
-}
-
-.forum-topbar-stats {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.topbar-stat-item {
-    display: flex;
-    justify-content: flex-end;
-    align-self: flex-start;
-    width: 130px;
-    margin: 0px 27px;
 }
 
 .post-content > .row {
     flex-wrap: nowrap;
 }
 
-/* Topbar  */
 #filter-container {
     display: none;
     margin-bottom: 8rem;
@@ -611,11 +431,11 @@ img.avatar-search {
     border-radius: 50%;
 }
 
-.post-tags {
+.list-tags {
     margin-top: 0.5rem;
 }
 
-.post-tags .badge {
+.list-tags .badge {
     padding: 0.3em 0.6em;
     margin-right: 0.3em;
     margin-bottom: 0.3em;
@@ -623,28 +443,28 @@ img.avatar-search {
 }
 
 
-/* Forum Post Loop */
+/* Loop */
 
-.post {
+.list-element {
     border-top: 0px solid #fffffff7;
     border-bottom: 0px solid #fffffff7;
-    border-radius: 3px;
+    border-radius: 20px;
     min-height: 1rem;
-    padding: 20px 60px;
-    margin: 0px 0px;
+    padding: 20px 30px;
+    margin: 18px 0px;
+    background: var(--background-element);
 }
 
-.post-wrapper {
+.list-wrapper {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    align-items: center;
-    border-radius: 20px;
+    align-items: flex-start;
     background: none;
-    padding: 20px;
+    padding: 10px;
 }
 
-.post-content {
+.list-body {
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
@@ -652,30 +472,75 @@ img.avatar-search {
     width: 100%;
 }
 
-
-.post-stats {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-
-.post-user {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-
-.post-user-stats {
+.list-meta {
     display: flex;
     flex-direction: row;
-    justify-content: center;
     flex-wrap: nowrap;
-    align-items: center;
+    align-items: flex-start;
 }
 
-.post-avatar {
+.list-canton {
+    font-size: 1.0rem;
+}
+
+.list-canton img {
+    width: 20px; 
+    height: 20px; 
+    margin-right: 5px;
+    margin-top: -5px;
+}
+
+.list-comment {
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-start;
+    margin: 0px 1px;
+    margin-left: auto;
+}
+
+svg.bi.bi-chat {
+    vertical-align: middle;
+    margin-right: 3px;
+    color: var(--type-meta);
+}
+
+h5.count {
+    color: var(--type-meta); !important;
+    font-size: 1rem;
+    margin-left: 2px;
+    margin-bottom: 5px;
+}
+
+.list-user-element {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.list-user-group {
+    display: flex;
+    flex-direction: column;
+    /* gap: 0.25rem; */
+}
+
+.list-user {
+    margin: 0;
+    font-size: 0.775rem;
+    font-weight: 500;
+    color: var(--type-meta);
+    line-height: 0.8rem;
+}
+
+.list-date {
+    margin: 0;
+    color: var(--type-meta);
+    font-size: 0.675rem;
+    line-height: 0.8rem;
+}
+
+
+.list-avatar {
     margin-right: 10px;
     width: 5rem;
     height: 5rem;
@@ -688,78 +553,17 @@ img.avatar-search {
     margin: 15px 0px 0px 0px;
 }
 
-span.post-date {
-    text-decoration: none !important;
-}
-
-.stat-item {
-    display: flex;
-    justify-content: flex-end;
-    align-items: flex-start;
-    margin: 0px 1px;
-    margin-left: auto;
-}
-
-svg.bi.bi-chat {
-    vertical-align: middle;
-    margin-right: 3px;
-    color: #959595;
-}
-
-h5.count {
-    color: #7a7a7a !important;
-    font-size: 1rem;
-    margin-left: 2px;
-    margin-bottom: 5px;
-}
-
-.post-category-canton {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
-    align-items: flex-start;
-}
-
-.post-canton {
-    font-size: 1.0rem;
-}
-
-.post-canton img {
-    width: 20px; 
-    height: 20px; 
-    margin-right: 5px;
-    margin-top: -5px;
-}
-
-
-h2.forum-post-titel {
-    font-family: "Noto Sans", sans-serif;
-    font-family: "Quicksand", serif;
-    font-family: "M PLUS Rounded 1c", serif;
-    color: rgb(221 46 49);
+h2.list-title {
+    color: var(--primary);
     text-decoration: none;
     font-size: 1.4em;
     font-weight: 700;
-    margin-bottom: 0px;
-}
-
-h2.forum-post-titel:hover {
-    color: rgb(139, 139, 139);
-}
-
-/* .stat-item h5 {
-    font-size: 0.7rem;
-    font-weight: 400;
-    margin: 0rem 1rem 0.2rem 0rem;
-}
-
-h5.count {
-    color:rgba(100, 100, 100, 0.883) !important;
-    font-size: 1.0rem; 
-    font-weight: 600 !important;
-    margin-left: 4px;
     margin-bottom: 5px;
-} */
+}
+
+h2.list-title:hover {
+    color: rgb(251, 82, 82);
+}
 
 .excerpt {
     color: #666;
@@ -770,11 +574,12 @@ h5.count {
     flex-shrink: unset;
 }
 
-.therapist-info {
+.list-therapist-element {
     margin: 0px 0px 0px 0px;
 }
+
 a.therapist-link {
-    color: rgb(119, 119, 119);
+    color: var(--primary);
     font-size: 0.9rem;
 }
 
@@ -782,38 +587,34 @@ a.therapist-link {
     text-decoration-line: underline;
 }
 
-.forum-post-tags {
-    font-size: 0.7;
-    background: #cccccc;
+/* Sticky Post */
+.sticky-post {
+    outline: 15px solid rgb(251, 82, 82);
+    outline-offset: 14px;
+    border-radius: 17px;
 }
+
+
 p.bezeichnung {
     color: rgba(255, 255, 255, 1); 
 }
 
 footer {
-    background-color: #f8f9fa;
+    background-color: none;
     padding: 10px;
     text-align: center;
 }
 
-/* Sticky Post */
-.sticky-post {
-    border: 10px solid rgba(255, 94, 94, 0.25);
-}
-
-/* Smartphone Screen  */
             @media (max-width: 768px) {
-                #logo h1, h2 {
-                    color: var(--primary);
-                }
 
                 /* Button size global */
                 .btn {
                     font-size: var(--buttons_fontsize_mobile);
+                    border-radius: 5px;
                     margin: 2px;
                 }
 
-                .forum-topbar {
+                .topbar {
                     background: none;
                     flex-direction: row;
                     justify-content: space-between;
@@ -824,48 +625,33 @@ footer {
                 }
 
                 .topbar-wrapper {
-                    background: var(--background_elements);
-                    border: 0px solid var(--primary);
+                    background: var(--background-element);
+                    border-radius: 20px;
                     padding: 10px 10px;
-                    margin-bottom: 35px;
+                    margin-bottom: 0px;
                     transform: rotate(-0.5deg);
                 }
 
-                .topbar-stat-item {
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    width: auto;
-                    margin: 0 10px;
-                }
-
-                .topbar-stat-item h5 {
-                    font-size: 0.7rem; 
-                    font-weight: 100;
-                    text-transform: uppercase;
-                    margin: 0;
-                }
-
                 .new-post {
-                    color: black;
+                    color: var(--background-element);
                     font-size: 0.8rem;
                     line-height: 0.8rem;
                     font-weight: 500;
                     width: auto;
                     margin-right: 10px;
-                    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+                    border: none;
                 }
 
                 #toggle-filter {
                     color: #ffffff;
-                    background: #000000;
+                    background: var(--type-meta);
                     font-size: 0.7rem;
                     padding: 6px 6px;
                     margin-right: 10px;
                 }
 
                 #filter-form {
-                    background: var(--background_elements);
+                    background: var(--background-element);
                     border-radius: 10px;
                     height: 270px;
                     margin-top: 10px;
@@ -882,10 +668,10 @@ footer {
                 }
 
                 .form-control.filter {
-                    color: black;
+                    color: var(--background-element);
                     max-width: 110px;
                     margin: 10px 8px;
-                    background: #ffd662ad;
+                    background: #FF5E5B;
                 }
 
                 #search-input {
@@ -909,66 +695,64 @@ footer {
                     padding: 0px 0px;
                     }
 
-                .post-wrapper {
-                    justify-content: flex-start;
-                    background: none;
-                    border: 2px solid #ffffff;
-                    margin: 10px 0;
-                    padding: 20px 25px 20px 10px;
-                    background: #ffffff;
-                }
-
-                .post-user {
-                    font-size: 0.7rem;
-                    margin-right: auto !important;
-                }
-
-                .post-avatar {
-                    width: 30px;
-                    height: 30px;
-                    border-radius: 50%;
-                    margin-right: 6px;
-                }
-
-                .post-stats {
-                    display: flex;
-                    justify-content: flex-start;
-                    align-items: center;
-                }
-
-                .user-date {
-                    color: var(--fonts_elements);
-                    font-size: 0.7rem;
-                    margin: 0px 0px 0px 0px;
-                }
-
-                .post-user-stats {
+                .list-meta {
                     display: flex;
                     flex-direction: row;
-                    justify-content: space-between;
                     flex-wrap: nowrap;
                     align-items: flex-start;
-                    min-width: 20px;
                 }
 
-                h2.forum-post-titel   {
-                    color: var(--fonts_elements);
-                    line-height: 1.8rem;
-                    text-decoration: underline;
-                    text-decoration-color: #ffd662ad;
-                    text-decoration-style: double;
+                .list-canton {
+                    font-size: 0.9rem;
+                    color: var(--type-meta);
+                }
+
+                .list-canton img {
+                    width: 20px; 
+                    height: 20px; 
+                    margin-right: 5px;
+                }
+
+                .bg-erfahrung {
+                    margin-right: 10px;
+                    font-size: 0.8rem;
+                    font-weight: 500;
+                    background: var(--primary);  
+                    }
+
+                .bg-therapeut {
+                    margin-right: 10px;
+                    font-size: 0.5rem;
+                    }
+
+                .bg-therapeut {
+                    color: rgb(255, 255, 255);
+                    background: rgb(198, 198, 198);
+                    }
+
+
+                .list-avatar {
+                    width: 2rem;
+                    height: 2rem;
+                    border-radius: 9999px;
+                    object-fit: cover;
+                }
+
+                h2.list-title  {
+                    color: var(--primary);
+                    line-height: 1.7rem;
                     font-size: 1.2em; 
                     font-weight: 700;
                     margin: 0px 0 8px 0;
                     width: 100%; 
                 }
 
-                span h2.forum-post-titel  a {
+                span h2.list-title  a {
                     color: inherit; /* Ensures the link inherits the color */
                 }
 
                 /* Therapist and designation info below title */
-                .post .therapist-info {
+                .post .list-therapist-element {
                     display: flex;
                     flex-direction: column;
                     flex-wrap: wrap; /* Allow therapist and designation to wrap if needed */
@@ -978,7 +762,7 @@ footer {
 
                 /* Icon Therapeut */
                 .bi {
-                    color: var(--fonts_elements);
+                    color: var(--primary);
                 }
 
                 p.therapist, p.bezeichnung {
@@ -997,57 +781,7 @@ footer {
                     margin-bottom: 0.3em;
             
                 }
-
-                .post-category-canton {
-                    display: flex;
-                    flex-direction: row;
-                    flex-wrap: nowrap;
-                    align-items: flex-start;
-                }
-
-                .post-canton {
-                    font-size: 0.9rem;
-                }
-
-                .post-canton img {
-                    width: 20px; 
-                    height: 20px; 
-                    margin-right: 5px;
-                }
-
-                .bg-erfahrung {
-                    margin-right: 10px;
-                    font-size: 0.8rem;
-                    font-weight: 500;
-                    background: var(--focus);  
-    background: ;
-                    }
-
-                .bg-therapeut {
-                    margin-right: 10px;
-                    font-size: 0.5rem;
-                    }
-
-                .bg-therapeut {
-                    color: rgb(255, 255, 255);
-                    background: rgb(198, 198, 198);
-                    }
-                 }
-
-
-
-
-
-
-
-
-
-
-
-                 
-
-
-
+             }
 
 
 /* USER.PHP */
@@ -1148,7 +882,13 @@ img.avatar {
     display: flex;
     align-items: center;
     gap: 10px;
-    margin-top: 10px;
+    margin-top: 20px;
+}
+
+#languageDisplay {
+    background: var(--background);
+    padding: 2px 6px;
+    border-radius: 14px;
 }
 
 .language-label {
@@ -1169,9 +909,23 @@ img.avatar {
     max-width: 300px;
 }
 
+#cantonDisplay {
+    background: var(--background);
+    padding: 2px 6px;
+    border-radius: 14px;
+}
+.messages-value {
+    background: #6bdda8;
+    padding: 2px 6px;
+    border-radius: 14px;
+}
+
 #editBtn, #saveBtn {
-    display: block;
-    margin: 0 70%;
+    display: inline;
+    margin: 10px 15px;
+    background: #dbdbdb;
+    color: white;
+    border: 0px; 
 }
 
 .user-block {
@@ -1293,7 +1047,7 @@ img.avatar {
                             }
 
                             #profileInfo {
-                                background: none;
+                                background: white;
                                 border: 2px solid white;
                                 margin-top: 1rem;
                                 padding: 20px;
@@ -1791,7 +1545,7 @@ article.post-post-container {
     font-family: "M PLUS Rounded 1c", sans-serif;
     padding: 50px;
     border: 0px solid var(--primary);
-    color: rgb(33, 33, 33);
+    color: var(--primary);
 }
 
 img.avatar {
@@ -1875,7 +1629,7 @@ form button:hover {
 
                 @media (max-width: 768px) {
                     .post.card-body {
-                        background: var(--background_elements);
+                        background: var(--background-element);
                         padding: 30px;
                         border-top: 0px solid var(--background_elements);
                     }
@@ -1887,10 +1641,11 @@ form button:hover {
 
                     span.post-post-user {
                         font-size: 0.7rem;
+                        color: var(--type-meta);
                     }
                     
                     h2.post-post-title {
-                        color: var(--h2_headings);
+                        color: var(--primary);
                         font-size: 1.4rem;
                         line-height: 1.9rem;
                         margin-top: 3.0rem;
@@ -1901,7 +1656,7 @@ form button:hover {
                     }
                     
                     .post-post-content {
-                        margin: 2.2rem 0rem;
+                        margin: 3.0rem 0rem;
                     }
                    .card-text.post-post {
                         font-family: "M PLUS Rounded 1c", serif;
@@ -1909,19 +1664,30 @@ form button:hover {
                    }
 
                     .therapist-lead {
-                        max-width: 270px;
+                        margin-bottom: 15px;
                     }
 
                     a.therapist-link {
-                        color: rgb(0, 0, 0);
-                        background-color: var(--focus);
+                        display: flex;
+                        align-items: center;     /* vertically center icon */
+                        color: var(--primary);
                         font-size: 0.8rem;
-                        font-weight: 400;
-                        line-height: 1.5rem;
-                        text-decoration: none;
-                        text-decoration-color: rgb(205, 205, 205);
-                        font-style: italic;
+                        font-weight: 600;
+                        line-height: 1.2;        /* more readable line height */
+                        font-style: normal;
                         padding: 2px 0;
+                        text-decoration: none;
+                    }
+
+                    .therapist-link i {
+                        flex-shrink: 0;
+                        margin-right: 15px;
+                        font-size: 1rem;         /* adjust as needed */
+                      }
+
+                    .therapist-text {
+                    display: inline-block;
+                    line-height: 1.2;
                     }
 
                     .nav-tabs .nav-link.active {
@@ -2129,6 +1895,7 @@ td button {
                                         
                                         .bi {
                                             font-size: 1rem;
+                                            color: #ffdd7e;
                                         }
                                         
                                         .action-buttons .btn-link {
@@ -2485,10 +2252,7 @@ td button {
 }
 
 
-
 /* THERAPEUT_PROFIL.php */
-
-
 .card.therapist-profil  {
     background-color: none;
     border: none;
@@ -2515,7 +2279,7 @@ td button {
     padding: 1.5rem;
 }
 
-.therapist-info.therapist-profil {
+.list-therapist-element.therapist-profil {
     background-color: #ffffff;
     border-radius: 0.5rem;
     padding: 1.5rem;
@@ -2615,12 +2379,6 @@ td button {
 }
 
 
-
-
-
-.bg-light {
-    background-color: none !important;
-}
 
 .card {
     background: none;
