@@ -1,5 +1,6 @@
 <?php 
 require_once 'includes/init.php';
+require_once 'includes/comment_display.php';
 require_once __DIR__ . '/includes/header.php';
 
 if (!isset($_SESSION['user_id'])) {
@@ -68,8 +69,11 @@ if ($is_own_profile) {
 $comments = [];
 if ($is_own_profile) {
     try {
-        $stmt = $pdo->prepare("SELECT c.*, p.title AS post_title, p.id AS post_exists FROM comments c 
+        $stmt = $pdo->prepare("SELECT c.*, p.title AS post_title, p.id AS post_exists, 
+                               u.username, IFNULL(u.avatar_url, 'uploads/avatars/default-avatar.png') AS avatar_url
+                               FROM comments c 
                                LEFT JOIN posts p ON c.post_id = p.id 
+                               JOIN users u ON c.user_id = u.id
                                WHERE c.user_id = ? 
                                ORDER BY c.created_at DESC");
         $stmt->execute([$profile_user_id]);
@@ -214,6 +218,7 @@ $cantons = [
 ?>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="assets/js/comment-manager.js"></script>
 
 <body>
     <div class="container col-md-12">
@@ -486,28 +491,7 @@ $cantons = [
 
             <?php if ($is_own_profile): ?>
                 <!-- Comments tab (only for own profile) -->
-                <div class="tab-pane fade" id="comments" role="tabpanel" aria-labelledby="comments-tab">
-                    <?php if ($comments): ?>
-                        <?php foreach ($comments as $comment): ?>
-                            <div class="user-comment-post mb-3 pb-3 border-bottom">
-                                <div>
-                                    <?php if ($comment['post_exists']): ?>
-                                        <strong>Kommentar zu:</strong> 
-                                        <a href="post.php?id=<?= htmlspecialchars($comment['post_id']) ?>">
-                                            <?= htmlspecialchars($comment['post_title']) ?>
-                                        </a>
-                                    <?php else: ?>
-                                        <strong>Der Post wurde gelöscht.</strong>
-                                    <?php endif; ?>
-                                    <p><?= ($comment['content']) ?></p>
-                                    <small>Erstellt am: <?= htmlspecialchars(date('d.m.Y H:i', strtotime($comment['created_at']))) ?></small>
-                                </div>
-                            </div>
-                        <?php endforeach; ?>
-                    <?php else: ?>
-                        <p>Keine Kommentare gefunden.</p>
-                    <?php endif; ?>
-                </div>
+                <?php displayProfileCommentsSection($comments, $_SESSION['user_id']); ?>
 
                 <!-- Messages Tab (only for own profile) 
                 <div class="tab-pane fade" id="messages" role="tabpanel" aria-labelledby="messages-tab">

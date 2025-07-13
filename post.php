@@ -50,6 +50,15 @@ if (isset($_SESSION['message'])): ?>
     </div>
 <?php endif; ?>
 
+<?php if (isset($_SESSION['success'])): ?>
+    <div class="alert alert-success">
+        <?php
+        echo $_SESSION['success'];
+        unset($_SESSION['success']);
+        ?>
+    </div>
+<?php endif; ?>
+
 <?php
 $post_id = $_GET['id'];
 
@@ -83,7 +92,8 @@ try {
     }
 
     // Fetch comments for this specific post only
-    $stmt = $pdo->prepare("SELECT comments.id, comments.content, comments.user_id, comments.created_at, users.username, IFNULL(users.avatar_url, 'path/to/default-avatar.png') AS avatar_url
+    $stmt = $pdo->prepare("SELECT comments.id, comments.content, comments.user_id, comments.created_at, comments.updated_at, comments.is_edited, 
+                           users.username, IFNULL(users.avatar_url, 'uploads/avatars/default-avatar.png') AS avatar_url
                            FROM comments 
                            JOIN users ON comments.user_id = users.id 
                            WHERE comments.post_id = :post_id 
@@ -113,17 +123,30 @@ try {
 // Process comment submission
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['comment_content']) && !empty($_POST['comment_content'])) {
-        $comment_content = $_POST['comment_content'];
+        $comment_content = trim($_POST['comment_content']);
         $user_id = $_SESSION['user_id']; // Assuming user is logged in and you have user ID in session
 
+        // Validate content length
+        if (strlen($comment_content) > 5000) {
+            $_SESSION['error'] = 'Kommentar ist zu lang. Maximum 5000 Zeichen.';
+            header("Location: post.php?id=$post_id");
+            exit;
+        }
+
         try {
+            // Sanitize content with HTML Purifier
+            require_once 'vendor/ezyang/htmlpurifier/library/HTMLPurifier.auto.php';
+            $config = HTMLPurifier_Config::createDefault();
+            $config->set('HTML.Allowed', 'p,br,strong,em,u,a[href],ul,ol,li');
+            $purifier = new HTMLPurifier($config);
+            $clean_content = $purifier->purify($comment_content);
 
              // Start transaction
              $pdo->beginTransaction();
 
-            // Insert the comment into database
-            $stmt = $pdo->prepare("INSERT INTO comments (post_id, user_id, content) VALUES (?, ?, ?)");
-            $stmt->execute([$post_id, $user_id, $comment_content]);
+            // Insert the comment into database with explicit default values for new schema
+            $stmt = $pdo->prepare("INSERT INTO comments (post_id, user_id, content, updated_at, is_edited) VALUES (?, ?, ?, NULL, 0)");
+            $stmt->execute([$post_id, $user_id, $clean_content]);
 
             // Get post author ID
             $stmt = $pdo->prepare("SELECT user_id FROM posts WHERE id = ?");
@@ -138,21 +161,28 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             $pdo->commit();
             
-            // Redirect back to the same post page after saving comment
+            // Set success message and redirect back to the same post page
+            $_SESSION['success'] = 'Kommentar erfolgreich hinzugefügt.';
             header("Location: post.php?id=$post_id");
             exit;
 
         } catch (PDOException $e) {
-            echo "Fehler beim Speichern des Kommentars: " . $e->getMessage();
+            $pdo->rollBack();
+            $_SESSION['error'] = 'Fehler beim Speichern des Kommentars: ' . $e->getMessage();
+            header("Location: post.php?id=$post_id");
+            exit;
         }
     } else {
-        echo "Kommentarinhalt fehlt.";
+        $_SESSION['error'] = 'Kommentarinhalt fehlt.';
+        header("Location: post.php?id=$post_id");
+        exit;
     }
 }
 
 // Includes unter AJAX calls
 require_once 'navbar.php';
 require_once 'includes/summernote.php';
+require_once 'includes/comment_display.php';
 require_once __DIR__ . '/includes/header.php';
 ?>
 
@@ -282,38 +312,7 @@ require_once __DIR__ . '/includes/header.php';
                     ?>
 
 
-                    <h3 class="card-title mb-4">Antworten</h3>
-                        <?php if (empty($comments)): ?>
-                            <p class="text-muted">Noch keine Kommentare. Sei der Erste!</p>
-                        <?php else: ?>
-                            <?php foreach ($comments as $index => $comment): ?>
-                                <div class="comment mb-3 pb-3 border-bottom<?= $index === 0 ? ' first-comment' : '' ?>">
-                                    <div class="d-flex align-items-center mb-2">
-                                        <img src="<?= htmlspecialchars($comment['avatar_url']) ?>" class="avatar rounded-circle me-2" alt="Avatar" style="width: 30px; height: 30px;">
-                                        <strong><?= htmlspecialchars($comment['username']) ?> • <?= formatCustomDate($comment['created_at']) ?></strong>
-                                    </div>
-                                    <p class="mb-0"><?= nl2br(htmlspecialchars($comment['content'])) ?></p>
-                                    <a href="#comments" class="toggle-comment-btn btn btn-outline-primary btn-sm mt-3 mb-5" data-username="<?= htmlspecialchars($comment['username']) ?>">Antworten</a>
-                                </div>
-                            <?php endforeach; ?>
-                        <?php endif; ?>
-            
-
-                <!-- Comments Section -->
-                <section id="comments" class="cxard" style="display: none;">
-                    <div class="xcard-body">
-                        
-                        <!-- Add Comment Form -->
-                        <h4 class="mt-4 mb-3">Neue Antwort</h4>
-                        <form id="comment-form" action="post.php?id=<?= $post_id ?>" method="post">
-                            <div class="mb-3">
-                                <textarea id="comment_content" name="comment_content" class="form-control" rows="3" placeholder="Deine Antwort..." required></textarea>
-                            </div>
-                            <button type="button" class="btn btn-secondary" id="cancel-comment">Abbrechen</button>
-                            <button type="submit" class="btn btn-primary">Antwort speichern</button>
-                        </form>
-                    </div>
-                </section>
+                    <?php displayPostCommentsSection($comments, $_SESSION['user_id'], $post_id); ?>
                 </div>
 
             <!-- </article> -->
@@ -324,7 +323,10 @@ require_once __DIR__ . '/includes/header.php';
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 
-<!-- Comment Section -->
+<!-- Comment Management -->
+<script src="assets/js/comment-manager.js"></script>
+
+<!-- Comment Section (Reply functionality) -->
 <script>
 document.addEventListener('DOMContentLoaded', () => {
     const commentSection = document.getElementById('comments');
@@ -332,50 +334,60 @@ document.addEventListener('DOMContentLoaded', () => {
     const cancelButton = document.getElementById('cancel-comment');
     const commentTextarea = document.querySelector('#comment_content');
 
-    // Handle all toggle buttons
+    // Handle all toggle buttons (for replies)
     toggleButtons.forEach(button => {
         button.addEventListener('click', function(e) {
             e.preventDefault(); // Prevent default anchor behavior
             
         // Show comment section if hidden
-        if (commentSection.style.display === 'none') {
+        if (commentSection && commentSection.style.display === 'none') {
             commentSection.style.display = 'block';
         }
 
         // Add @username to textarea if it's a reply to a comment
         const username = this.dataset.username;
-        if (username) {
+        if (username && commentTextarea) {
             commentTextarea.value = `@${username} `;
         }
 
         // Scroll to comment form smoothly
-        commentSection.scrollIntoView({ 
-            behavior: 'smooth',
-            block: 'start'
-        });
+        if (commentSection) {
+            commentSection.scrollIntoView({ 
+                behavior: 'smooth',
+                block: 'start'
+            });
+        }
 
         // Hide the clicked button
         this.style.display = 'none';
 
         // Focus on the comment textarea and place cursor at the end
-        commentTextarea.focus();
-        commentTextarea.setSelectionRange(commentTextarea.value.length, commentTextarea.value.length);
+        if (commentTextarea) {
+            commentTextarea.focus();
+            commentTextarea.setSelectionRange(commentTextarea.value.length, commentTextarea.value.length);
+        }
     });
 });
 
-        // Handle cancel button click
+    // Handle cancel button click
+    if (cancelButton) {
         cancelButton.addEventListener('click', function() {
-        // Clear the textarea
-        commentTextarea.value = '';
-        
-        // Hide the comment section
-        commentSection.style.display = 'none';
-        
-        // Show all answer buttons again
-        toggleButtons.forEach(button => {
-            button.style.display = 'inline-block';
+            // Clear the textarea
+            if (commentTextarea) {
+                commentTextarea.value = '';
+            }
+            
+            // Hide the comment section
+            if (commentSection) {
+                commentSection.style.display = 'none';
+            }
+            
+            // Show all answer buttons again
+            toggleButtons.forEach(button => {
+                button.style.display = 'inline-block';
+            });
         });
-    });
+    }
 });
 </script>
 
