@@ -115,7 +115,7 @@ require_once 'includes/summernote.php';
 
                 <?php if (!$error && isset($post)): ?>
                     <div class="edit-post-box card custom-card">
-                        <div class="card-body">
+                        <div class="post-element">
                             <h2 class="card-title text-center mb-4">Beitrag bearbeiten</h2>
                             <form id="editPostForm" action="edit_post.php?id=<?= $post_id ?>" method="post">
                                 <div class="mb-3">

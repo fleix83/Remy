@@ -420,36 +420,41 @@ require_once __DIR__ . '/includes/header.php';
                                         </div>
 
                                             <span><h2 class="list-title"></span>
+                                            <?php 
+                                            // Generate title based on category
+                                            if ($post['category'] === 'Erfahrung' && $post['therapist']):
+                                                // Build therapist title for Erfahrung posts
+                                                $therapistTitleParts = ['Erfahrung mit'];
+                                                if (!empty($post['therapist_anrede'])) $therapistTitleParts[] = htmlspecialchars($post['therapist_anrede']);
+                                                if (!empty($post['therapist_vorname'])) $therapistTitleParts[] = htmlspecialchars($post['therapist_vorname']);
+                                                if (!empty($post['therapist_nachname'])) $therapistTitleParts[] = htmlspecialchars($post['therapist_nachname']) . ',';
+                                                if (!empty($post['therapist_designation'])) $therapistTitleParts[] = htmlspecialchars($post['therapist_designation']);
+                                                if (!empty($post['therapist_institution'])) $therapistTitleParts[] = htmlspecialchars($post['therapist_institution']);
+                                                $displayTitle = implode(' ', $therapistTitleParts);
+                                            else:
+                                                // For other categories, use first 10 words of content
+                                                $contentText = strip_tags($post['content']);
+                                                $words = explode(' ', $contentText);
+                                                $firstTenWords = array_slice($words, 0, 10);
+                                                $displayTitle = implode(' ', $firstTenWords);
+                                                if (count($words) > 10) {
+                                                    $displayTitle .= '...';
+                                                }
+                                            endif;
+                                            ?>
+                                            
                                             <?php if (isset($user) && !$user['is_banned']): ?>
-                                                <a href="post.php?id=<?= htmlspecialchars($post['id']) ?>"><?= htmlspecialchars($post['title']) ?></a>
+                                                <a href="post.php?id=<?= htmlspecialchars($post['id']) ?>"><?= $displayTitle ?></a>
+                                                <?php if ($post['category'] !== 'Erfahrung' || !$post['therapist']): ?>
+                                                    <a href="post.php?id=<?= htmlspecialchars($post['id']) ?>" class="mehr-link">Mehr</a>
+                                                <?php endif; ?>
                                             <?php else: ?>
-                                                <span style="color: #6c757d;" title="Nicht verfügbar für eingeschränkte Benutzer"><?= htmlspecialchars($post['title']) ?></span>
+                                                <span style="color: #6c757d;" title="Nicht verfügbar für eingeschränkte Benutzer"><?= $displayTitle ?></span>
+                                                <?php if ($post['category'] !== 'Erfahrung' || !$post['therapist']): ?>
+                                                    <span style="color: #6c757d;" title="Nicht verfügbar für eingeschränkte Benutzer">Mehr</span>
+                                                <?php endif; ?>
                                             <?php endif; ?>
                                             </h2>
-                                            
-                                            <!-- Therapist and Designation -->
-                                            <div class="col-md-4">
-                                            <div class="therapist-info">
-                                            <?php if ($post['category_id'] == 1 && $post['therapist']): ?>
-                                                
-                                                <span>
-                                                    <a href="therapeut_profil.php?id=<?= htmlspecialchars($post['therapist']) ?>" class="therapist-link"><i class="bi bi-bullseye"></i> 
-                                                    
-                                                        <?php
-                                                        $therapistDetails = [];
-                                                        if (!empty($post['therapist_anrede'])) $therapistDetails[] = htmlspecialchars($post['therapist_anrede']);
-                                                        if (!empty($post['therapist_vorname'])) $therapistDetails[] = htmlspecialchars($post['therapist_vorname']);
-                                                        if (!empty($post['therapist_nachname'])) $therapistDetails[] = htmlspecialchars($post['therapist_nachname']);
-                                                        if (!empty($post['therapist_designation'])) $therapistDetails[] = htmlspecialchars($post['therapist_designation']);
-                                                        if (!empty($post['therapist_institution'])) $therapistDetails[] = htmlspecialchars($post['therapist_institution']);
-                                                        // if (!empty($post['therapist_canton'])) $therapistDetails[] = htmlspecialchars($post['therapist_canton']);
-                                                        
-                                                        echo implode(', ', array_filter($therapistDetails));
-                                                        ?>
-                                                    </a></span>
-                                            <?php endif; ?>
-                                            </div>
-                                            </div>
                                             <!-- Post Tags -->
                                             <?php if (!empty($post['tags'])): ?>
                                                 <div class="list-tags">
@@ -587,30 +592,34 @@ require_once __DIR__ . '/includes/header.php';
     
     if (Array.isArray(data) && data.length > 0) {
         data.forEach(post => {
-            // Prepare therapist info if available
-            let therapistInfo = '';
+            // Generate title based on category (same logic as main forum list)
+            let displayTitle = '';
             if (post.category === 'Erfahrung' && post.therapist) {
-                const therapistDetails = [
-                    post.therapist_anrede,
-                    post.therapist_vorname,
-                    post.therapist_nachname,
-                    post.therapist_berufsbezeichnung,  // Changed from therapist_designation
-                    post.therapist_institution,
-                    post.therapist_canton
-                ].filter(Boolean).join(', ');
-                
-                therapistInfo = therapistDetails ? `
-                    <div class="therapist-info">
-                        <span><small>Erfahrung mit</small></span>
-                        <a href="therapeut_profil.php?id=${post.therapist}" class="therapist-link">
-                            ${therapistDetails}
-                        </a>
-                    </div>
-                ` : '';
+                // Build therapist title for Erfahrung posts
+                const therapistTitleParts = ['Erfahrung mit'];
+                if (post.therapist_anrede) therapistTitleParts.push(post.therapist_anrede);
+                if (post.therapist_vorname) therapistTitleParts.push(post.therapist_vorname);
+                if (post.therapist_nachname) therapistTitleParts.push(post.therapist_nachname + ',');
+                if (post.therapist_berufsbezeichnung) therapistTitleParts.push(post.therapist_berufsbezeichnung);
+                if (post.therapist_institution) therapistTitleParts.push('(' + post.therapist_institution + ')');
+                displayTitle = therapistTitleParts.join(' ');
+            } else {
+                // For other categories, use first 10 words of content
+                const contentText = post.content.replace(/<[^>]*>/g, ''); // Strip HTML tags
+                const words = contentText.split(' ');
+                const firstTenWords = words.slice(0, 10);
+                displayTitle = firstTenWords.join(' ');
+                if (words.length > 10) {
+                    displayTitle += '...';
+                }
             }
 
             // Generate tags HTML
             const tagsHtml = post.tags ? generateTagsHtml(post.tags) : '';
+            
+            // Add "Mehr" link for non-Erfahrung posts
+            const mehrLink = (post.category !== 'Erfahrung' || !post.therapist) ? 
+                ` <a href="post.php?id=${post.id}" class="mehr-link">Mehr</a>` : '';
 
             // Create post HTML
             const postHtml = `
@@ -634,9 +643,8 @@ require_once __DIR__ . '/includes/header.php';
                             <div class="col-md-10 col-xs-12">
                                 <p class="user-date">${post.username} • <span class="list-date">${formatCustomDate(post.post_created_at)}</span></p>
                                 <h2 class="list-title">
-                                    <a href="post.php?id=${post.id}">${post.title}</a>
+                                    <a href="post.php?id=${post.id}">${displayTitle}</a>${mehrLink}
                                 </h2>
-                                ${therapistInfo}
                                 ${tagsHtml ? `<div class="list-tags">${tagsHtml}</div>` : ''}
                                 <div class="list-comment col-md-10">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chat" viewBox="0 0 16 16">

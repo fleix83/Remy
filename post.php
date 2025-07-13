@@ -164,10 +164,10 @@ require_once __DIR__ . '/includes/header.php';
     <div class="row justify-content-center">
         <div class="col-lg-11 col-md-12 col-sm-12">
             <!-- <article class="post-post-container card shadow-sm mb-4"> -->
-                <div class="post card-body">
+                <div class="post-element">
                     <!-- Post Meta Top -->
-                    <div class="d-flex justify-content-between align-items-center mb-4">
-                        <div>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="post-meta">
                             <span class="badge bg-erfahrung me-2"><?= htmlspecialchars($post['category']) ?></span>
                             <img src="uploads/kantone/<?= htmlspecialchars($post['canton']) ?>.png" alt="<?= htmlspecialchars($post['canton']) ?> Flagge" style="width: 20px; height: 20px;" class="me-1">
                             <small class="post-post-user"><?= htmlspecialchars($post['canton']) ?></small>
@@ -180,7 +180,7 @@ require_once __DIR__ . '/includes/header.php';
 
                     <!-- Post Title -->
                     <div class="col-md-8">
-                        <h2 class="post-post-title card-title"><?= htmlspecialchars($post['title']) ?></h2>
+                        <!-- <h2 class="post-title card-title"><?= htmlspecialchars($post['title']) ?></h2> -->
                         
                         <div class="d-flex align-items-center mt-2">
                             <img src="<?= htmlspecialchars($post['avatar_url']) ?>" class="avatar rounded-circle me-2" alt="Avatar">
@@ -197,8 +197,8 @@ require_once __DIR__ . '/includes/header.php';
                                     <?php
                                     $therapistDetails = [];
                                     if (!empty($post['therapist_anrede'])) $therapistDetails[] = htmlspecialchars($post['therapist_anrede']);
-                                    if (!empty($post['therapist_nachname'])) $therapistDetails[] = htmlspecialchars($post['therapist_nachname']);
                                     if (!empty($post['therapist_vorname'])) $therapistDetails[] = htmlspecialchars($post['therapist_vorname']);
+                                    if (!empty($post['therapist_nachname'])) $therapistDetails[] = htmlspecialchars($post['therapist_nachname']);
                                     if (!empty($post['therapist_berufsbezeichnung'])) $therapistDetails[] = htmlspecialchars($post['therapist_berufsbezeichnung']);
                                     if (!empty($post['therapist_institution'])) $therapistDetails[] = htmlspecialchars($post['therapist_institution']);
                                     // if (!empty($post['therapist_canton'])) $therapistDetails[] = htmlspecialchars($post['therapist_canton']);
@@ -211,7 +211,7 @@ require_once __DIR__ . '/includes/header.php';
                     </div> -->
 
                     <!-- Post Content -->
-                    <div class="post-post-content">
+                    <div class="post-content">
                         <div class="card-text.post-post"><?php if ($post['category'] === 'Erfahrung' && $post['therapist']): ?>
                             
                             <div class="therapist-lead">
@@ -219,8 +219,8 @@ require_once __DIR__ . '/includes/header.php';
                                     <?php
                                     $therapistDetails = [];
                                     if (!empty($post['therapist_anrede'])) $therapistDetails[] = htmlspecialchars($post['therapist_anrede']);
-                                    if (!empty($post['therapist_nachname'])) $therapistDetails[] = htmlspecialchars($post['therapist_nachname']);
                                     if (!empty($post['therapist_vorname'])) $therapistDetails[] = htmlspecialchars($post['therapist_vorname']);
+                                    if (!empty($post['therapist_nachname'])) $therapistDetails[] = htmlspecialchars($post['therapist_nachname']);
                                     if (!empty($post['therapist_berufsbezeichnung'])) $therapistDetails[] = htmlspecialchars($post['therapist_berufsbezeichnung']);
                                     if (!empty($post['therapist_institution'])) $therapistDetails[] = htmlspecialchars($post['therapist_institution']);
                                     // if (!empty($post['therapist_canton'])) $therapistDetails[] = htmlspecialchars($post['therapist_canton']);
@@ -244,7 +244,7 @@ require_once __DIR__ . '/includes/header.php';
                     </div>
 
                     <!-- Button to reveal comments section - Antworten -->
-                    <a href="#comments" class="toggle-comment-btn btn btn-outline-primary btn-sm mb-5" data-username="<?= htmlspecialchars($post['username']) ?>">Antworten</a>                    <?php if (isset($_SESSION['user_id']) && $_SESSION['user_id'] == $post['user_id']): ?>
+                    <a href="#comments" class="btn-sm mb-5" data-username="<?= htmlspecialchars($post['username']) ?>">Antworten</a>                    <?php if (isset($_SESSION['user_id']) && $_SESSION['user_id'] == $post['user_id']): ?>
                     <a href="edit_post.php?id=<?= $post['id'] ?>" class="btn btn-outline-primary btn-sm mb-5">Beitrag bearbeiten</a>
                     <?php endif; ?>
                     <?php

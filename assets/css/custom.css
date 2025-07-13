@@ -19,6 +19,7 @@
     --background-body: #15272e;
     --background-element: #203f4a;
     --type-meta: #8d9198;
+    --red: #fb5252;
 }
 
 body {
@@ -494,7 +495,7 @@ button.filter {
     margin-top: 20px;
     margin-bottom: 20px;
     padding: 15px;
-    background-color: #f8f9fa;
+    background-color: var(--background-element);
     border-radius: 5px;
 }
 
@@ -635,7 +636,12 @@ h2.list-title {
 }
 
 h2.list-title:hover {
-    color: rgb(251, 82, 82);
+    color: #f9e2a1;
+}
+
+.mehr-link {
+    color: #ffdd7e;
+    text-decoration: underline;
 }
 
 .excerpt {
@@ -1615,7 +1621,7 @@ h2.post-title {
 }
 
 .post-content {
-    margin: 3rem 0rem;
+    margin: 2rem 0rem;
 }
 
 /* #comments {
@@ -1705,7 +1711,7 @@ form button:hover {
                     }
                     
                     .post-content {
-                        margin: 3.0rem 0rem;
+                        margin: 2.0rem 0rem;
                     }
                    .card-text.post-post {
                         font-family: "M PLUS Rounded 1c", serif;
