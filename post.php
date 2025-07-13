@@ -244,8 +244,8 @@ require_once __DIR__ . '/includes/header.php';
                     </div>
 
                     <!-- Button to reveal comments section - Antworten -->
-                    <a href="#comments" class="btn-sm mb-5" data-username="<?= htmlspecialchars($post['username']) ?>">Antworten</a>                    <?php if (isset($_SESSION['user_id']) && $_SESSION['user_id'] == $post['user_id']): ?>
-                    <a href="edit_post.php?id=<?= $post['id'] ?>" class="btn btn-outline-primary btn-sm mb-5">Beitrag bearbeiten</a>
+                    <a href="#comments" class="btn btn-outline-primary btn-sm" data-username="<?= htmlspecialchars($post['username']) ?>">Antworten</a>                    <?php if (isset($_SESSION['user_id']) && $_SESSION['user_id'] == $post['user_id']): ?>
+                    <a href="edit_post.php?id=<?= $post['id'] ?>" class="btn btn-outline-primary btn-sm">Beitrag bearbeiten</a>
                     <?php endif; ?>
                     <?php
                     // Check if user is logged in and not viewing their own post
@@ -286,12 +286,11 @@ require_once __DIR__ . '/includes/header.php';
                         <?php if (empty($comments)): ?>
                             <p class="text-muted">Noch keine Kommentare. Sei der Erste!</p>
                         <?php else: ?>
-                            <?php foreach ($comments as $comment): ?>
-                                <div class="comment mb-3 pb-3 border-bottom">
+                            <?php foreach ($comments as $index => $comment): ?>
+                                <div class="comment mb-3 pb-3 border-bottom<?= $index === 0 ? ' first-comment' : '' ?>">
                                     <div class="d-flex align-items-center mb-2">
                                         <img src="<?= htmlspecialchars($comment['avatar_url']) ?>" class="avatar rounded-circle me-2" alt="Avatar" style="width: 30px; height: 30px;">
-                                        <strong><?= htmlspecialchars($comment['username']) ?></strong>
-                                        <small class="text-muted ms-auto"><?= date('d.m.Y H:i', strtotime($comment['created_at'])) ?></small>
+                                        <strong><?= htmlspecialchars($comment['username']) ?> • <?= formatCustomDate($comment['created_at']) ?></strong>
                                     </div>
                                     <p class="mb-0"><?= nl2br(htmlspecialchars($comment['content'])) ?></p>
                                     <a href="#comments" class="toggle-comment-btn btn btn-outline-primary btn-sm mt-3 mb-5" data-username="<?= htmlspecialchars($comment['username']) ?>">Antworten</a>

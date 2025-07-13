@@ -1638,6 +1638,27 @@ h2.create-post {
     box-shadow: inset 0 0 70px #9b8e7517;
     }
 
+/* Post page button styling */
+.post-element .btn-sm,
+#comments .btn {
+    background: white;
+    color: var(--background-element);
+    border: 1px solid white;
+    border-radius: 5px;
+    transition: background-color 0.2s ease-in-out;
+}
+
+.post-element .btn-sm:hover,
+#comments .btn:hover {
+    background: #f0f0f0;
+    color: var(--background-element);
+}
+
+/* First comment spacing */
+.comment.first-comment {
+    margin-top: 3rem;
+}
+
 img.avatar {
     width: 40px;
     height: 40px;
