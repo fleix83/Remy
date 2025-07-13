@@ -18,7 +18,7 @@
     --primary: #ffdd7e;
     --background-body: #15272e;
     --background-element: #203f4a;
-    --type-meta: #8d9198;
+    --type-meta: #c4c4c4;
     --red: #fb5252;
 }
 
@@ -495,8 +495,34 @@ button.filter {
     margin-top: 20px;
     margin-bottom: 20px;
     padding: 15px;
-    background-color: var(--background-element);
+    background-color: transparent;
     border-radius: 5px;
+}
+
+.search-results-title {
+    color: var(--primary);
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+
+/* Ensure search results list elements match regular list elements */
+.search-results .list-element {
+    border-top: 0px solid #fffffff7;
+    border-bottom: 0px solid #fffffff7;
+    border-radius: 20px;
+    min-height: 1rem;
+    padding: 20px 30px;
+    margin: 18px 0px;
+    background: var(--background-element);
+}
+
+.search-results .list-wrapper {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+    background: none;
+    padding: 10px;
 }
 
 img.avatar-search {
@@ -640,7 +666,10 @@ h2.list-title:hover {
 }
 
 .mehr-link {
-    color: #ffdd7e;
+    font-weight: bold;
+}
+
+.mehr-link:hover {
     text-decoration: underline;
 }
 
@@ -1622,6 +1651,7 @@ h2.post-title {
 
 .post-content {
     margin: 2rem 0rem;
+    font-weight: 500;
 }
 
 /* #comments {

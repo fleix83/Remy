@@ -160,7 +160,7 @@ require_once __DIR__ . '/includes/header.php';
 <!-- CSS für Peek CSS <link rel="stylesheet" type="text/css" href="<?php echo BASE_URL; ?>assets/css/custom.css"> -->
 </head>
 
-<main class="container-fluid px-0 my-5">
+<main class="container-fluid px-0 my-1">
     <div class="row justify-content-center">
         <div class="col-lg-11 col-md-12 col-sm-12">
             <!-- <article class="post-post-container card shadow-sm mb-4"> -->

@@ -375,7 +375,7 @@ require_once __DIR__ . '/includes/header.php';
 
                     <!-- Search Results -->
                     <div id="search-results" class="search-results" style="display: none;">
-                        <h3>Suchergebnisse</h3>
+                        <h3 class="search-results-title">Suchergebnisse</h3>
                         <div id="search-results-content"></div>
                     </div>
 
@@ -388,10 +388,10 @@ require_once __DIR__ . '/includes/header.php';
 
                             <!-- List Element -->
                             <article class="list-element">
-                                <div class="list-wrapper <?= $postClass ?>">
+                                <div class="list-wrapper" <?= $postClass ?>">
                                     <div class="list-body col-md-10 col-sm-8 col-xs-8">
                                         <!-- List Meta -->
-                                        <div class="list-meta mb-3">
+                                        <div class="list-meta mb-1">
                                             <p class="badge bg-erfahrung"><?= htmlspecialchars($post['category']) ?></p>
                                             <div class="list-canton">
                                                 <img class="list-canton" src="uploads/kantone/<?= htmlspecialchars($post['canton']) ?>.png" alt="<?= htmlspecialchars($post['canton']) ?> Flagge" >
@@ -438,7 +438,7 @@ require_once __DIR__ . '/includes/header.php';
                                                 $firstTenWords = array_slice($words, 0, 10);
                                                 $displayTitle = implode(' ', $firstTenWords);
                                                 if (count($words) > 10) {
-                                                    $displayTitle .= '...';
+                                                    $displayTitle .= '... ';
                                                 }
                                             endif;
                                             ?>
@@ -464,7 +464,6 @@ require_once __DIR__ . '/includes/header.php';
                                                 </div>
                                             <?php endif; ?>
                                         </div>
-
                                     </div>
                                 </div>
                             </article>
@@ -623,35 +622,42 @@ require_once __DIR__ . '/includes/header.php';
 
             // Create post HTML
             const postHtml = `
-                <article class="post">
-                    <div class="post-wrapper">
-                        <div class="post-user-stats col-md-3 col-sm-3 col-xs-3">
-                            <div class="post-user">
-                                <div>
-                                    <img src="${post.avatar_url}" class="list-avatar" alt="Avatar">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="list-body  col-md-10 col-sm-8 col-xs-8">
-                            <div class="list-meta">
-                                <p class="category badge bg-erfahrung">${post.category}</p>
+                <article class="list-element">
+                    <div class="list-wrapper">
+                        <div class="list-body col-md-10 col-sm-8 col-xs-8">
+                            <!-- List Meta -->
+                            <div class="list-meta mb-1">
+                                <p class="badge bg-erfahrung">${post.category}</p>
                                 <div class="list-canton">
                                     <img class="list-canton" src="uploads/kantone/${post.canton}.png" alt="${post.canton} Flagge">
                                     ${post.canton}
                                 </div>
-                            </div>
-                            <div class="col-md-10 col-xs-12">
-                                <p class="user-date">${post.username} • <span class="list-date">${formatCustomDate(post.post_created_at)}</span></p>
-                                <h2 class="list-title">
-                                    <a href="post.php?id=${post.id}">${displayTitle}</a>${mehrLink}
-                                </h2>
-                                ${tagsHtml ? `<div class="list-tags">${tagsHtml}</div>` : ''}
-                                <div class="list-comment col-md-10">
+                                <!-- Answers -->
+                                <div class="list-comment col-md-2">
+                                    <!-- Comment Icon -->
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chat" viewBox="0 0 16 16">
                                         <path d="M2.678 11.894a1 1 0 0 1 .287.801 11 11 0 0 1-.398 2c1.395-.323 2.247-.697 2.634-.893a1 1 0 0 1 .71-.074A8 8 0 0 0 8 14c3.996 0 7-2.807 7-6s-3.004-6-7-6-7 2.808-7 6c0 1.468.617 2.83 1.678 3.894m-.493 3.905a22 22 0 0 1-.713.129c-.2.032-.352-.176-.273-.362a10 10 0 0 0 .244-.637l.003-.01c.248-.72.45-1.548.524-2.319C.743 11.37 0 9.76 0 8c0-3.866 3.582-7 8-7s8 3.134 8 7-3.582 7-8 7a9 9 0 0 1-2.347-.306c-.52.263-1.639.742-3.468 1.105"/>
                                     </svg>
+                                    <!-- Comment Count -->
                                     <h5 class="count">${post.comment_count}</h5>
                                 </div>
+                            </div>
+
+                            <div class="col-md-10 col-xs-12">
+                                <!-- Username & Date -->
+                                <div class="list-user-element">
+                                    <img src="${post.avatar_url}" class="list-avatar" alt="Avatar">
+                                    <div class="list-user-group">
+                                        <p class="list-user">${post.username}</p>
+                                        <p class="list-date">${formatCustomDate(post.post_created_at)}</p>
+                                    </div>
+                                </div>
+
+                                <span><h2 class="list-title"></span>
+                                <a href="post.php?id=${post.id}">${displayTitle}</a>${mehrLink}
+                                </h2>
+                                
+                                ${tagsHtml ? `<div class="list-tags">${tagsHtml}</div>` : ''}
                             </div>
                         </div>
                     </div>
@@ -720,45 +726,75 @@ document.getElementById('load-more').addEventListener('click', function() {
             
             // Append each new post to the post container.
             data.forEach(post => {
-                const article = document.createElement('article');
-                article.className = 'post';
+                // Generate title based on category (same logic as main forum list)
+                let displayTitle = '';
+                if (post.category === 'Erfahrung' && post.therapist) {
+                    // Build therapist title for Erfahrung posts
+                    const therapistTitleParts = ['Erfahrung mit'];
+                    if (post.therapist_anrede) therapistTitleParts.push(post.therapist_anrede);
+                    if (post.therapist_vorname) therapistTitleParts.push(post.therapist_vorname);
+                    if (post.therapist_nachname) therapistTitleParts.push(post.therapist_nachname + ',');
+                    if (post.therapist_designation) therapistTitleParts.push(post.therapist_designation);
+                    if (post.therapist_institution) therapistTitleParts.push('(' + post.therapist_institution + ')');
+                    displayTitle = therapistTitleParts.join(' ');
+                } else {
+                    // For other categories, use first 10 words of content
+                    const contentText = post.content.replace(/<[^>]*>/g, ''); // Strip HTML tags
+                    const words = contentText.split(' ');
+                    const firstTenWords = words.slice(0, 10);
+                    displayTitle = firstTenWords.join(' ');
+                    if (words.length > 10) {
+                        displayTitle += '... ';
+                    }
+                }
                 
-                // Construct the inner HTML similarly to your PHP loop.
-                // (You can adjust this markup to match your existing structure.)
+                // Add "Mehr" link for non-Erfahrung posts
+                const mehrLink = (post.category !== 'Erfahrung' || !post.therapist) ? 
+                    ` <a href="post.php?id=${post.id}" class="mehr-link">Mehr</a>` : '';
+
+                const article = document.createElement('article');
+                article.className = 'list-element';
+                
+                // Construct the inner HTML to match the existing structure exactly
                 article.innerHTML = `
                     <div class="list-wrapper ${post.sticky == 1 ? 'sticky-post' : ''}">
-                        <div class="post-user-stats col-md-3 col-sm-3 col-xs-3">
-                            <div class="post-user">
-                                
-                            </div>
-                        </div>
-                        <div class="list-body  col-md-10 col-sm-8 col-xs-8">
-                            <div class="list-meta mb-3">
+                        <div class="list-body col-md-10 col-sm-8 col-xs-8">
+                            <!-- List Meta -->
+                            <div class="list-meta mb-1">
                                 <p class="badge bg-erfahrung">${post.category}</p>
                                 <div class="list-canton">
                                     <img class="list-canton" src="uploads/kantone/${post.canton}.png" alt="${post.canton} Flagge">
                                     ${post.canton}
                                 </div>
+                                <!-- Answers -->
                                 <div class="list-comment col-md-2">
-                                    <!-- Comment icon SVG can be inserted here -->
+                                    <!-- Comment Icon -->
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chat" viewBox="0 0 16 16">
                                         <path d="M2.678 11.894a1 1 0 0 1 .287.801 11 11 0 0 1-.398 2c1.395-.323 2.247-.697 2.634-.893a1 1 0 0 1 .71-.074A8 8 0 0 0 8 14c3.996 0 7-2.807 7-6s-3.004-6-7-6-7 2.808-7 6c0 1.468.617 2.83 1.678 3.894m-.493 3.905a22 22 0 0 1-.713.129c-.2.032-.352-.176-.273-.362a10 10 0 0 0 .244-.637l.003-.01c.248-.72.45-1.548.524-2.319C.743 11.37 0 9.76 0 8c0-3.866 3.582-7 8-7s8 3.134 8 7-3.582 7-8 7a9 9 0 0 1-2.347-.306c-.52.263-1.639.742-3.468 1.105"/>
                                     </svg>
+                                    <!-- Comment Count -->
                                     <h5 class="count">${post.comment_count}</h5>
                                 </div>
                             </div>
+
                             <div class="col-md-10 col-xs-12">
+                                <!-- Username & Date -->
                                 <div class="list-user-element">
                                     <img src="${post.avatar_url}" class="list-avatar" alt="Avatar">
                                     <div class="list-user-group">
                                         <p class="list-user">${post.username}</p>
-                                        <p class="list-date">${new Date(post.post_created_at).toLocaleString()}</p>
+                                        <p class="list-date">${formatCustomDate(post.post_created_at)}</p>
                                     </div>
                                 </div>
-                                <h2 class="list-title">
-                                    <a href="post.php?id=${post.id}">${post.title}</a>
+
+                                <span><h2 class="list-title"></span>
+                                <a href="post.php?id=${post.id}">${displayTitle}</a>${mehrLink}
                                 </h2>
-                                <!-- Additional elements like therapist info or tags can be added here -->
+                                
+                                <!-- Post Tags -->
+                                ${post.tags ? `<div class="list-tags">
+                                    ${post.tags.split(',').map(tag => `<span class="badge bg-tags me-1">${tag.trim()}</span>`).join('')}
+                                </div>` : ''}
                             </div>
                         </div>
                     </div>
