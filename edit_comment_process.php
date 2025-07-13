@@ -56,11 +56,15 @@ try {
             'is_edited' => false
         );
     } else {
+        // Process citations first (convert > text to blockquotes)
+        $processed_content = processCitations($content);
+        
         // Sanitize content with HTML Purifier
         $config = HTMLPurifier_Config::createDefault();
-        $config->set('HTML.Allowed', 'p,br,strong,em,u,a[href],ul,ol,li');
+        $config->set('HTML.Allowed', 'p,br,strong,em,u,a[href],ul,ol,li,blockquote');
+        $config->set('HTML.AllowedAttributes', 'blockquote.class');
         $purifier = new HTMLPurifier($config);
-        $clean_content = $purifier->purify($content);
+        $clean_content = $purifier->purify($processed_content);
 
         // Update comment
         $stmt = $pdo->prepare("UPDATE comments SET content = ?, updated_at = NOW(), is_edited = 1 WHERE id = ? AND user_id = ?");
@@ -82,6 +86,51 @@ try {
     $response['message'] = 'Datenbankfehler: ' . $e->getMessage();
 } catch (Exception $e) {
     $response['message'] = $e->getMessage();
+}
+
+/**
+ * Process citation syntax (> text) and convert to HTML blockquotes
+ */
+function processCitations($content) {
+    // Split content into lines
+    $lines = explode("\n", $content);
+    $processed_lines = [];
+    $in_citation = false;
+    $citation_content = '';
+    
+    foreach ($lines as $line) {
+        $trimmed_line = trim($line);
+        
+        // Check if line starts with citation marker
+        if (strpos($trimmed_line, '>') === 0) {
+            if (!$in_citation) {
+                $in_citation = true;
+                $citation_content = '';
+            }
+            // Remove > and trim
+            $citation_text = trim(substr($trimmed_line, 1));
+            $citation_content .= $citation_text . ' ';
+        } else {
+            // End of citation block
+            if ($in_citation) {
+                $processed_lines[] = '<blockquote class="citation-block">' . trim($citation_content) . '</blockquote>';
+                $in_citation = false;
+                $citation_content = '';
+            }
+            
+            // Add regular line
+            if (!empty($trimmed_line) || !$in_citation) {
+                $processed_lines[] = $line;
+            }
+        }
+    }
+    
+    // Handle citation at end of content
+    if ($in_citation && !empty($citation_content)) {
+        $processed_lines[] = '<blockquote class="citation-block">' . trim($citation_content) . '</blockquote>';
+    }
+    
+    return implode("\n", $processed_lines);
 }
 
 // Return JSON response for AJAX calls

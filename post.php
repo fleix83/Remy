@@ -134,12 +134,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
 
         try {
+            // Process citations first (convert > text to blockquotes)
+            require_once 'edit_comment_process.php'; // For processCitations function
+            $processed_content = processCitations($comment_content);
+            
             // Sanitize content with HTML Purifier
             require_once 'vendor/ezyang/htmlpurifier/library/HTMLPurifier.auto.php';
             $config = HTMLPurifier_Config::createDefault();
-            $config->set('HTML.Allowed', 'p,br,strong,em,u,a[href],ul,ol,li');
+            $config->set('HTML.Allowed', 'p,br,strong,em,u,a[href],ul,ol,li,blockquote');
+            $config->set('HTML.AllowedAttributes', 'blockquote.class');
             $purifier = new HTMLPurifier($config);
-            $clean_content = $purifier->purify($comment_content);
+            $clean_content = $purifier->purify($processed_content);
 
              // Start transaction
              $pdo->beginTransaction();
@@ -274,7 +279,7 @@ require_once __DIR__ . '/includes/header.php';
                     </div>
 
                     <!-- Button to reveal comments section - Antworten -->
-                    <a href="#comments" class="btn btn-outline-primary btn-sm" data-username="<?= htmlspecialchars($post['username']) ?>">Antworten</a>                    <?php if (isset($_SESSION['user_id']) && $_SESSION['user_id'] == $post['user_id']): ?>
+                    <a href="#comments" class="btn btn-outline-primary btn-sm toggle-comment-btn" data-username="<?= htmlspecialchars($post['username']) ?>">Antworten</a>                    <?php if (isset($_SESSION['user_id']) && $_SESSION['user_id'] == $post['user_id']): ?>
                     <a href="edit_post.php?id=<?= $post['id'] ?>" class="btn btn-outline-primary btn-sm">Beitrag bearbeiten</a>
                     <?php endif; ?>
                     <?php
@@ -311,8 +316,24 @@ require_once __DIR__ . '/includes/header.php';
                     }
                     ?>
 
+                    <!-- Comments Section (Reply form) -->
+                    <section id="comments" class="card mt-3" style="display: none;">
+                        <div class="card-body">
+                            <!-- Add Comment Form -->
+                            <h4 class="mt-2 mb-3">Neue Antwort</h4>
+                            <form id="comment-form" action="post.php?id=<?= $post_id ?>" method="post">
+                                <div class="mb-3">
+                                    <div class="textarea-container">
+                                        <textarea id="comment_content" name="comment_content" class="form-control" rows="3" placeholder="Deine Antwort..." required></textarea>
+                                    </div>
+                                </div>
+                                <button type="button" class="btn btn-secondary" id="cancel-comment">Abbrechen</button>
+                                <button type="submit" class="btn btn-primary">Antwort speichern</button>
+                            </form>
+                        </div>
+                    </section>
 
-                    <?php displayPostCommentsSection($comments, $_SESSION['user_id'], $post_id); ?>
+                    <?php displayPostCommentsList($comments, $_SESSION['user_id']); ?>
                 </div>
 
             <!-- </article> -->
@@ -328,65 +349,88 @@ require_once __DIR__ . '/includes/header.php';
 
 <!-- Comment Section (Reply functionality) -->
 <script>
-document.addEventListener('DOMContentLoaded', () => {
-    const commentSection = document.getElementById('comments');
-    const toggleButtons = document.querySelectorAll('.toggle-comment-btn');
-    const cancelButton = document.getElementById('cancel-comment');
-    const commentTextarea = document.querySelector('#comment_content');
-
-    // Handle all toggle buttons (for replies)
-    toggleButtons.forEach(button => {
-        button.addEventListener('click', function(e) {
-            e.preventDefault(); // Prevent default anchor behavior
-            
-        // Show comment section if hidden
-        if (commentSection && commentSection.style.display === 'none') {
-            commentSection.style.display = 'block';
-        }
-
-        // Add @username to textarea if it's a reply to a comment
-        const username = this.dataset.username;
-        if (username && commentTextarea) {
-            commentTextarea.value = `@${username} `;
-        }
-
-        // Scroll to comment form smoothly
+// Comment section functionality - only for the main post "Antworten" button
+document.addEventListener('click', function(e) {
+    if (e.target.classList.contains('toggle-comment-btn') && !e.target.classList.contains('reply-comment-btn')) {
+        console.log('ANTWORTEN BUTTON CLICKED!');
+        e.preventDefault();
+        e.stopPropagation();
+        
+        // Show comment section
+        const commentSection = document.getElementById('comments');
+        const commentTextarea = document.querySelector('#comment_content');
+        
         if (commentSection) {
-            commentSection.scrollIntoView({ 
-                behavior: 'smooth',
-                block: 'start'
-            });
+            commentSection.style.display = 'block';
+            console.log('Comment section shown');
+            
+            // Add @username if available
+            const username = e.target.dataset.username;
+            if (username && commentTextarea) {
+                commentTextarea.value = `@${username} `;
+            }
+            
+            // Scroll and focus
+            commentSection.scrollIntoView({ behavior: 'smooth' });
+            
+            // Focus textarea after scroll
+            setTimeout(() => {
+                if (commentTextarea) {
+                    commentTextarea.focus();
+                    commentTextarea.setSelectionRange(commentTextarea.value.length, commentTextarea.value.length);
+                    console.log('Textarea focused for citation feature');
+                }
+            }, 300);
         }
-
+        
         // Hide the clicked button
-        this.style.display = 'none';
-
-        // Focus on the comment textarea and place cursor at the end
-        if (commentTextarea) {
-            commentTextarea.focus();
-            commentTextarea.setSelectionRange(commentTextarea.value.length, commentTextarea.value.length);
-        }
-    });
+        e.target.style.display = 'none';
+    }
 });
 
-    // Handle cancel button click
-    if (cancelButton) {
-        cancelButton.addEventListener('click', function() {
-            // Clear the textarea
-            if (commentTextarea) {
-                commentTextarea.value = '';
-            }
+// Also try a more direct approach - only for main toggle button
+setTimeout(() => {
+    console.log('Setting up direct event listeners...');
+    const buttons = document.querySelectorAll('.toggle-comment-btn:not(.reply-comment-btn)');
+    console.log('Found main toggle buttons:', buttons.length);
+    
+    buttons.forEach((button, index) => {
+        console.log(`Main Button ${index}:`, button);
+        button.addEventListener('click', function(e) {
+            console.log('DIRECT EVENT LISTENER TRIGGERED FOR MAIN BUTTON!');
+            e.preventDefault();
             
-            // Hide the comment section
+            const commentSection = document.getElementById('comments');
             if (commentSection) {
-                commentSection.style.display = 'none';
+                commentSection.style.display = 'block';
+                console.log('Comment section shown via direct listener');
             }
-            
-            // Show all answer buttons again
-            toggleButtons.forEach(button => {
-                button.style.display = 'inline-block';
-            });
         });
+    });
+}, 1000);
+
+// Cancel comment functionality
+document.addEventListener('click', function(e) {
+    if (e.target.id === 'cancel-comment') {
+        e.preventDefault();
+        
+        // Hide comment section
+        const commentSection = document.getElementById('comments');
+        if (commentSection) {
+            commentSection.style.display = 'none';
+        }
+        
+        // Show "Antworten" button again
+        const antwortenBtn = document.querySelector('.toggle-comment-btn[data-username]');
+        if (antwortenBtn) {
+            antwortenBtn.style.display = 'inline-block';
+        }
+        
+        // Clear the textarea
+        const textarea = document.getElementById('comment_content');
+        if (textarea) {
+            textarea.value = '';
+        }
     }
 });
 </script>

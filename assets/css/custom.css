@@ -1741,6 +1741,82 @@ h2.create-post {
     font-size: 0.875rem;
 }
 
+/* Citation and Quote Button Styling */
+.textarea-container {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+}
+
+.quote-button {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background: var(--primary);
+    color: var(--background-element);
+    border: 2px solid var(--background-element);
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    font-size: 14px;
+    cursor: pointer;
+    z-index: 1000;
+    transition: all 0.2s ease-in-out;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.quote-button:hover {
+    background: #f9e2a1;
+    transform: scale(1.1);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.quote-button:active {
+    transform: scale(0.95);
+}
+
+/* Citation block styling */
+.citation-block {
+    border-left: 3px solid var(--primary);
+    padding-left: 15px;
+    margin: 10px 0;
+    background-color: rgba(255, 221, 126, 0.1);
+    font-style: italic;
+    color: var(--type-meta);
+    border-radius: 0 5px 5px 0;
+    position: relative;
+}
+
+.citation-block::before {
+    content: '"';
+    position: absolute;
+    left: -8px;
+    top: -5px;
+    font-size: 20px;
+    color: var(--primary);
+    font-weight: bold;
+}
+
+/* Ensure textareas have proper spacing for quote button */
+.textarea-container textarea {
+    padding-right: 50px;
+}
+
+/* Citation in comment content */
+.comment-content blockquote,
+.comment-content .citation-block {
+    border-left: 3px solid var(--primary);
+    padding-left: 15px;
+    margin: 10px 0;
+    background-color: rgba(255, 221, 126, 0.1);
+    font-style: italic;
+    color: var(--type-meta);
+    border-radius: 0 5px 5px 0;
+}
+
 img.avatar {
     width: 40px;
     height: 40px;

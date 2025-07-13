@@ -1,14 +1,19 @@
 /**
- * Comment Manager - Handles comment editing and deletion functionality
+ * Comment Manager - Handles comment editing, deletion, and citation functionality
  * Works globally across post.php and user.php
  */
 class CommentManager {
     constructor() {
+        this.selectedText = '';
+        this.lastValidSelection = '';
+        this.activeTextarea = null;
+        this.quoteButton = null;
         this.init();
     }
 
     init() {
         this.bindEventListeners();
+        this.setupCitationFeature();
     }
 
     bindEventListeners() {
@@ -26,12 +31,21 @@ class CommentManager {
             } else if (e.target.classList.contains('delete-comment-btn')) {
                 e.preventDefault();
                 this.deleteComment(e.target);
+            } else if (e.target.classList.contains('reply-comment-btn')) {
+                e.preventDefault();
+                this.startReply(e.target);
+            } else if (e.target.classList.contains('save-reply-btn')) {
+                e.preventDefault();
+                this.saveReply(e.target);
+            } else if (e.target.classList.contains('cancel-reply-btn')) {
+                e.preventDefault();
+                this.cancelReply(e.target);
             }
         });
 
-        // Handle Enter key in edit textarea (Ctrl+Enter to save)
+        // Handle Enter key in edit/reply textarea (Ctrl+Enter to save)
         document.addEventListener('keydown', (e) => {
-            if (e.target.classList.contains('comment-edit-textarea')) {
+            if (e.target.classList.contains('comment-edit-textarea') || e.target.id === 'comment_content') {
                 if (e.ctrlKey && e.key === 'Enter') {
                     e.preventDefault();
                     const saveBtn = e.target.closest('.comment-edit-form').querySelector('.save-comment-btn');
@@ -45,8 +59,200 @@ class CommentManager {
                         this.cancelEdit(cancelBtn);
                     }
                 }
+            } else if (e.target.classList.contains('comment-reply-textarea')) {
+                if (e.ctrlKey && e.key === 'Enter') {
+                    e.preventDefault();
+                    const saveBtn = e.target.closest('.comment-reply-form').querySelector('.save-reply-btn');
+                    if (saveBtn) {
+                        this.saveReply(saveBtn);
+                    }
+                } else if (e.key === 'Escape') {
+                    e.preventDefault();
+                    const cancelBtn = e.target.closest('.comment-reply-form').querySelector('.cancel-reply-btn');
+                    if (cancelBtn) {
+                        this.cancelReply(cancelBtn);
+                    }
+                }
             }
         });
+    }
+
+    setupCitationFeature() {
+        // Track text selection globally
+        document.addEventListener('mouseup', () => {
+            // Small delay to ensure selection is complete
+            setTimeout(() => {
+                this.handleTextSelection();
+            }, 10);
+        });
+
+        // Track textarea focus/blur
+        document.addEventListener('focusin', (e) => {
+            if (this.isCommentTextarea(e.target)) {
+                console.log('CommentManager: Textarea focused:', e.target.id);
+                this.activeTextarea = e.target;
+                // Don't clear selection immediately, give time for quote button to appear
+                setTimeout(() => {
+                    this.showQuoteButtonIfNeeded();
+                }, 50);
+            }
+        });
+
+        document.addEventListener('focusout', (e) => {
+            if (this.isCommentTextarea(e.target)) {
+                // Small delay to allow for quote button clicks
+                setTimeout(() => {
+                    if (!document.activeElement || !this.isCommentTextarea(document.activeElement)) {
+                        this.hideQuoteButton();
+                        this.activeTextarea = null;
+                    }
+                }, 200);
+            }
+        });
+    }
+
+    isCommentTextarea(element) {
+        return element && (
+            element.classList.contains('comment-edit-textarea') ||
+            element.classList.contains('comment-reply-textarea') ||
+            element.id === 'comment_content'
+        );
+    }
+
+    handleTextSelection() {
+        const selection = window.getSelection();
+        this.selectedText = selection.toString().trim();
+        
+        // Store valid selection for later use
+        if (this.selectedText.length >= 10) {
+            this.lastValidSelection = this.selectedText;
+        }
+        
+        console.log('CommentManager: Text selected:', this.selectedText.substring(0, 50) + (this.selectedText.length > 50 ? '...' : ''));
+        console.log('CommentManager: Last valid selection:', this.lastValidSelection.substring(0, 50) + (this.lastValidSelection.length > 50 ? '...' : ''));
+        console.log('CommentManager: Active textarea:', this.activeTextarea);
+        
+        if (this.activeTextarea) {
+            this.showQuoteButtonIfNeeded();
+        }
+    }
+
+    showQuoteButtonIfNeeded() {
+        console.log('CommentManager: showQuoteButtonIfNeeded called');
+        console.log('CommentManager: Selected text length:', this.selectedText.length);
+        console.log('CommentManager: Last valid selection length:', this.lastValidSelection.length);
+        console.log('CommentManager: Active textarea:', !!this.activeTextarea);
+        
+        // Use lastValidSelection if current selection is empty but we have a valid one stored
+        const textToUse = this.selectedText.length >= 10 ? this.selectedText : this.lastValidSelection;
+        
+        if (!textToUse || textToUse.length < 10) {
+            console.log('CommentManager: No valid text to quote, hiding button');
+            this.hideQuoteButton();
+            return;
+        }
+
+        if (!this.activeTextarea) {
+            console.log('CommentManager: No active textarea');
+            return;
+        }
+
+        console.log('CommentManager: Creating quote button with text:', textToUse.substring(0, 30) + '...');
+        this.createQuoteButton();
+    }
+
+    createQuoteButton() {
+        // Remove existing button
+        this.hideQuoteButton();
+
+        // Find or create textarea container
+        let container = this.activeTextarea.closest('.textarea-container');
+        if (!container) {
+            // Wrap textarea in container if it doesn't exist
+            const wrapper = document.createElement('div');
+            wrapper.className = 'textarea-container';
+            this.activeTextarea.parentNode.insertBefore(wrapper, this.activeTextarea);
+            wrapper.appendChild(this.activeTextarea);
+            container = wrapper;
+        }
+
+        // Create quote button
+        this.quoteButton = document.createElement('button');
+        this.quoteButton.type = 'button';
+        this.quoteButton.className = 'quote-button';
+        this.quoteButton.innerHTML = '📝';
+        this.quoteButton.title = 'Quote selected text';
+        
+        // Position button
+        container.style.position = 'relative';
+        
+        // Add click handler
+        this.quoteButton.addEventListener('click', (e) => {
+            e.preventDefault();
+            this.insertCitation();
+        });
+
+        container.appendChild(this.quoteButton);
+    }
+
+    hideQuoteButton() {
+        if (this.quoteButton) {
+            this.quoteButton.remove();
+            this.quoteButton = null;
+        }
+    }
+
+    insertCitation() {
+        // Use lastValidSelection if current selection is empty
+        const textToUse = this.selectedText.length >= 10 ? this.selectedText : this.lastValidSelection;
+        
+        if (!textToUse || !this.activeTextarea) {
+            console.log('CommentManager: No text to cite or no active textarea');
+            return;
+        }
+
+        // Truncate to 200 characters
+        let citation = textToUse;
+        if (citation.length > 200) {
+            citation = citation.substring(0, 197) + '...';
+        }
+
+        // Format as citation
+        const citationText = `> ${citation}\n\n`;
+        
+        console.log('CommentManager: Inserting citation:', citationText);
+        
+        // Insert at cursor position
+        this.insertAtCursor(this.activeTextarea, citationText);
+        
+        // Hide quote button and clear selections
+        this.hideQuoteButton();
+        this.selectedText = '';
+        this.lastValidSelection = '';
+        
+        // Clear browser selection
+        if (window.getSelection) {
+            window.getSelection().removeAllRanges();
+        }
+        
+        // Focus back to textarea
+        this.activeTextarea.focus();
+    }
+
+    insertAtCursor(textarea, text) {
+        const startPos = textarea.selectionStart;
+        const endPos = textarea.selectionEnd;
+        const beforeText = textarea.value.substring(0, startPos);
+        const afterText = textarea.value.substring(endPos);
+        
+        textarea.value = beforeText + text + afterText;
+        
+        // Set cursor position after inserted text
+        const newPos = startPos + text.length;
+        textarea.setSelectionRange(newPos, newPos);
+        
+        // Trigger input event for any listeners
+        textarea.dispatchEvent(new Event('input', { bubbles: true }));
     }
 
     startEdit(button) {
@@ -283,6 +489,114 @@ class CommentManager {
         }, 5000);
     }
 
+    startReply(button) {
+        const commentEl = button.closest('[data-comment-id]');
+        if (!commentEl) return;
+
+        const replyForm = commentEl.querySelector('.comment-reply-form');
+        const replyBtn = commentEl.querySelector('.reply-comment-btn');
+
+        if (!replyForm) return;
+
+        // Hide reply button
+        replyBtn.style.display = 'none';
+
+        // Show reply form
+        replyForm.style.display = 'block';
+
+        // Focus on textarea and set initial content
+        const textarea = replyForm.querySelector('.comment-reply-textarea');
+        if (textarea) {
+            const username = button.dataset.username;
+            if (username) {
+                textarea.value = `@${username} `;
+            }
+            textarea.focus();
+            textarea.setSelectionRange(textarea.value.length, textarea.value.length);
+        }
+
+        // Add replying class for styling
+        commentEl.classList.add('comment-replying');
+    }
+
+    async saveReply(button) {
+        const commentEl = button.closest('[data-comment-id]');
+        if (!commentEl) return;
+
+        const textarea = commentEl.querySelector('.comment-reply-textarea');
+        const saveBtn = button;
+
+        if (!textarea) return;
+
+        const content = textarea.value.trim();
+
+        if (content === '') {
+            this.showError(commentEl, 'Antwortinhalt darf nicht leer sein.');
+            return;
+        }
+
+        // Show loading state
+        saveBtn.disabled = true;
+        saveBtn.textContent = 'Speichern...';
+
+        try {
+            // Get current post ID from URL
+            const urlParams = new URLSearchParams(window.location.search);
+            const postId = urlParams.get('id');
+
+            const formData = new FormData();
+            formData.append('comment_content', content);
+            formData.append('post_id', postId);
+
+            const response = await fetch(window.location.href, {
+                method: 'POST',
+                body: formData
+            });
+
+            if (response.ok) {
+                // Reload page to show new comment
+                window.location.reload();
+            } else {
+                this.showError(commentEl, 'Fehler beim Speichern der Antwort.');
+            }
+        } catch (error) {
+            console.error('Error saving reply:', error);
+            this.showError(commentEl, 'Fehler beim Speichern der Antwort.');
+        } finally {
+            // Restore button state
+            saveBtn.disabled = false;
+            saveBtn.textContent = 'Antwort speichern';
+        }
+    }
+
+    cancelReply(button) {
+        const commentEl = button.closest('[data-comment-id]');
+        if (!commentEl) return;
+
+        const replyForm = commentEl.querySelector('.comment-reply-form');
+        const replyBtn = commentEl.querySelector('.reply-comment-btn');
+        const textarea = commentEl.querySelector('.comment-reply-textarea');
+
+        if (!replyForm) return;
+
+        // Clear textarea
+        if (textarea) {
+            textarea.value = '';
+        }
+
+        // Show reply button
+        if (replyBtn) replyBtn.style.display = 'inline-block';
+
+        // Hide reply form
+        replyForm.style.display = 'none';
+
+        // Remove replying class
+        commentEl.classList.remove('comment-replying');
+
+        // Clear any error messages
+        this.clearMessages(commentEl);
+    }
+
     clearMessages(commentEl) {
         const messages = commentEl.querySelectorAll('.comment-error, .comment-success');
         messages.forEach(msg => msg.remove());
@@ -291,7 +605,9 @@ class CommentManager {
 
 // Auto-initialize when DOM is ready
 document.addEventListener('DOMContentLoaded', () => {
+    console.log('CommentManager: Initializing...');
     window.commentManager = new CommentManager();
+    console.log('CommentManager: Initialized successfully');
 });
 
 // Also provide global access for manual initialization

@@ -30,21 +30,32 @@ function displayComment($comment, $current_user_id, $context = 'post', $index = 
         
         <div class="comment-content">
             <div class="comment-text-display">
-                <p class="comment-text mb-0"><?= nl2br(htmlspecialchars($comment['content'])) ?></p>
+                <div class="comment-text mb-0"><?= $comment['content'] ?></div>
             </div>
             <div class="comment-edit-form" style="display: none;">
-                <textarea class="form-control comment-edit-textarea" rows="3"><?= htmlspecialchars($comment['content']) ?></textarea>
+                <div class="textarea-container">
+                    <textarea class="form-control comment-edit-textarea" rows="3"><?= htmlspecialchars($comment['content']) ?></textarea>
+                </div>
                 <div class="edit-form-actions mt-2">
                     <button type="button" class="btn btn-sm save-comment-btn">Speichern</button>
                     <button type="button" class="btn btn-sm cancel-edit-btn">Abbrechen</button>
                     <button type="button" class="btn btn-sm delete-comment-btn">Löschen</button>
                 </div>
             </div>
+            <div class="comment-reply-form" style="display: none;">
+                <div class="textarea-container">
+                    <textarea class="form-control comment-reply-textarea" rows="3" placeholder="Deine Antwort auf <?= htmlspecialchars($comment['username']) ?>..."></textarea>
+                </div>
+                <div class="reply-form-actions mt-2">
+                    <button type="button" class="btn btn-sm save-reply-btn">Antwort speichern</button>
+                    <button type="button" class="btn btn-sm cancel-reply-btn">Abbrechen</button>
+                </div>
+            </div>
         </div>
         
         <?php if ($context === 'post'): ?>
             <div class="comment-actions mt-2">
-                <a href="#comments" class="toggle-comment-btn btn btn-sm" data-username="<?= htmlspecialchars($comment['username']) ?>">Antworten</a>
+                <button type="button" class="btn btn-sm reply-comment-btn" data-username="<?= htmlspecialchars($comment['username']) ?>">Antworten</button>
                 <?php if ($is_owner): ?>
                     <button type="button" class="btn btn-sm edit-comment-btn">Bearbeiten</button>
                 <?php endif; ?>
@@ -81,7 +92,22 @@ function displayCommentsList($comments, $current_user_id, $context = 'post', $em
 }
 
 /**
- * Display comments section for post page
+ * Display just the comments list for post page (without the form)
+ * 
+ * @param array $comments Array of comment data
+ * @param int $current_user_id Currently logged in user ID
+ */
+function displayPostCommentsList($comments, $current_user_id) {
+    if (!empty($comments)): ?>
+        <div class="comments-list mt-4">
+            <h5 class="mb-3">Antworten (<?= count($comments) ?>)</h5>
+            <?php displayCommentsList($comments, $current_user_id, 'post'); ?>
+        </div>
+    <?php endif;
+}
+
+/**
+ * Display comments section for post page (LEGACY - kept for backward compatibility)
  * 
  * @param array $comments Array of comment data
  * @param int $current_user_id Currently logged in user ID
@@ -99,7 +125,9 @@ function displayPostCommentsSection($comments, $current_user_id, $post_id) {
             <h4 class="mt-4 mb-3">Neue Antwort</h4>
             <form id="comment-form" action="post.php?id=<?= $post_id ?>" method="post">
                 <div class="mb-3">
-                    <textarea id="comment_content" name="comment_content" class="form-control" rows="3" placeholder="Deine Antwort..." required></textarea>
+                    <div class="textarea-container">
+                        <textarea id="comment_content" name="comment_content" class="form-control" rows="3" placeholder="Deine Antwort..." required></textarea>
+                    </div>
                 </div>
                 <button type="button" class="btn btn-secondary" id="cancel-comment">Abbrechen</button>
                 <button type="submit" class="btn btn-primary">Antwort speichern</button>
@@ -136,10 +164,12 @@ function displayProfileCommentsSection($comments, $current_user_id) {
                     </div>
                     <div class="comment-content mt-2">
                         <div class="comment-text-display">
-                            <p class="comment-text"><?= nl2br(htmlspecialchars($comment['content'])) ?></p>
+                            <div class="comment-text"><?= $comment['content'] ?></div>
                         </div>
                         <div class="comment-edit-form" style="display: none;">
-                            <textarea class="form-control comment-edit-textarea" rows="3"><?= htmlspecialchars($comment['content']) ?></textarea>
+                            <div class="textarea-container">
+                                <textarea class="form-control comment-edit-textarea" rows="3"><?= htmlspecialchars($comment['content']) ?></textarea>
+                            </div>
                             <div class="edit-form-actions mt-2">
                                 <button type="button" class="btn btn-sm save-comment-btn">Speichern</button>
                                 <button type="button" class="btn btn-sm cancel-edit-btn">Abbrechen</button>
