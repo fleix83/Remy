@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New Citation UX Test</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/custom.css">
+    <style>
+        body { padding: 20px; background: #15272e; color: white; }
+        .test-content { background: #203f4a; padding: 20px; border-radius: 10px; margin-bottom: 20px; }
+        .debug-info { background: #333; padding: 10px; border-radius: 5px; font-family: monospace; margin: 10px 0; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>New Citation UX Test</h1>
+        
+        <div class="test-content">
+            <h3>Instructions</h3>
+            <ol>
+                <li>Select text from the paragraphs below (minimum 10 characters)</li>
+                <li>Look for the "Zitat gespeichert" context menu that appears</li>
+                <li>Notice the quote icons <img src="assets/img/quotes.svg" style="width:16px;height:16px;vertical-align:middle;"> in the textareas change from disabled to enabled</li>
+                <li>Click the enabled quote icon to insert the citation</li>
+            </ol>
+        </div>
+        
+        <div class="test-content">
+            <h3>Text to Select From</h3>
+            <p>This is some sample text that you can select to test the new citation feature. The new UX shows immediate feedback when you select text and makes the quote feature discoverable through always-visible icons.</p>
+            <p>Here's another paragraph with different content. Try selecting different portions of text to see how the context menu appears and the quote icons update their state.</p>
+            <p>The citation feature now works much more intuitively - users get immediate visual feedback and can see that a quote feature exists through the permanent icons in textareas.</p>
+        </div>
+
+        <div class="test-content">
+            <h3>Test Comment Forms</h3>
+            
+            <h4>Main Comment Form</h4>
+            <div class="mb-3">
+                <div class="textarea-container">
+                    <textarea id="comment_content" class="form-control" rows="4" placeholder="Main comment textarea - should have quote icon..."></textarea>
+                </div>
+            </div>
+            
+            <h4>Edit Comment Form</h4>
+            <div class="mb-3">
+                <div class="textarea-container">
+                    <textarea class="form-control comment-edit-textarea" rows="3" placeholder="Edit comment textarea - should have quote icon..."></textarea>
+                </div>
+            </div>
+            
+            <h4>Reply Comment Form</h4>
+            <div class="mb-3">
+                <div class="textarea-container">
+                    <textarea class="form-control comment-reply-textarea" rows="3" placeholder="Reply comment textarea - should have quote icon..."></textarea>
+                </div>
+            </div>
+        </div>
+
+        <div class="test-content">
+            <h3>Debug Information</h3>
+            <div class="debug-info" id="debug-info">
+                Loading debug information...
+            </div>
+            <button type="button" class="btn btn-warning" onclick="runDebugTest()">Refresh Debug Info</button>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/js/comment-manager.js"></script>
+    
+    <script>
+        function updateDebugInfo() {
+            const debugDiv = document.getElementById('debug-info');
+            const info = {
+                'CommentManager exists': typeof window.commentManager !== 'undefined',
+                'Current selection': window.getSelection().toString().substring(0, 50),
+                'Stored selection': window.commentManager ? window.commentManager.lastValidSelection.substring(0, 50) : 'N/A',
+                'Quote icons total': document.querySelectorAll('.quote-icon').length,
+                'Quote icons enabled': document.querySelectorAll('.quote-icon.enabled').length,
+                'Quote icons disabled': document.querySelectorAll('.quote-icon.disabled').length,
+                'Context menu visible': !!document.querySelector('.citation-context-menu'),
+                'Textarea containers': document.querySelectorAll('.textarea-container').length
+            };
+            
+            debugDiv.innerHTML = Object.entries(info)
+                .map(([key, value]) => `${key}: ${value}`)
+                .join('<br>');
+        }
+
+        function runDebugTest() {
+            updateDebugInfo();
+            console.log('Debug test run at:', new Date().toLocaleTimeString());
+            console.log('CommentManager:', window.commentManager);
+        }
+
+        // Update debug info every 3 seconds
+        setInterval(updateDebugInfo, 3000);
+        
+        // Initial debug update
+        setTimeout(updateDebugInfo, 1500);
+    </script>
+</body>
+</html>

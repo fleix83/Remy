@@ -1290,7 +1290,8 @@ form.create-post-form {
     width: calc(100% - 70px); /* Account for the "Neu" button width */
     max-height: 200px;
     overflow-y: auto;
-    background: white;
+    color: var(--background-element);
+    background: #ededed;
     border: 1px solid #ced4da;
     border-radius: 0.25rem;
     z-index: 1000;
@@ -1316,7 +1317,7 @@ form.create-post-form {
 }
 
 .new-therapist {
-    background: var(--action);
+    background: var(--primary);
     border: 0px solid var(--action);
     margin: 0px;
 }
@@ -1368,7 +1369,7 @@ h2.create-post {
     margin-left: calc(var(--bs-border-width)* -1);
     border-top-left-radius: 0;
     border-bottom-left-radius: 0;
-    /* background: #faaf7980; */
+    background: var(--primary);
 }
 
 /* Tag container and styling */
@@ -1415,6 +1416,11 @@ h2.create-post {
 }
 
 .modal-dialog {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    pointer-events: none;
     z-index: 1060;
 }
 
@@ -1423,11 +1429,11 @@ h2.create-post {
 }
 
 .form-control.new-therapist-modal {
-    background: var(--focus);
+    background: var(--primary);
 }
 
 .form-select.new-therapist-modal {
-    background: var(--focus);
+    background: var(--primary);
 }
 
 
@@ -1477,7 +1483,7 @@ h2.create-post {
 }
 
 .modal-footer button {
-    background-color: var(--action);
+    background-color: var(--primary);
     color: rgb(0, 0, 0);
     padding: 10px 20px;
     border: none;
@@ -1576,6 +1582,8 @@ h2.create-post {
 
                         .input-group:not(.has-validation)>.dropdown-toggle:nth-last-child(n+3), .input-group:not(.has-validation)>.form-floating:not(:last-child)>.form-control, .input-group:not(.has-validation)>.form-floating:not(:last-child)>.form-select, .input-group:not(.has-validation)>:not(:last-child):not(.dropdown-toggle):not(.dropdown-menu):not(.form-floating) {
                             font-size: 0.8rem;
+                            color: var(--primary);
+                            border: 1px solid var(--primary);
                     }
 
                     .btn-custom {
@@ -1587,7 +1595,7 @@ h2.create-post {
                     word-wrap: break-word;
                     font-size: 1.0rem;
                     line-height: 1.5rem;
-                    background: white;
+                    background: #335f6e;
                     border-radius: 10px;
                     border: 0px solid rgb(248 184 156 / 9%);
                     }
@@ -1617,6 +1625,8 @@ h2.create-post {
 
 .form-select.edit-post {
     background: var(--focus);
+    border: 1px solid var(--primary);
+    color: var(--primary);
 }
 
 .form-control.edit-post {
@@ -1624,7 +1634,7 @@ h2.create-post {
 }
 
 .form-control.new-therapist-modal {
-    background: var(--focus);
+    background: var(--primary);
 }
 
 /* POST.PHP */  
@@ -1741,13 +1751,95 @@ h2.create-post {
     font-size: 0.875rem;
 }
 
-/* Citation and Quote Button Styling */
+/* Citation and Quote Icon Styling */
 .textarea-container {
     position: relative;
     display: inline-block;
     width: 100%;
 }
 
+/* Context Menu for Text Selection */
+.citation-context-menu {
+    background: white;
+    color: var(--background-element);
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 500;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    border: 1px solid #e0e0e0;
+    pointer-events: none;
+    animation: fadeInUp 0.3s ease-out;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateX(-50%) translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+    }
+}
+
+/* Permanent Quote Icon */
+.quote-icon {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    width: 32px;
+    height: 32px;
+    border-radius: 6px;
+    cursor: pointer;
+    z-index: 1000;
+    transition: all 0.2s ease-in-out;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    padding: 4px;
+}
+
+.quote-icon img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.quote-icon.disabled {
+    background: #e0e0e0;
+    cursor: not-allowed;
+    opacity: 0.6;
+    border: none;
+}
+
+.quote-icon.disabled img {
+    filter: grayscale(100%) opacity(0.5);
+}
+
+.quote-icon.enabled {
+    background: #e0e0e0;
+    cursor: pointer;
+    border: none;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.quote-icon.enabled img {
+    filter: none;
+}
+
+.quote-icon.enabled:hover {
+    background: #d0d0d0;
+    transform: scale(1.05);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.quote-icon.enabled:active {
+    transform: scale(0.95);
+}
+
+/* Legacy quote button (keep for backward compatibility) */
 .quote-button {
     position: absolute;
     top: 8px;
@@ -1787,6 +1879,28 @@ h2.create-post {
     font-style: italic;
     color: var(--type-meta);
     border-radius: 0 5px 5px 0;
+}
+
+/* Mobile responsive improvements for citation feature */
+@media (max-width: 768px) {
+    .citation-context-menu {
+        font-size: 12px;
+        padding: 6px 10px;
+    }
+    
+    .quote-icon {
+        width: 20px;
+        height: 20px;
+        top: 6px;
+        right: 6px;
+        padding: 3px;
+    }
+    
+    /* Ensure quote icons don't interfere with mobile keyboards */
+    .textarea-container textarea:focus + .quote-icon {
+        opacity: 0.8;
+    }
+}
     position: relative;
 }
 
@@ -1985,6 +2099,7 @@ form button:hover {
                             overflow: auto;
                             padding: 30px 20px 50px 20px;
                             word-wrap: break-word;
+                            background: #335f6e;
                         }
                 
                         .note-editor.note-airframe .note-statusbar .note-resizebar, .note-editor.note-frame .note-statusbar .note-resizebar {

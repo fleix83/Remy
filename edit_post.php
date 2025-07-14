@@ -103,7 +103,7 @@ require_once 'includes/summernote.php';
 
 </head>
 <body>
-    <div class="container mt-5">
+    <div class="container mt-2">
         <div class="row justify-content-center">
             <div class="col-md-10">
                 <?php if ($error): ?>
@@ -116,7 +116,7 @@ require_once 'includes/summernote.php';
                 <?php if (!$error && isset($post)): ?>
                     <div class="edit-post-box card custom-card">
                         <div class="post-element">
-                            <h2 class="card-title text-center mb-4">Beitrag bearbeiten</h2>
+                            <h2 class="card-title text-left mb-4">Beitrag bearbeiten</h2>
                             <form id="editPostForm" action="edit_post.php?id=<?= $post_id ?>" method="post">
                                 <div class="mb-3">
                                     <label for="category" class="form-label"><i class="bi bi-folder"></i> Kategorie</label>
@@ -171,10 +171,10 @@ require_once 'includes/summernote.php';
                                 <div id="therapistResults" class="therapist-results" style="display: none;"></div>
                             </div>
 
-                                <div class="mb-3">
+                                <!-- <div class="mb-3">
                                     <label for="title" class="form-label"><i class="bi bi-type"></i> Titel</label>
                                     <input type="text" class="form-control edit-post" id="title" name="title" value="<?= htmlspecialchars($post['title']) ?>" required>
-                                </div>
+                                </div> -->
 
                                 <div class="mb-5">
                                     <label for="content" class="form-label"><i class="bi bi-pencil"></i> Inhalt</label>

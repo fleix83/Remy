@@ -14,11 +14,13 @@ class CommentManager {
     init() {
         this.bindEventListeners();
         this.setupCitationFeature();
+        this.createPermanentQuoteIcons();
     }
 
     bindEventListeners() {
         // Use event delegation to handle dynamically added comments
         document.addEventListener('click', (e) => {
+            console.log('Click detected on:', e.target, 'Classes:', e.target.className);
             if (e.target.classList.contains('edit-comment-btn')) {
                 e.preventDefault();
                 this.startEdit(e.target);
@@ -35,11 +37,20 @@ class CommentManager {
                 e.preventDefault();
                 this.startReply(e.target);
             } else if (e.target.classList.contains('save-reply-btn')) {
+                console.log('Save reply button clicked!');
                 e.preventDefault();
                 this.saveReply(e.target);
             } else if (e.target.classList.contains('cancel-reply-btn')) {
                 e.preventDefault();
                 this.cancelReply(e.target);
+            } else if (e.target.classList.contains('quote-icon') || e.target.closest('.quote-icon')) {
+                e.preventDefault();
+                const iconButton = e.target.classList.contains('quote-icon') ? e.target : e.target.closest('.quote-icon');
+                this.handleQuoteIconClick(iconButton);
+            } else if (e.target.type === 'submit' && e.target.closest('#comment-form')) {
+                console.log('Main comment form submit clicked!');
+                e.preventDefault();
+                this.saveMainComment(e.target);
             }
         });
 
@@ -86,24 +97,18 @@ class CommentManager {
             }, 10);
         });
 
-        // Track textarea focus/blur
+        // Track textarea focus for active textarea tracking (simplified)
         document.addEventListener('focusin', (e) => {
             if (this.isCommentTextarea(e.target)) {
                 console.log('CommentManager: Textarea focused:', e.target.id);
                 this.activeTextarea = e.target;
-                // Don't clear selection immediately, give time for quote button to appear
-                setTimeout(() => {
-                    this.showQuoteButtonIfNeeded();
-                }, 50);
             }
         });
 
         document.addEventListener('focusout', (e) => {
             if (this.isCommentTextarea(e.target)) {
-                // Small delay to allow for quote button clicks
                 setTimeout(() => {
                     if (!document.activeElement || !this.isCommentTextarea(document.activeElement)) {
-                        this.hideQuoteButton();
                         this.activeTextarea = null;
                     }
                 }, 200);
@@ -123,83 +128,155 @@ class CommentManager {
         const selection = window.getSelection();
         this.selectedText = selection.toString().trim();
         
-        // Store valid selection for later use
+        // Store valid selection and show context menu
         if (this.selectedText.length >= 10) {
             this.lastValidSelection = this.selectedText;
+            this.showSelectionContextMenu();
+            this.updateQuoteIconStates();
+        } else {
+            this.hideSelectionContextMenu();
         }
         
         console.log('CommentManager: Text selected:', this.selectedText.substring(0, 50) + (this.selectedText.length > 50 ? '...' : ''));
         console.log('CommentManager: Last valid selection:', this.lastValidSelection.substring(0, 50) + (this.lastValidSelection.length > 50 ? '...' : ''));
-        console.log('CommentManager: Active textarea:', this.activeTextarea);
+    }
+
+
+    showSelectionContextMenu() {
+        this.hideSelectionContextMenu(); // Remove any existing menu
         
-        if (this.activeTextarea) {
-            this.showQuoteButtonIfNeeded();
+        const selection = window.getSelection();
+        if (selection.rangeCount === 0) return;
+        
+        const range = selection.getRangeAt(0);
+        const rect = range.getBoundingClientRect();
+        
+        // Create context menu
+        this.contextMenu = document.createElement('div');
+        this.contextMenu.className = 'citation-context-menu';
+        this.contextMenu.textContent = 'Zitat gespeichert';
+        
+        // Position near the selection
+        this.contextMenu.style.position = 'fixed';
+        this.contextMenu.style.left = (rect.left + rect.width / 2) + 'px';
+        this.contextMenu.style.top = (rect.top - 40) + 'px';
+        this.contextMenu.style.transform = 'translateX(-50%)';
+        this.contextMenu.style.zIndex = '10000';
+        
+        document.body.appendChild(this.contextMenu);
+        
+        // Auto-hide after 2.5 seconds
+        setTimeout(() => {
+            this.hideSelectionContextMenu();
+        }, 2500);
+    }
+
+    hideSelectionContextMenu() {
+        if (this.contextMenu) {
+            this.contextMenu.remove();
+            this.contextMenu = null;
         }
     }
 
-    showQuoteButtonIfNeeded() {
-        console.log('CommentManager: showQuoteButtonIfNeeded called');
-        console.log('CommentManager: Selected text length:', this.selectedText.length);
-        console.log('CommentManager: Last valid selection length:', this.lastValidSelection.length);
-        console.log('CommentManager: Active textarea:', !!this.activeTextarea);
+    createPermanentQuoteIcons() {
+        // Find all textarea containers and add quote icons
+        const containers = document.querySelectorAll('.textarea-container');
         
-        // Use lastValidSelection if current selection is empty but we have a valid one stored
-        const textToUse = this.selectedText.length >= 10 ? this.selectedText : this.lastValidSelection;
-        
-        if (!textToUse || textToUse.length < 10) {
-            console.log('CommentManager: No valid text to quote, hiding button');
-            this.hideQuoteButton();
-            return;
-        }
-
-        if (!this.activeTextarea) {
-            console.log('CommentManager: No active textarea');
-            return;
-        }
-
-        console.log('CommentManager: Creating quote button with text:', textToUse.substring(0, 30) + '...');
-        this.createQuoteButton();
-    }
-
-    createQuoteButton() {
-        // Remove existing button
-        this.hideQuoteButton();
-
-        // Find or create textarea container
-        let container = this.activeTextarea.closest('.textarea-container');
-        if (!container) {
-            // Wrap textarea in container if it doesn't exist
-            const wrapper = document.createElement('div');
-            wrapper.className = 'textarea-container';
-            this.activeTextarea.parentNode.insertBefore(wrapper, this.activeTextarea);
-            wrapper.appendChild(this.activeTextarea);
-            container = wrapper;
-        }
-
-        // Create quote button
-        this.quoteButton = document.createElement('button');
-        this.quoteButton.type = 'button';
-        this.quoteButton.className = 'quote-button';
-        this.quoteButton.innerHTML = '📝';
-        this.quoteButton.title = 'Quote selected text';
-        
-        // Position button
-        container.style.position = 'relative';
-        
-        // Add click handler
-        this.quoteButton.addEventListener('click', (e) => {
-            e.preventDefault();
-            this.insertCitation();
+        containers.forEach(container => {
+            // Skip if icon already exists
+            if (container.querySelector('.quote-icon')) return;
+            
+            const textarea = container.querySelector('textarea');
+            if (!this.isCommentTextarea(textarea)) return;
+            
+            // Create quote icon
+            const quoteIcon = document.createElement('button');
+            quoteIcon.type = 'button';
+            quoteIcon.className = 'quote-icon disabled';
+            quoteIcon.innerHTML = '<img src="assets/img/quotes.svg" alt="Quote">';
+            quoteIcon.title = 'Kein Text ausgewählt';
+            
+            // Ensure container has relative positioning
+            container.style.position = 'relative';
+            
+            container.appendChild(quoteIcon);
         });
-
-        container.appendChild(this.quoteButton);
+        
+        // Also observe for dynamically added textareas
+        this.observeNewTextareas();
     }
 
-    hideQuoteButton() {
-        if (this.quoteButton) {
-            this.quoteButton.remove();
-            this.quoteButton = null;
+    observeNewTextareas() {
+        // Use MutationObserver to watch for new textareas
+        const observer = new MutationObserver((mutations) => {
+            mutations.forEach((mutation) => {
+                mutation.addedNodes.forEach((node) => {
+                    if (node.nodeType === 1) { // Element node
+                        // Check if the node or its descendants contain textarea containers
+                        const containers = node.querySelectorAll ? 
+                            node.querySelectorAll('.textarea-container') : [];
+                        
+                        containers.forEach(container => {
+                            if (!container.querySelector('.quote-icon')) {
+                                const textarea = container.querySelector('textarea');
+                                if (this.isCommentTextarea(textarea)) {
+                                    this.createQuoteIconForContainer(container);
+                                }
+                            }
+                        });
+                    }
+                });
+            });
+        });
+        
+        observer.observe(document.body, { childList: true, subtree: true });
+    }
+
+    createQuoteIconForContainer(container) {
+        const quoteIcon = document.createElement('button');
+        quoteIcon.type = 'button';
+        quoteIcon.className = 'quote-icon disabled';
+        quoteIcon.innerHTML = '<img src="assets/img/quotes.svg" alt="Quote">';
+        quoteIcon.title = 'Kein Text ausgewählt';
+        
+        container.style.position = 'relative';
+        container.appendChild(quoteIcon);
+    }
+
+    handleQuoteIconClick(icon) {
+        // Find the associated textarea
+        const container = icon.closest('.textarea-container');
+        const textarea = container ? container.querySelector('textarea') : null;
+        
+        if (!textarea || !this.lastValidSelection || this.lastValidSelection.length < 10) {
+            console.log('CommentManager: No valid selection to quote');
+            return;
         }
+        
+        // Set as active textarea and insert citation
+        this.activeTextarea = textarea;
+        this.insertCitation();
+        
+        // Clear stored selection after use
+        this.lastValidSelection = '';
+        this.selectedText = '';
+        this.updateQuoteIconStates();
+    }
+
+    updateQuoteIconStates() {
+        // Update all quote icons to enabled state
+        const quoteIcons = document.querySelectorAll('.quote-icon');
+        quoteIcons.forEach(icon => {
+            if (this.lastValidSelection && this.lastValidSelection.length >= 10) {
+                icon.classList.add('enabled');
+                icon.classList.remove('disabled');
+                icon.title = 'Zitat einfügen';
+            } else {
+                icon.classList.add('disabled');
+                icon.classList.remove('enabled');
+                icon.title = 'Kein Text ausgewählt';
+            }
+        });
     }
 
     insertCitation() {
@@ -225,10 +302,11 @@ class CommentManager {
         // Insert at cursor position
         this.insertAtCursor(this.activeTextarea, citationText);
         
-        // Hide quote button and clear selections
-        this.hideQuoteButton();
+        // Clear selections and hide context menu
         this.selectedText = '';
         this.lastValidSelection = '';
+        this.hideSelectionContextMenu();
+        this.updateQuoteIconStates();
         
         // Clear browser selection
         if (window.getSelection) {
@@ -520,15 +598,25 @@ class CommentManager {
     }
 
     async saveReply(button) {
+        console.log('saveReply method called!');
+        console.log('Button:', button);
+        
         const commentEl = button.closest('[data-comment-id]');
-        if (!commentEl) return;
+        if (!commentEl) {
+            console.log('No comment element found');
+            return;
+        }
 
         const textarea = commentEl.querySelector('.comment-reply-textarea');
         const saveBtn = button;
 
-        if (!textarea) return;
+        if (!textarea) {
+            console.log('No textarea found');
+            return;
+        }
 
         const content = textarea.value.trim();
+        console.log('Reply content:', content);
 
         if (content === '') {
             this.showError(commentEl, 'Antwortinhalt darf nicht leer sein.');
@@ -544,20 +632,59 @@ class CommentManager {
             const urlParams = new URLSearchParams(window.location.search);
             const postId = urlParams.get('id');
 
+            console.log('SaveReply Debug:');
+            console.log('Current URL:', window.location.href);
+            console.log('URL search params:', window.location.search);
+            console.log('All URL params:', Object.fromEntries(urlParams));
+            console.log('Extracted Post ID:', postId);
+            console.log('Post ID type:', typeof postId);
+            console.log('Content to save:', content);
+
+            if (!postId) {
+                this.showError(commentEl, 'Post ID nicht gefunden.');
+                return;
+            }
+
             const formData = new FormData();
             formData.append('comment_content', content);
             formData.append('post_id', postId);
 
-            const response = await fetch(window.location.href, {
+            // Submit to dedicated AJAX endpoint
+            const targetUrl = 'add_comment_process.php';
+            console.log('Submitting to URL:', targetUrl);
+            console.log('FormData contents:');
+            for (let [key, value] of formData.entries()) {
+                console.log(key, value);
+            }
+
+            const response = await fetch(targetUrl, {
                 method: 'POST',
-                body: formData
+                body: formData,
+                credentials: 'same-origin' // Ensure cookies are sent
             });
 
+            console.log('Response status:', response.status);
+            console.log('Response ok:', response.ok);
+            
             if (response.ok) {
-                // Reload page to show new comment
-                window.location.reload();
+                const result = await response.json();
+                console.log('Server response:', result);
+                
+                if (result.success) {
+                    // Show success message and reload page
+                    this.showSuccess(commentEl, result.message);
+                    setTimeout(() => {
+                        window.location.reload();
+                    }, 1500);
+                } else {
+                    this.showError(commentEl, result.message);
+                }
             } else {
-                this.showError(commentEl, 'Fehler beim Speichern der Antwort.');
+                // Get the actual error message from the server
+                const responseText = await response.text();
+                console.log('Reply error response status:', response.status);
+                console.log('Reply error response text:', responseText.substring(0, 500));
+                this.showError(commentEl, 'Fehler beim Speichern der Antwort: ' + response.status);
             }
         } catch (error) {
             console.error('Error saving reply:', error);
@@ -595,6 +722,80 @@ class CommentManager {
 
         // Clear any error messages
         this.clearMessages(commentEl);
+    }
+
+    async saveMainComment(button) {
+        console.log('saveMainComment method called!');
+        
+        const form = button.closest('#comment-form');
+        if (!form) return;
+
+        const textarea = form.querySelector('#comment_content');
+        if (!textarea) return;
+
+        const content = textarea.value.trim();
+        console.log('Main comment content:', content);
+
+        if (content === '') {
+            alert('Kommentarinhalt darf nicht leer sein.');
+            return;
+        }
+
+        // Show loading state
+        button.disabled = true;
+        button.textContent = 'Speichern...';
+
+        try {
+            // Get current post ID from URL
+            const urlParams = new URLSearchParams(window.location.search);
+            const postId = urlParams.get('id');
+
+            console.log('Main comment - Post ID:', postId);
+
+            if (!postId) {
+                alert('Post ID nicht gefunden.');
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append('comment_content', content);
+            formData.append('post_id', postId);
+
+            const response = await fetch('add_comment_process.php', {
+                method: 'POST',
+                body: formData,
+                credentials: 'same-origin'
+            });
+
+            if (response.ok) {
+                const result = await response.json();
+                console.log('Main comment response:', result);
+                
+                if (result.success) {
+                    // Show success message
+                    this.showGlobalSuccess(result.message);
+                    // Clear form and reload page
+                    textarea.value = '';
+                    setTimeout(() => {
+                        window.location.reload();
+                    }, 1500);
+                } else {
+                    alert(result.message);
+                }
+            } else {
+                const responseText = await response.text();
+                console.log('Main comment error response status:', response.status);
+                console.log('Main comment error response text:', responseText.substring(0, 500));
+                alert('Fehler beim Speichern des Kommentars: ' + response.status);
+            }
+        } catch (error) {
+            console.error('Error saving main comment:', error);
+            alert('Fehler beim Speichern des Kommentars.');
+        } finally {
+            // Restore button state
+            button.disabled = false;
+            button.textContent = 'Antwort speichern';
+        }
     }
 
     clearMessages(commentEl) {
