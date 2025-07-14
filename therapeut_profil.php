@@ -379,7 +379,7 @@ require_once 'navbar.php';
             analyzeBtn.textContent = 'Lädt...';
 
             // Fetch the analysis data
-            const response = await fetch(`${window.location.origin}/pandoc_messages/therapeut_analysis.php?id=<?= $therapist['id'] ?>`);
+            const response = await fetch(`${window.location.origin}/remy/therapeut_analysis.php?id=<?= $therapist['id'] ?>`);
             
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);

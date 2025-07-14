@@ -19,6 +19,8 @@
     --background-body: #15272e;
     --background-element: #203f4a;
     --type-meta: #c4c4c4;
+    --tags-color: white;
+    --tags-bg: #2f6476;
     --red: #fb5252;
 }
 
@@ -80,9 +82,9 @@ a {
 }
 
 .bg-tags {
-    color: var(--background-element);
-    background: #ffdd7e;
-    font-size: 0.8rem;
+    color: var(--tags-color);
+    background: var(--tags-bg);
+    font-size: 0.7rem;
 }
 
 /* Buttons */
@@ -627,7 +629,7 @@ h5.count {
 .list-user {
     margin: 0;
     font-size: 0.775rem;
-    font-weight: 500;
+    font-weight: 600;
     color: var(--type-meta);
     line-height: 0.8rem;
 }
@@ -737,7 +739,6 @@ footer {
                     border-radius: 20px;
                     padding: 10px 10px;
                     margin-bottom: 0px;
-                    transform: rotate(-0.5deg);
                 }
 
                 .new-post {
@@ -823,7 +824,7 @@ footer {
 
                 .bg-erfahrung {
                     margin-right: 10px;
-                    font-size: 0.8rem;
+                    font-size: 0.7rem;
                     font-weight: 500;
                     background: var(--primary);  
                     }
@@ -848,8 +849,8 @@ footer {
 
                 h2.list-title  {
                     color: var(--primary);
-                    line-height: 1.7rem;
-                    font-size: 1.2em; 
+                    line-height: 1.2rem;
+                    font-size: 1.0em; 
                     font-weight: 700;
                     margin: 0px 0 8px 0;
                     width: 100%; 
@@ -2034,7 +2035,7 @@ form button:hover {
                     }
                     
                     .post-content {
-                        margin: 2.0rem 0rem;
+                        margin: 0.0rem 0rem;
                     }
                    .card-text.post-post {
                         font-family: "M PLUS Rounded 1c", serif;
@@ -2043,15 +2044,22 @@ form button:hover {
 
                     .therapist-lead {
                         margin-bottom: 15px;
+                        /* border-left: 3px solid var(--primary); */
+                        /* border-right: 3px solid var(--primary); */
+                        border-radius: 20px;
+                        padding: 15px 0px;
+                        display: inline-block;
+                        width: fit-content;
                     }
 
                     a.therapist-link {
-                        display: flex;
+                        display: inline-flex;
                         align-items: center;     /* vertically center icon */
                         color: var(--primary);
-                        font-size: 0.8rem;
+                        font-size: 1.0rem;
                         font-weight: 600;
-                        line-height: 1.2;        /* more readable line height */
+                        width: fit-content;
+                        line-height: 1.4;        /* more readable line height */
                         font-style: normal;
                         padding: 2px 0;
                         text-decoration: none;

@@ -213,10 +213,27 @@ require_once __DIR__ . '/includes/header.php';
                         </div> -->
                     </div>
 
-                    <!-- Post Title -->
+                    <!-- Therapist Info -->
+                    <?php if ($post['category'] === 'Erfahrung' && $post['therapist']): ?>
+                        <div class="therapist-lead mt-2 mb-3">
+                            <a href="therapeut_profil.php?id=<?= htmlspecialchars($post['therapist']) ?>" class="therapist-link">
+                                <!-- <i class="bi bi-bullseye"></i> --> Erfahrung mit
+                                <?php
+                                $therapistDetails = []; 
+                                if (!empty($post['therapist_anrede'])) $therapistDetails[] = htmlspecialchars($post['therapist_anrede']);
+                                if (!empty($post['therapist_vorname'])) $therapistDetails[] = htmlspecialchars($post['therapist_vorname']);
+                                if (!empty($post['therapist_nachname'])) $therapistDetails[] = htmlspecialchars($post['therapist_nachname']);
+                                if (!empty($post['therapist_berufsbezeichnung'])) $therapistDetails[] = htmlspecialchars($post['therapist_berufsbezeichnung']);
+                                if (!empty($post['therapist_institution'])) $therapistDetails[] = htmlspecialchars($post['therapist_institution']);
+                                
+                                echo implode(', ', $therapistDetails);
+                                ?>
+                            </a>
+                        </div>
+                    <?php endif; ?>
+
+                    <!-- Post Meta (User and Date) -->
                     <div class="col-md-8">
-                        <!-- <h2 class="post-title card-title"><?= htmlspecialchars($post['title']) ?></h2> -->
-                        
                         <div class="d-flex align-items-center mt-2">
                             <img src="<?= htmlspecialchars($post['avatar_url']) ?>" class="avatar rounded-circle me-2" alt="Avatar">
                             <span class="post-post-user"><?= htmlspecialchars($post['username']) ?> • <?= formatCustomDate($post['created_at']) ?></span>
@@ -247,24 +264,7 @@ require_once __DIR__ . '/includes/header.php';
 
                     <!-- Post Content -->
                     <div class="post-content">
-                        <div class="card-text.post-post"><?php if ($post['category'] === 'Erfahrung' && $post['therapist']): ?>
-                            
-                            <div class="therapist-lead">
-                                <a href="therapeut_profil.php?id=<?= htmlspecialchars($post['therapist']) ?>" class="therapist-link">  <i class="bi bi-bullseye"></i> Erfahrung mit 
-                                    <?php
-                                    $therapistDetails = [];
-                                    if (!empty($post['therapist_anrede'])) $therapistDetails[] = htmlspecialchars($post['therapist_anrede']);
-                                    if (!empty($post['therapist_vorname'])) $therapistDetails[] = htmlspecialchars($post['therapist_vorname']);
-                                    if (!empty($post['therapist_nachname'])) $therapistDetails[] = htmlspecialchars($post['therapist_nachname']);
-                                    if (!empty($post['therapist_berufsbezeichnung'])) $therapistDetails[] = htmlspecialchars($post['therapist_berufsbezeichnung']);
-                                    if (!empty($post['therapist_institution'])) $therapistDetails[] = htmlspecialchars($post['therapist_institution']);
-                                    // if (!empty($post['therapist_canton'])) $therapistDetails[] = htmlspecialchars($post['therapist_canton']);
-                                    
-                                    echo implode(', ', $therapistDetails);
-                                    ?>
-                                </a>
-                            </div>
-                        <?php endif; ?>
+                        <div class="card-text.post-post">
                         <?= $post['content'] ?>
                         </div>
                         

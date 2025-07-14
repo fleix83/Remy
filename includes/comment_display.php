@@ -18,8 +18,7 @@ function displayComment($comment, $current_user_id, $context = 'post', $index = 
         <div class="comment-header d-flex align-items-center mb-2">
             <img src="<?= htmlspecialchars($comment['avatar_url']) ?>" 
                  class="avatar rounded-circle me-2" 
-                 alt="Avatar" 
-                 style="width: 30px; height: 30px;">
+                 alt="Avatar">
             <div class="comment-meta">
                 <strong class="comment-username"><?= htmlspecialchars($comment['username']) ?> • <?= formatCustomDate($comment['created_at']) ?></strong>
                 <?php if ($comment['is_edited']): ?>
