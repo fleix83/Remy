@@ -18,6 +18,7 @@
     --primary: #ffdd7e;
     --background-body: #15272e;
     --background-element: #203f4a;
+    --background-textarea: #294b57;
     --type-meta: #c4c4c4;
     --tags-color: white;
     --tags-bg: #2f6476;
@@ -31,6 +32,10 @@ body {
     overflow-x: hidden;
     width: 100%;
 }
+
+h1,h2,h3,h4,h5,h6 {
+    color: var(--primary);
+} 
 
 h1 {
     font-family: "Open Sans", sans-serif;
@@ -609,6 +614,7 @@ svg.bi.bi-chat {
 h5.count {
     color: var(--type-meta); !important;
     font-size: 1rem;
+    font-weight: 400;
     margin-left: 2px;
     margin-bottom: 5px;
 }
@@ -1569,7 +1575,7 @@ h2.create-post {
                         }
 
                         h2.create-post {
-                            color: var(--fonts_elements);
+                            color: var(--primary);
                             margin-bottom: 5rem;
                         }
 
@@ -1631,7 +1637,9 @@ h2.create-post {
 }
 
 .form-control.edit-post {
-    background: var(--focus);
+    color: var(--primary);
+    background: var(--background-element);
+    border: 1px solid var(--primary);
 }
 
 .form-control.new-therapist-modal {
@@ -1652,9 +1660,9 @@ h2.create-post {
 /* Post page button styling */
 .post-element .btn-sm,
 #comments .btn {
-    background: white;
-    color: var(--background-element);
-    border: 1px solid white;
+    background: none;
+    color: var(--primary);
+    border: 1px solid var(--primary);
     border-radius: 5px;
     transition: background-color 0.2s ease-in-out;
 }
@@ -1662,7 +1670,26 @@ h2.create-post {
 .post-element .btn-sm:hover,
 #comments .btn:hover {
     background: #f0f0f0;
-    color: var(--background-element);
+    /* color: var(--background-element); */
+}
+
+.note-editor .note-toolbar, .note-popover .popover-content {
+    background: none;
+}
+
+.note-editor.note-airframe .note-placeholder, .note-editor.note-frame .note-placeholder {
+    padding: 10px;
+    color: var(--primary);
+}
+
+.form-label {
+    margin-bottom: .0rem;
+}
+
+.note-editor .note-toolbar>.note-btn-group, .note-popover .popover-content>.note-btn-group {
+    margin-left: 0;
+    margin-right: 5px;
+    margin-top: 0px !important;
 }
 
 /* First comment spacing */
@@ -1918,6 +1945,8 @@ h2.create-post {
 /* Ensure textareas have proper spacing for quote button */
 .textarea-container textarea {
     padding-right: 50px;
+    border-radius: 5px;
+    font-size: 1rem;
 }
 
 /* Citation in comment content */
@@ -2107,7 +2136,7 @@ form button:hover {
                             overflow: auto;
                             padding: 30px 20px 50px 20px;
                             word-wrap: break-word;
-                            background: #335f6e;
+                            background: var(--background-textarea);
                         }
                 
                         .note-editor.note-airframe .note-statusbar .note-resizebar, .note-editor.note-frame .note-statusbar .note-resizebar {
@@ -2629,6 +2658,35 @@ td button {
 /* Modal Override for all modals */
 .modal-content {
     padding: 20px;
+    background: var(--background-element);
+}
+
+/* New Therapist Modal Specific Styling */
+#newTherapistModal .modal-header {
+    background: var(--background-element);
+    border-bottom: 0px solid var(--primary);
+}
+
+#newTherapistModal .modal-title {
+    color: var(--primary);
+}
+
+#newTherapistModal .form-label {
+    color: var(--primary);
+    font-weight: 500;
+}
+
+#newTherapistModal .form-control.edit-post::placeholder {
+    color: var(--primary);
+    opacity: 0.7;
+}
+
+#newTherapistModal .form-select.edit-post option {
+    color: var(--primary);
+}
+
+.modal-footer{
+    border-top: 0px solid var(--bs-modal-footer-border-width) solid var(--bs-modal-footer-border-color);
 }
 
 /* Form Control Override for all forms */

@@ -67,16 +67,16 @@ $latest_tags = $stmt->fetchAll(PDO::FETCH_ASSOC);
     </style>
 </head>
 <body>
-    <div class="container mt-5">
+    <div class="container mt-2">
         <div class="row justify-content-center">
             <div class="col-md-10">
-                <!-- <div class="card custom-card create-post-container"> -->
-                    <div class="card-body create_post">
-                        <h2 class="create-post card-title text-center mb-5">Neuen Beitrag erstellen</h2>
+                <div class="edit-post-box card custom-card">
+                    <div class="post-element">
+                        <h2 class="create-post card-title text-left mb-5">Neuen Beitrag erstellen</h2>
                         <form id="createPostForm">
-                            <div class="mb-3">
+                            <div class="mb-4">
                                 <label for="category" class="form-label"><i class="bi bi-folder"></i> Kategorie</label>
-                                <select class="form-select create-post" id="category" name="category" required>
+                                <select class="form-select edit-post" id="category" name="category" required>
                                     <option value="">Wähle eine Kategorie</option>
                                     <?php foreach ($categories as $category): ?>
                                         <option value="<?php echo $category['id']; ?>"><?php echo $category['name_de']; ?></option>
@@ -84,9 +84,9 @@ $latest_tags = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                 </select>
                             </div>
 
-                            <div class="mb-3">
+                            <div class="mb-4">
                                 <label for="canton" class="form-label"><i class="bi bi-geo-alt"></i> Kanton</label>
-                                <select class="form-select create-post" id="canton" name="canton" required>
+                                <select class="form-select edit-post" id="canton" name="canton" required>
                                     <option value="">Wähle einen Kanton</option>
                                     <?php foreach ($cantons as $code => $name): ?>
                                         <option value="<?php echo $code; ?>"><?php echo $name; ?></option>
@@ -94,31 +94,31 @@ $latest_tags = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                 </select>
                             </div>
 
-                            <div id="therapistSection" class="mb-3" style="display: none;">
+                            <div id="therapistSection" class="mb-4" style="display: none;">
                                 <label for="therapistSearch" class="form-label"><i class="bi bi-person"></i> Therapeut/in</label>
                                 <div class="input-group">
                                     <input type="text" 
-                                        class="form-control create-post" 
+                                        class="form-control edit-post" 
                                         id="therapistSearch" 
-                                        placeholder="Suchen oder neu erstellen"
+                                        placeholder="Therapeuten suchen"
                                         autocomplete="off">
                                     <input type="hidden" id="therapist" name="therapist" value="">
-                                    <button class="new-therapist btn btn-outline-secondary" type="button" id="newTherapistBtn">Neu</button>
+                                    <button class="btn new-therapist" type="button" id="newTherapistBtn">Neu</button>
                                 </div>
 
                                 <!-- Dropdown container for search results -->
                                 <div id="therapistResults" class="therapist-results" style="display: none;"></div>
                             </div>
 
-                            <div class="mb-3">
+                            <!-- <div class="mb-3">
                                 <label for="title" class="form-label"><i class="bi bi-type"></i> Titel</label>
-                                <input type="text" class="form-control create-post" id="title" name="title" placeholder="Gebe einen Titel ein" required>
-                            </div>
+                                <input type="text" class="form-control edit-post" id="title" name="title" placeholder="Gebe einen Titel ein" required>
+                            </div> -->
 
                             <div class="mb-5">
                                 <label for="content" class="form-label"><i class="bi bi-pencil"></i> Inhalt</label>
                                 <!-- <textarea class="form-control" id="trumbowyg-demo" name="content" rows="6" placeholder="Verfassen Sie Ihren Post..." required></textarea> -->
-                                <textarea id="summernote" name="content" class="form-control" placeholder="Dein Beitrag..." required></textarea>
+                                <textarea id="summernote" name="content" class="form-control edit-post" placeholder="Dein Beitrag..." required></textarea>
                             </div>
 
                             <!-- <div class="mb-3">
@@ -134,7 +134,7 @@ $latest_tags = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
                             <div class="mb-5">
                                 <label for="tags" class="form-label"><i class="bi bi-tags"></i> Tags </label>
-                                <input type="text" class="form-control" id="tags" name="tags" data-role="tagsinput" placeholder="Tags hinzufügen">
+                                <input type="text" class="form-control edit-post" id="tags" name="tags" data-role="tagsinput" placeholder="Tags hinzufügen">
                                 <?php if (!empty($latest_tags)): ?>
                                     <?php foreach ($latest_tags as $tag): ?>
                                         <span class="badge bg-tags me-1 mt-3"><?= htmlspecialchars($tag['name']) ?></span>
@@ -155,9 +155,9 @@ $latest_tags = $stmt->fetchAll(PDO::FETCH_ASSOC);
                             
 
                             <div class="d-flex justify-content-end">
-                                <button type="button" class="btn btn-secondary create-post btn-custom me-2" id="previewBtn">Vorschau</button>
-                                <button type="button" class="btn btn-outline-primary create-post btn-custom me-2" id="saveBtn">Speichern</button>
-                                <button type="button" class="btn btn-primary create-post btn-custom" id="publishBtn">Veröffentlichen</button>
+                                <button type="button" class="btn btn-secondary btn-custom me-2" id="previewBtn">Vorschau</button>
+                                <button type="button" class="btn btn-outline-primary btn-custom me-2" id="saveBtn">Speichern</button>
+                                <button type="button" class="btn btn-primary btn-custom" id="publishBtn">Veröffentlichen</button>
                             </div>
                         </form>
                     </div>
@@ -236,7 +236,7 @@ $latest_tags = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     <form id="newTherapistForm">
                     <div class="mb-3">
                             <label for="therapist_canton" class="form-label">Kanton</label>
-                            <select class="form-select new-therapist-modal" id="therapist_canton" name="therapist_canton" required>
+                            <select class="form-select edit-post" id="therapist_canton" name="therapist_canton" required>
                                 <option value="">Kanton in dem Fachperson praktiziert</option>
                                 <?php foreach ($cantons as $code => $name): ?>
                                     <option value="<?php echo $code; ?>"><?php echo $name; ?></option>
@@ -248,19 +248,19 @@ $latest_tags = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         </div>
                         <div class="mb-3">
                             <label for="form_of_address" class="form-label">Anrede</label>
-                            <input type="text" class="form-control new-therapist-modal" id="form_of_address" name="form_of_address" placeholder="Anrede" required>
+                            <input type="text" class="form-control edit-post" id="form_of_address" name="form_of_address" placeholder="Anrede" required>
                         </div>
                         <div class="mb-3">
                             <label for="first_name" class="form-label">Vorname</label>
-                            <input type="text" class="form-control new-therapist-modal" id="first_name" name="first_name" placeholder="Vorname" required>
+                            <input type="text" class="form-control edit-post" id="first_name" name="first_name" placeholder="Vorname" required>
                         </div>
                         <div class="mb-3">
                             <label for="last_name" class="form-label">Nachname</label>
-                            <input type="text" class="form-control new-therapist-modal" id="last_name" name="last_name" placeholder="Nachname" required>
+                            <input type="text" class="form-control edit-post" id="last_name" name="last_name" placeholder="Nachname" required>
                         </div>
                         <div class="mb-3">
                             <label for="designation" class="form-label">Berufsbezeichnung</label>
-                            <select class="form-select new-therapist-modal" id="designation" name="designation" required>
+                            <select class="form-select edit-post" id="designation" name="designation" required>
                                 <option value="">Berufsbezeichnung der Fachperson</option>
                                 <?php foreach ($designations as $designation): ?>
                                     <option value="<?= htmlspecialchars($designation["name_$currentLang"]) ?>">
@@ -271,7 +271,7 @@ $latest_tags = $stmt->fetchAll(PDO::FETCH_ASSOC);
                         </div>
                         <div class="mb-3">
                             <label for="institution" class="form-label">Institution (wenn vorhanden)</label>
-                            <input type="text" class="form-control new-therapist-modal" id="institution" name="institution" placeholder="(zB. Klinik, Tagesstruktur, Programm)">
+                            <input type="text" class="form-control edit-post" id="institution" name="institution" placeholder="(zB. Klinik, Tagesstruktur, Programm)">
                         </div>
                        
                     </form>

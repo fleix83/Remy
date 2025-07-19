@@ -318,7 +318,7 @@ require_once __DIR__ . '/includes/header.php';
 
                     <!-- Comments Section (Reply form) -->
                     <section id="comments" class="card mt-3" style="display: none;">
-                        <div class="card-body">
+                        <div class="">
                             <!-- Add Comment Form -->
                             <h4 class="mt-2 mb-3">Neue Antwort</h4>
                             <form id="comment-form" action="post.php?id=<?= $post_id ?>" method="post">
