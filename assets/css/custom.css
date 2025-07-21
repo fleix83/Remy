@@ -7,11 +7,11 @@
 @import url('https://fonts.googleapis.com/css2?family=Asap:ital,wght@0,100..900;1,100..900&family=Borel&family=Lora:ital,wght@0,400..700;1,400..700&family=M+PLUS+Rounded+1c&family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=Noto+Serif:ital,wght@0,100..900;1,100..900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@300;400;500;700;800;900&display=swap');
+/* @import url('https://fonts.googleapis.com/css2?family=Literata:ital,opsz,wght@0,7..72,200..900;1,7..72,200..900&display=swap'); */
 
 /* COLOURS */
 :root {
     /* --primary: #565656f7;  #ff7648f7 tomate #5b99e0f7 lavendel  #0c66cdf7 royal */
-    --action: #ffd662ad;
     --buttons_fontsize_mobile: 0.7rem;
 
     /* New */
@@ -23,12 +23,14 @@
     --tags-color: white;
     --tags-bg: #2f6476;
     --red: #fb5252;
+    --salmon: #f48a6a;
 }
 
 body {
     background: var(--background-body);
     background-size: 100%;
     font-family: "M PLUS Rounded 1c", sans-serif;
+    /* font-family: "Literata", serif; */
     overflow-x: hidden;
     width: 100%;
 }
@@ -1683,7 +1685,7 @@ h2.create-post {
 }
 
 .form-label {
-    margin-bottom: .0rem;
+    margin-bottom: .3rem;
 }
 
 .note-editor .note-toolbar>.note-btn-group, .note-popover .popover-content>.note-btn-group {
@@ -2165,7 +2167,7 @@ form button:hover {
     border-radius: 15px;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     padding: 2rem;
-    margin: 2rem auto;
+    margin: 0rem auto;
     max-width: 1200px;
 }
 

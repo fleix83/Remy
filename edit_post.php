@@ -103,9 +103,9 @@ require_once 'includes/summernote.php';
 
 </head>
 <body>
-    <div class="container mt-2">
+    <div class="container">
         <div class="row justify-content-center">
-            <div class="col-md-10">
+            <div class="col-md-12">
                 <?php if ($error): ?>
                     <div class="alert alert-danger"><?= htmlspecialchars($error) ?></div>
                 <?php elseif (isset($_SESSION['message'])): ?>
@@ -114,11 +114,10 @@ require_once 'includes/summernote.php';
                 <?php endif; ?>
 
                 <?php if (!$error && isset($post)): ?>
-                    <div class="edit-post-box card custom-card">
                         <div class="post-element">
-                            <h2 class="card-title text-left mb-4">Beitrag bearbeiten</h2>
+                            <h2 class="card-title text-left mb-5">Beitrag bearbeiten</h2>
                             <form id="editPostForm" action="edit_post.php?id=<?= $post_id ?>" method="post">
-                                <div class="mb-3">
+                                <div class="mb-4">
                                     <label for="category" class="form-label"><i class="bi bi-folder"></i> Kategorie</label>
                                     <select class="form-select edit-post" id="category" name="category" required>
                                         <option value="">Wählen Sie eine Kategorie</option>
@@ -128,7 +127,7 @@ require_once 'includes/summernote.php';
                                     </select>
                                 </div>
 
-                                <div class="mb-3">
+                                <div class="mb-4">
                                     <label for="canton" class="form-label"><i class="bi bi-geo-alt"></i> Kanton</label>
                                     <select class="form-select edit-post" id="canton" name="canton" required>
                                         <option value="">Wählen Sie einen Kanton</option>
@@ -138,7 +137,7 @@ require_once 'includes/summernote.php';
                                     </select>
                                 </div>
 
-                                <div id="therapistSection" class="mb-3" style="display: <?php echo ($post['category_id'] == 1) ? 'block' : 'none'; ?>">
+                                <div id="therapistSection" class="mb-4" style="display: <?php echo ($post['category_id'] == 1) ? 'block' : 'none'; ?>">
                                 <label for="therapistSearch" class="form-label"><i class="bi bi-person"></i> Therapeut/in</label>
                                 <div class="input-group">
                                     <?php
@@ -197,11 +196,10 @@ require_once 'includes/summernote.php';
 
 
                                 <div class="d-flex justify-content-end">
-                                    <button type="submit" class="btn action-butto-primary mt-3 mb-3">Änderungen speichern</button>
+                                    <button type="submit" class="btn btn-sm mt-3 mb-3">Änderungen speichern</button>
                                 </div>
                             </form>
                         </div>
-                    </div>
                 <?php endif; ?>
             </div>
         </div>

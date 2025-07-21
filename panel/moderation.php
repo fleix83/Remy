@@ -49,7 +49,7 @@ $publishedPosts = fetch_posts('published');
 
 <body>
 <div class="moderation-container">
-    <h1 class="panel mt-3 mb-5">Moderation Panel</h1>
+    <h1 class="panel mb-5">Moderation Panel</h1>
 
     <div class="tabs-wrapper">
         <ul class="nav nav-tabs" id="moderationTabs" role="tablist">

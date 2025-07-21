@@ -33,7 +33,7 @@ try {
                 case 'draft':
                 case 'publish':
                     // Validate required fields
-                    $requiredFields = ['category', 'canton', 'title', 'content'];
+                    $requiredFields = ['category', 'canton', 'content'];
                     foreach ($requiredFields as $field) {
                         if (empty($_POST[$field])) {
                             throw new Exception("Bitte füllen Sie alle erforderlichen Felder aus. Das Feld '$field' fehlt.");
@@ -56,6 +56,22 @@ try {
                         $sticky = $_POST['sticky'] == 1 ? 1 : 0;
                     }
 
+                    // Generate title if not provided
+                    $title = '';
+                    if (!empty($_POST['title'])) {
+                        $title = $_POST['title'];
+                    } else {
+                        // Generate title from content (first 50 characters, strip HTML)
+                        $title = strip_tags($clean_content);
+                        $title = substr($title, 0, 50);
+                        if (strlen(strip_tags($clean_content)) > 50) {
+                            $title .= '...';
+                        }
+                        if (empty(trim($title))) {
+                            $title = 'Neuer Beitrag';
+                        }
+                    }
+
                     // Prepare the data array
                     $data = [
                         $_SESSION['user_id'],
@@ -63,7 +79,7 @@ try {
                         $_POST['canton'],
                         $_POST['therapist'] ?? null,
                         $_POST['designation'] ?? '',
-                        $_POST['title'],
+                        $title,
                         $clean_content,
                         $_POST['tags'] ?? '',
                         $sticky

@@ -60,17 +60,12 @@ $stmt = $pdo->prepare("
 $stmt->execute();
 $latest_tags = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
-    <style>
-        
-    
 
-    </style>
-</head>
 <body>
-    <div class="container mt-2">
+    <div class="container">
         <div class="row justify-content-center">
-            <div class="col-md-10">
-                <div class="edit-post-box card custom-card">
+            <div class="col-md-12">
+                
                     <div class="post-element">
                         <h2 class="create-post card-title text-left mb-5">Neuen Beitrag erstellen</h2>
                         <form id="createPostForm">
@@ -222,7 +217,7 @@ $latest_tags = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 </div>
             </div>
         </div>
-    </div>
+
 
     <!-- New Therapist Modal -->
     <div class="modal fade" id="newTherapistModal" tabindex="-1" aria-labelledby="newTherapistModalLabel" aria-hidden="true">
@@ -426,7 +421,6 @@ function savePost(action) {
     // Client-side validation
     var category = $('#category').val();
     var canton = $('#canton').val();
-    var title = $('#title').val();
     var content = $('#summernote').summernote('code');
 
     if (!category) {
@@ -436,11 +430,6 @@ function savePost(action) {
 
     if (!canton) {
         alert("Bitte wählen Sie einen Kanton aus.");
-        return;
-    }
-
-    if (!title.trim()) {
-        alert("Bitte geben Sie einen Titel ein.");
         return;
     }
 
