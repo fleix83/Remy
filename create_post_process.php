@@ -4,8 +4,8 @@ ini_set('display_errors', 1);
 session_start();
 require_once 'config/database.php';
 
-// HTML Purifier
-require_once 'vendor/ezyang/htmlpurifier/library/HTMLPurifier.auto.php';
+// HTML Purifier with strict configuration
+require_once 'includes/html_purifier_config.php';
 
 // // Log the received POST data
 // file_put_contents('debug.log', "Received POST data: " . print_r($_POST, true) . "\n", FILE_APPEND);
@@ -42,11 +42,8 @@ try {
 
                     $table = ($_POST['action'] === 'draft') ? 'post_saved' : 'posts';
 
-                    $config = HTMLPurifier_Config::createDefault();
-                    $purifier = new HTMLPurifier($config);
-
-                    // Purify the content
-                    $clean_content = $purifier->purify($_POST['content']);
+                    // Purify the content with strict formatting removal
+                    $clean_content = purifyContentStrict($_POST['content']);
 
                     // Initialize $sticky
                     $sticky = 0;

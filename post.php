@@ -138,13 +138,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             require_once 'edit_comment_process.php'; // For processCitations function
             $processed_content = processCitations($comment_content);
             
-            // Sanitize content with HTML Purifier
-            require_once 'vendor/ezyang/htmlpurifier/library/HTMLPurifier.auto.php';
-            $config = HTMLPurifier_Config::createDefault();
-            $config->set('HTML.Allowed', 'p,br,strong,em,u,a[href],ul,ol,li,blockquote');
-            $config->set('HTML.AllowedAttributes', 'blockquote.class');
-            $purifier = new HTMLPurifier($config);
-            $clean_content = $purifier->purify($processed_content);
+            // Sanitize content with strict HTML Purifier configuration
+            require_once 'includes/html_purifier_config.php';
+            $clean_content = purifyContentStrict($processed_content);
 
              // Start transaction
              $pdo->beginTransaction();

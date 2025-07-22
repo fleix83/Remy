@@ -162,7 +162,7 @@ $latest_tags = $stmt->fetchAll(PDO::FETCH_ASSOC);
     </div>
 
     <!-- Preview Modal -->
-    <div class="modal fade" id="previewModal" tabindex="-1" aria-labelledby="previewModalLabel" aria-hidden="true">
+    <div class="modal fade" id="previewModal" tabindex="-1" aria-labelledby="previewModalLabel" aria-hidden="true" data-bs-backdrop="false">
         <div class="modal-dialog modal-xl">
             <div class="modal-content">
                 <div class="modal-header">
@@ -170,57 +170,56 @@ $latest_tags = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <main class="container-fluid px-0">
-                        <div class="row justify-content-center">
-                            <div class="col-lg-11 col-md-12 col-sm-12">
-                                <div class="post card-body">
+                    <div class="row justify-content-center">
+                        <div class="col-lg-11 col-md-12 col-sm-12">
+                            <div class="post-element">
                                     <!-- Post Meta Top -->
-                                    <div class="d-flex justify-content-between align-items-center mb-4">
-                                        <div>
-                                            <span id="preview-category" class="badge bg-primary me-2"></span>
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <div class="post-meta">
+                                            <span id="preview-category" class="badge bg-erfahrung me-2"></span>
                                             <img id="preview-canton-flag" src="" alt="" style="width: 20px; height: 20px;" class="me-1">
-                                            <small id="preview-canton" class="post-post-user text-muted"></small>
+                                            <small id="preview-canton" class="post-post-user"></small>
                                         </div>
-                                        <div class="d-flex align-items-center">
-                                            <img id="preview-avatar" src="" class="avatar rounded-circle me-2" alt="Avatar">
-                                            <span id="preview-username" class="post-post-user text-muted"></span>
-                                        </div>
-                                    </div>
-
-                                    <!-- Post Title -->
-                                    <div class="col-md-8">
-                                        <h2 id="preview-title" class="post-post-title card-title"></h2>
                                     </div>
 
                                     <!-- Therapist Info (only shown for category "Erfahrung") -->
-                                    <div id="preview-therapist-section" class="therapist-info mb-3" style="display: none;">
-                                        <div class="therapist-info">
-                                            <span><small>Erfahrung mit</small></span>
-                                            <span id="preview-therapist" class="therapist-link"></span>
+                                    <div id="preview-therapist-section" class="therapist-lead mt-2 mb-3" style="display: none;">
+                                        <span class="therapist-link">
+                                            Erfahrung mit <span id="preview-therapist"></span>
+                                        </span>
+                                    </div>
+
+                                    <!-- Post Meta (User and Date) -->
+                                    <div class="col-md-8">
+                                        <div class="d-flex align-items-center mt-2">
+                                            <img id="preview-avatar" src="" class="avatar rounded-circle me-2" alt="Avatar">
+                                            <span id="preview-username" class="post-post-user"></span>
                                         </div>
                                     </div>
 
                                     <!-- Post Content -->
-                                    <div class="post-post-content">
-                                        <div id="preview-content" class="card-text"></div>
-                                        <!-- Tags -->
+                                    <div class="post-content">
+                                        <div class="card-text.post-post">
+                                            <div id="preview-content"></div>
+                                        </div>
+                                        
+                                        <!-- Display Tags -->
                                         <div id="preview-tags" class="post-tags mt-3"></div>
                                     </div>
+
+                                    <!-- Preview Action Buttons -->
+                                    <button type="button" class="btn btn-outline-primary btn-sm" data-bs-dismiss="modal">Abbrechen</button>
+                                    <button type="button" class="btn btn-outline-primary btn-sm" id="previewPublishBtn">Veröffentlichen</button>
                                 </div>
                             </div>
                         </div>
-                    </main>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Abbrechen</button>
-                    <button type="button" class="btn btn-primary" id="previewPublishBtn">Veröffentlichen</button>
                 </div>
             </div>
         </div>
-
+    </div>
 
     <!-- New Therapist Modal -->
-    <div class="modal fade" id="newTherapistModal" tabindex="-1" aria-labelledby="newTherapistModalLabel" aria-hidden="true">
+    <div class="modal fade" id="newTherapistModal" tabindex="-1" aria-labelledby="newTherapistModalLabel" aria-hidden="true" data-bs-backdrop="false">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -279,8 +278,6 @@ $latest_tags = $stmt->fetchAll(PDO::FETCH_ASSOC);
         </div>
     </div>
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tagsinput/0.8.0/bootstrap-tagsinput.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tagsinput/0.8.0/bootstrap-tagsinput.min.js"></script>
 
 <script>
     var userRole = '<?php echo $user_role; ?>';
@@ -336,7 +333,7 @@ $('#previewBtn').click(function() {
     // Set tags
     if (tags) {
         const tagsHtml = tags.split(',')
-            .map(tag => `<span class="badge bg-secondary me-1">${tag.trim()}</span>`)
+            .map(tag => `<span class="badge bg-tags me-1">${tag.trim()}</span>`)
             .join('');
         $('#preview-tags').html(tagsHtml);
     } else {
@@ -353,9 +350,14 @@ $('#previewPublishBtn').click(function() {
     savePost('publish');
 });
 
-// New Therapis Button
+// New Therapist Button
 $('#newTherapistBtn').click(function() {
     $('#newTherapistModal').modal('show');
+});
+
+// Handle modal close buttons explicitly
+$('#newTherapistModal .btn-close, #newTherapistModal [data-bs-dismiss="modal"]').click(function() {
+    $('#newTherapistModal').modal('hide');
 });
 
 
@@ -508,8 +510,7 @@ function savePost(action) {
 });
 </script>
 
-<!-- Bootstrap JS -->
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<!-- Bootstrap JS (removed conflicting Bootstrap 3.4.1) -->
     
 <!-- Summernote JS -->
 <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
@@ -532,7 +533,19 @@ function savePost(action) {
                 ['insert', ['link', 'picture', //'video',
                 'fullscreen']],
                 // ['view', ['fullscreen', 'codeview', 'help']]
-            ]
+            ],
+            callbacks: {
+                onPaste: function (e) {
+                    // Get the pasted content
+                    var bufferText = ((e.originalEvent || e).clipboardData || window.clipboardData).getData('Text');
+                    
+                    // Prevent the default paste behavior
+                    e.preventDefault();
+                    
+                    // Insert the content as plain text, letting Summernote handle basic formatting
+                    document.execCommand('insertText', false, bufferText);
+                }
+            }
         });
     });
     </script>
@@ -695,7 +708,7 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 </script>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
 <?php require_once 'includes/footer.php'; ?>

@@ -2,8 +2,8 @@
 session_start();
 require_once 'config/database.php';
 
-// HTML Purifier for content sanitization
-require_once 'vendor/ezyang/htmlpurifier/library/HTMLPurifier.auto.php';
+// HTML Purifier with strict configuration for content sanitization
+require_once 'includes/html_purifier_config.php';
 
 $response = array('success' => false, 'message' => '', 'data' => null);
 
@@ -44,12 +44,8 @@ try {
     // Process citations first (convert > text to blockquotes)
     $processed_content = processCitations($comment_content);
     
-    // Sanitize content with HTML Purifier
-    $config = HTMLPurifier_Config::createDefault();
-    $config->set('HTML.Allowed', 'p,br,strong,em,u,a[href],ul,ol,li,blockquote');
-    $config->set('HTML.AllowedAttributes', 'blockquote.class');
-    $purifier = new HTMLPurifier($config);
-    $clean_content = $purifier->purify($processed_content);
+    // Sanitize content with strict HTML Purifier configuration
+    $clean_content = purifyContentStrict($processed_content);
 
     // Start transaction
     $pdo->beginTransaction();

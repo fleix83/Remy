@@ -5,7 +5,7 @@ require_once 'config/database.php';
 require_once 'includes/header.php';
 require_once 'includes/summernote.php';
 include 'includes/new_therapist_form.php'; 
-require_once 'vendor/ezyang/htmlpurifier/library/HTMLPurifier.auto.php';
+require_once 'includes/html_purifier_config.php';
 
 if (!isset($_SESSION['user_id'])) {
     header('Location: login.php');
@@ -46,12 +46,8 @@ if (!$post_id) {
         $therapist = $_POST['therapist'] ?? null;
         $tags = $_POST['tags'] ?? '';
 
-        // Initialize HTML Purifier
-        $config = HTMLPurifier_Config::createDefault();
-        $purifier = new HTMLPurifier($config);
-
-        // Purify the content
-        $clean_content = $purifier->purify($content);
+        // Purify the content with strict formatting removal
+        $clean_content = purifyContentStrict($content);
 
         // Initialize $sticky
         $sticky = $post['sticky']; // Default to current value
@@ -246,7 +242,19 @@ require_once 'includes/summernote.php';
                 //['table', ['table']],
                 ['insert', ['link', 'picture', 'fullscreen' ]],
                 //['view', ['fullscreen','video', 'codeview', 'help']]
-            ]
+            ],
+            callbacks: {
+                onPaste: function (e) {
+                    // Get the pasted content
+                    var bufferText = ((e.originalEvent || e).clipboardData || window.clipboardData).getData('Text');
+                    
+                    // Prevent the default paste behavior
+                    e.preventDefault();
+                    
+                    // Insert the content as plain text, letting Summernote handle basic formatting
+                    document.execCommand('insertText', false, bufferText);
+                }
+            }
         });
     });
 
