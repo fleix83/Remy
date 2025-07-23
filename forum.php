@@ -635,7 +635,7 @@ require_once __DIR__ . '/includes/header.php';
                             <div class="list-meta mb-1">
                                 <p class="badge bg-erfahrung">${post.category}</p>
                                 <div class="list-canton">
-                                    <img class="list-canton" src="${BASE_URL}assets/kantone/${post.canton}.png" alt="${post.canton} Flagge">
+                                    <img class="list-canton" src="${BASE_URL.replace(/\/$/, '')}/assets/kantone/${post.canton}.png" alt="${post.canton} Flagge">
                                     ${post.canton}
                                 </div>
                                 <!-- Answers -->
@@ -769,7 +769,7 @@ document.getElementById('load-more').addEventListener('click', function() {
                             <div class="list-meta mb-1">
                                 <p class="badge bg-erfahrung">${post.category}</p>
                                 <div class="list-canton">
-                                    <img class="list-canton" src="${BASE_URL}assets/kantone/${post.canton}.png" alt="${post.canton} Flagge">
+                                    <img class="list-canton" src="${BASE_URL.replace(/\/$/, '')}/assets/kantone/${post.canton}.png" alt="${post.canton} Flagge">
                                     ${post.canton}
                                 </div>
                                 <!-- Answers -->
