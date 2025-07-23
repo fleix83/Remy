@@ -284,7 +284,7 @@ require_once 'navbar.php';
             </h1>
             <div class="therapist-detail">
                 <i class="bi bi-geo-alt-fill"></i>
-                <img class="canton-flag" src="<?= BASE_URL ?>assets/kantone/<?php echo htmlspecialchars($therapist['canton']); ?>.png" alt="<?php echo htmlspecialchars($therapist['canton']); ?> Flagge">
+                <img class="canton-flag" src="<?= BASE_URL ?>/assets/kantone/<?php echo htmlspecialchars($therapist['canton']); ?>.png" alt="<?php echo htmlspecialchars($therapist['canton']); ?> Flagge">
                 <?php echo htmlspecialchars($therapist['canton']); ?>
             </div>
             <div class="therapist-detail">

@@ -255,7 +255,7 @@ $cantons = [
         <div class="canton-display">
                 <span class="canton-label">Standard Kanton:</span>
                 <?php if (!empty($user['default_canton'])): ?>
-                    <img src="<?= BASE_URL ?>assets/kantone/<?= htmlspecialchars($user['default_canton']) ?>.png" 
+                    <img src="<?= BASE_URL ?>/assets/kantone/<?= htmlspecialchars($user['default_canton']) ?>.png" 
                         alt="<?= htmlspecialchars($cantons[$user['default_canton']] ?? '') ?>" 
                         class="canton-flag-small">
                 <span id="cantonDisplay"><?= htmlspecialchars($cantons[$user['default_canton']] ?? 'Nicht festgelegt') ?></span>
