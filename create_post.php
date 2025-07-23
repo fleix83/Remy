@@ -281,6 +281,7 @@ $latest_tags = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 <script>
     var userRole = '<?php echo $user_role; ?>';
+    const BASE_URL = '<?= BASE_URL ?>';
 </script>
 
 <script>
@@ -309,7 +310,7 @@ $('#previewBtn').click(function() {
 
     // Set canton and flag
     $('#preview-canton').text(cantonCode);
-    $('#preview-canton-flag').attr('src', `<?= BASE_URL ?>assets/kantone/${cantonCode}.png`);
+    $('#preview-canton-flag').attr('src', `${BASE_URL}assets/kantone/${cantonCode}.png`);
     $('#preview-canton-flag').attr('alt', `${canton} Flagge`);
 
     // Set user info (you might want to get these from PHP)

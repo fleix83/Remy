@@ -485,6 +485,9 @@ require_once __DIR__ . '/includes/header.php';
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5/dist/js/bootstrap.min.js"></script>
     
     <script>
+        // Make BASE_URL available to JavaScript
+        const BASE_URL = '<?= BASE_URL ?>';
+        
         // Custom Date Format in JS
         function formatCustomDate(dateString) {
         const date = new Date(dateString);
@@ -629,7 +632,7 @@ require_once __DIR__ . '/includes/header.php';
                             <div class="list-meta mb-1">
                                 <p class="badge bg-erfahrung">${post.category}</p>
                                 <div class="list-canton">
-                                    <img class="list-canton" src="<?= BASE_URL ?>assets/kantone/${post.canton}.png" alt="${post.canton} Flagge">
+                                    <img class="list-canton" src="${BASE_URL}assets/kantone/${post.canton}.png" alt="${post.canton} Flagge">
                                     ${post.canton}
                                 </div>
                                 <!-- Answers -->
@@ -763,7 +766,7 @@ document.getElementById('load-more').addEventListener('click', function() {
                             <div class="list-meta mb-1">
                                 <p class="badge bg-erfahrung">${post.category}</p>
                                 <div class="list-canton">
-                                    <img class="list-canton" src="<?= BASE_URL ?>assets/kantone/${post.canton}.png" alt="${post.canton} Flagge">
+                                    <img class="list-canton" src="${BASE_URL}assets/kantone/${post.canton}.png" alt="${post.canton} Flagge">
                                     ${post.canton}
                                 </div>
                                 <!-- Answers -->
