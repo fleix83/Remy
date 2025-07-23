@@ -200,7 +200,7 @@ require_once __DIR__ . '/includes/header.php';
                     <div class="d-flex justify-content-between align-items-center">
                         <div class="post-meta">
                             <span class="badge bg-erfahrung me-2"><?= htmlspecialchars($post['category']) ?></span>
-                            <img src="<?= BASE_URL ?>/assets/kantone/<?= htmlspecialchars($post['canton']) ?>.png" alt="<?= htmlspecialchars($post['canton']) ?> Flagge" style="width: 20px; height: 20px;" class="me-1">
+                            <img src="<?= BASE_URL ?>assets/kantone/<?= htmlspecialchars($post['canton']) ?>.png" alt="<?= htmlspecialchars($post['canton']) ?> Flagge" style="width: 20px; height: 20px;" class="me-1">
                             <small class="post-post-user"><?= htmlspecialchars($post['canton']) ?></small>
                         </div>
                         <!-- <div class="d-flex align-items-center">
