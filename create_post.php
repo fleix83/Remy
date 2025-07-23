@@ -309,7 +309,7 @@ $('#previewBtn').click(function() {
 
     // Set canton and flag
     $('#preview-canton').text(cantonCode);
-    $('#preview-canton-flag').attr('src', `uploads/kantone/${cantonCode}.png`);
+    $('#preview-canton-flag').attr('src', `<?= BASE_URL ?>assets/kantone/${cantonCode}.png`);
     $('#preview-canton-flag').attr('alt', `${canton} Flagge`);
 
     // Set user info (you might want to get these from PHP)

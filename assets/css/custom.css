@@ -15,7 +15,8 @@
     --buttons_fontsize_mobile: 0.7rem;
 
     /* New */
-    --primary: #ffdd7e;
+    --primary: #ffd96d;
+    /* --primary: #ffdd7e;  old */
     --background-body: #15272e;
     --background-element: #203f4a;
     --background-textarea: #294b57;
@@ -849,8 +850,8 @@ footer {
 
 
                 .list-avatar {
-                    width: 2rem;
-                    height: 2rem;
+                    width: 1.6rem;
+                    height: 1.6rem;
                     border-radius: 9999px;
                     object-fit: cover;
                 }

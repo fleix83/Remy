@@ -141,7 +141,7 @@ require_once __DIR__ . '/../navbar.php';
                 </tr>
 
                 <!-- Edit Modal for each designation -->
-                <div class="modal fade" id="editModal<?= $designation['id'] ?>" tabindex="-1" aria-labelledby="editModalLabel<?= $designation['id'] ?>" aria-hidden="true">
+                <div class="modal fade" id="editModal<?= $designation['id'] ?>" tabindex="-1" aria-labelledby="editModalLabel<?= $designation['id'] ?>" aria-hidden="true" data-bs-backdrop="false">
                     <div class="modal-dialog">
                         <div class="modal-content">
                             <div class="modal-header">
