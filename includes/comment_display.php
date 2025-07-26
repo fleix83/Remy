@@ -14,13 +14,13 @@ function displayComment($comment, $current_user_id, $context = 'post', $index = 
     $first_comment_class = ($index === 0 && $context === 'post') ? ' first-comment' : '';
     ?>
     
-    <div class="comment mb-3 pb-3 border-bottom<?= $first_comment_class ?>" data-comment-id="<?= $comment['id'] ?>">
-        <div class="comment-header d-flex align-items-center mb-2">
+    <div class="comment mb-3 pb-3<?= $first_comment_class ?>" data-comment-id="<?= $comment['id'] ?>">
+        <div class="comment-header d-flex align-items-end mb-2">
             <img src="<?= htmlspecialchars($comment['avatar_url']) ?>" 
                  class="avatar rounded-circle me-2" 
                  alt="Avatar">
             <div class="comment-meta">
-                <strong class="comment-username"><?= htmlspecialchars($comment['username']) ?> • <?= formatCustomDate($comment['created_at']) ?></strong>
+                <strong class="comment-user-date"><?= htmlspecialchars($comment['username']) ?> • <?= formatCustomDate($comment['created_at']) ?></strong>
                 <?php if ($comment['is_edited']): ?>
                     <small class="edited-indicator text-muted ms-2">bearbeitet</small>
                 <?php endif; ?>
@@ -147,7 +147,7 @@ function displayProfileCommentsSection($comments, $current_user_id) {
     <div class="tab-pane fade" id="comments" role="tabpanel" aria-labelledby="comments-tab">
         <?php if ($comments): ?>
             <?php foreach ($comments as $comment): ?>
-                <div class="user-comment-post mb-3 pb-3 border-bottom" data-comment-id="<?= $comment['id'] ?>">
+                <div class="user-comment-post mb-3 pb-3" data-comment-id="<?= $comment['id'] ?>">
                     <div class="comment-header">
                         <?php if ($comment['post_exists']): ?>
                             <strong>Kommentar zu:</strong> 
