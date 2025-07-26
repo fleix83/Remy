@@ -16,7 +16,7 @@ if (!$post_id) {
 }
 
 try {
-    $stmt = $pdo->prepare("SELECT posts.*, users.username, users.id AS user_id, users.avatar_url, categories.name_de AS category_name 
+    $stmt = $pdo->prepare("SELECT posts.*, users.username, users.id AS user_id, users.avatar_url, categories.name_de AS category_name, posts.canton
                            FROM posts 
                            JOIN users ON posts.user_id = users.id
                            JOIN categories ON posts.category_id = categories.id
@@ -168,25 +168,32 @@ try {
         </a>
         
         <div class="moderation-container mt-5">
-            <!-- Category Badge Top Left -->
-            <div class="post-meta-top">
-                <span class="category-badge"><?php echo htmlspecialchars($post['category_name']); ?></span>
+            <!-- List Meta -->
+            <div class="list-meta mb-1">
+                <p class="badge bg-erfahrung"><?php echo htmlspecialchars($post['category_name']); ?></p>
+                <div class="list-canton">
+                    <img class="list-canton" src="../assets/kantone/<?php echo strtolower(htmlspecialchars($post['canton'])); ?>.png" alt="<?php echo htmlspecialchars($post['canton']); ?> Flagge">
+                    <?php echo htmlspecialchars($post['canton']); ?>
+                </div>
+            </div>
+            
+            <!-- Username & Date -->
+            <div class="list-user-element">
+                <?php 
+                $avatar_url = !empty($post['avatar_url']) ? '../' . $post['avatar_url'] : '../uploads/avatars/default-avatar.png';
+                ?>
+                <img src="<?php echo htmlspecialchars($avatar_url); ?>" class="list-avatar" alt="Avatar">
+                <div class="list-user-group">
+                    <p class="list-user"><?php echo htmlspecialchars($post['username']); ?></p>
+                    <p class="list-date"><?php 
+                        require_once '../includes/date_function.php';
+                        echo formatCustomDate($post['created_at']); 
+                    ?></p>
+                </div>
             </div>
             
             <!-- Post Title -->
             <h2 class="post-title"><?php echo htmlspecialchars($post['title']); ?></h2>
-            
-            <!-- User Info Above Content -->
-            <div class="post-meta-user">
-                <?php 
-                $avatar_url = !empty($post['avatar_url']) ? '../' . $post['avatar_url'] : '../uploads/avatars/default-avatar.png';
-                ?>
-                <img src="<?php echo htmlspecialchars($avatar_url); ?>" alt="Avatar" class="post-avatar">
-                <div class="post-meta">
-                    Von <?php echo htmlspecialchars($post['username']); ?> • 
-                    <?php echo date('d/m/Y H:i', strtotime($post['created_at'])); ?>
-                </div>
-            </div>
             
             <div class="post-content"><?= ($post['content']) ?></div>
             

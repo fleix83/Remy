@@ -196,22 +196,27 @@ require_once __DIR__ . '/includes/header.php';
         <div class="col-lg-11 col-md-12 col-sm-12">
             <!-- <article class="post-post-container card shadow-sm mb-4"> -->
                 <div class="post-element">
-                    <!-- Post Meta Top -->
-                    <div class="d-flex justify-content-between align-items-center">
-                        <div class="post-meta">
-                            <span class="badge bg-erfahrung me-2"><?= htmlspecialchars($post['category']) ?></span>
-                            <img src="<?= BASE_URL ?>assets/kantone/<?= strtolower(htmlspecialchars($post['canton'])) ?>.png" alt="<?= htmlspecialchars($post['canton']) ?> Flagge" style="width: 20px; height: 20px;" class="me-1">
-                            <small class="post-post-user"><?= htmlspecialchars($post['canton']) ?></small>
+                    <!-- List Meta -->
+                    <div class="list-meta mb-1">
+                        <p class="badge bg-erfahrung"><?= htmlspecialchars($post['category']) ?></p>
+                        <div class="list-canton">
+                            <img class="list-canton" src="<?= BASE_URL ?>assets/kantone/<?= strtolower(htmlspecialchars($post['canton'])) ?>.png" alt="<?= htmlspecialchars($post['canton']) ?> Flagge" >
+                            <?= htmlspecialchars($post['canton']) ?>
                         </div>
-                        <!-- <div class="d-flex align-items-center">
-                            <img src="<?= htmlspecialchars($post['avatar_url']) ?>" class="avatar rounded-circle me-2" alt="Avatar">
-                            <span class="post-post-user"><?= htmlspecialchars($post['username']) ?></span>
-                        </div> -->
+                    </div>
+
+                    <!-- Username & Date -->
+                    <div class="list-user-element">
+                        <img src="<?= htmlspecialchars($post['avatar_url']) ?>" class="list-avatar" alt="Avatar">
+                        <div class="list-user-group">
+                            <p class="list-user"><?= htmlspecialchars($post['username']) ?></p>
+                            <p class="list-date"><?= formatCustomDate($post['created_at']) ?></p>
+                        </div>
                     </div>
 
                     <!-- Therapist Info -->
                     <?php if ($post['category'] === 'Erfahrung' && $post['therapist']): ?>
-                        <div class="therapist-lead mt-2 mb-3">
+                        <div class="therapist-lead mt-2 mb-0">
                             <a href="therapeut_profil.php?id=<?= htmlspecialchars($post['therapist']) ?>" class="therapist-link">
                                 <!-- <i class="bi bi-bullseye"></i> --> Erfahrung mit
                                 <?php
@@ -227,14 +232,6 @@ require_once __DIR__ . '/includes/header.php';
                             </a>
                         </div>
                     <?php endif; ?>
-
-                    <!-- Post Meta (User and Date) -->
-                    <div class="col-md-8">
-                        <div class="d-flex align-items-center mt-2">
-                            <img src="<?= htmlspecialchars($post['avatar_url']) ?>" class="avatar rounded-circle me-2" alt="Avatar">
-                            <span class="post-post-user"><?= htmlspecialchars($post['username']) ?> • <?= formatCustomDate($post['created_at']) ?></span>
-                        </div>
-                    </div>
 
                     <!-- Therapist and Designation -->
                     <!-- <div class="therapist-info">

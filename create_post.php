@@ -173,12 +173,12 @@ $latest_tags = $stmt->fetchAll(PDO::FETCH_ASSOC);
                     <div class="row justify-content-center">
                         <div class="col-lg-11 col-md-12 col-sm-12">
                             <div class="post-element">
-                                    <!-- Post Meta Top -->
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <div class="post-meta">
-                                            <span id="preview-category" class="badge bg-erfahrung me-2"></span>
-                                            <img id="preview-canton-flag" src="" alt="" style="width: 20px; height: 20px;" class="me-1">
-                                            <small id="preview-canton" class="post-post-user"></small>
+                                    <!-- List Meta -->
+                                    <div class="list-meta mb-1">
+                                        <p id="preview-category" class="badge bg-erfahrung"></p>
+                                        <div class="list-canton">
+                                            <img id="preview-canton-flag" class="list-canton" src="" alt="">
+                                            <span id="preview-canton"></span>
                                         </div>
                                     </div>
 
@@ -189,11 +189,12 @@ $latest_tags = $stmt->fetchAll(PDO::FETCH_ASSOC);
                                         </span>
                                     </div>
 
-                                    <!-- Post Meta (User and Date) -->
-                                    <div class="col-md-8">
-                                        <div class="d-flex align-items-center mt-2">
-                                            <img id="preview-avatar" src="" class="avatar rounded-circle me-2" alt="Avatar">
-                                            <span id="preview-username" class="post-post-user"></span>
+                                    <!-- Username & Date -->
+                                    <div class="list-user-element">
+                                        <img id="preview-avatar" src="" class="list-avatar" alt="Avatar">
+                                        <div class="list-user-group">
+                                            <p id="preview-username" class="list-user"></p>
+                                            <p id="preview-date" class="list-date"></p>
                                         </div>
                                     </div>
 
@@ -316,6 +317,17 @@ $('#previewBtn').click(function() {
     // Set user info (you might want to get these from PHP)
     $('#preview-avatar').attr('src', '<?php echo htmlspecialchars($user_avatar); ?>');
     $('#preview-username').text('<?php echo htmlspecialchars($_SESSION["username"]); ?>');
+    
+    // Set current date for preview
+    const now = new Date();
+    const day = now.getDate();
+    const monthNames = ['Januar', 'Februar', 'März', 'April', 'Mai', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember'];
+    const month = monthNames[now.getMonth()];
+    const year = now.getFullYear();
+    const hours = String(now.getHours()).padStart(2, '0');
+    const minutes = String(now.getMinutes()).padStart(2, '0');
+    const formattedDate = `${day}. ${month} ${year} ${hours}:${minutes} h`;
+    $('#preview-date').text(formattedDate);
 
     // Set title
     $('#preview-title').text(title);
