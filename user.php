@@ -179,10 +179,9 @@ require_once 'navbar.php';
     
     .edit-btn-top-right {
         position: absolute;
-        top: 0;
-        right: 0;
+        top: 11px;
+        right: 20px;
         z-index: 10;
-    }
     </style>
 
 
@@ -237,36 +236,33 @@ $cantons = [
     <div id="profileInfo">
         <!-- Edit Button -->
         <button type="button" id="editBtn" class="btn btn-outline-secondary edit-btn-top-right">Ändern</button>
-        <h2 id="usernameDisplay"><?= htmlspecialchars($user['username'] ?? '', ENT_QUOTES, 'UTF-8') ?></h2>
+        <h2 class="profile-card-username"><?= htmlspecialchars($user['username'] ?? '', ENT_QUOTES, 'UTF-8') ?></h2>
         <p id="bioDisplay"><?= htmlspecialchars($user['bio'] ?? '', ENT_QUOTES, 'UTF-8') ?: 'Kein Profiltext hinterlegt.' ?></p>
     
-        <div class="language-display">
-            <span class="language-label">Bevorzugte Sprache:</span>
+        <div class="settings-display">
+            <span class="settings-label">Bevorzugte Sprache:</span>
             <?php if (!empty($user['language_preference'])): ?>
-                <!-- <img src="uploads/flags/<?= htmlspecialchars($languages[$user['language_preference']]['flag']) ?>.png" 
-                    alt="<?= htmlspecialchars($languages[$user['language_preference']]['name'] ?? '') ?>" 
-                    class="language-flag-small"> -->
-                    <span id="languageDisplay"><?= htmlspecialchars($languages[$user['language_preference']]['name'] ?? 'Nicht festgelegt') ?></span>
+                <span id="languageDisplay" class="settings-badge"><?= htmlspecialchars($languages[$user['language_preference']]['name'] ?? 'Nicht festgelegt') ?></span>
             <?php else: ?>
-                <span id="languageDisplay">Nicht festgelegt</span>
+                <span id="languageDisplay" class="settings-badge">Nicht festgelegt</span>
             <?php endif; ?>
         </div>
 
-        <div class="canton-display">
-                <span class="canton-label">Standard Kanton:</span>
+        <div class="settings-display">
+                <span class="settings-label">Standard Kanton:</span>
                 <?php if (!empty($user['default_canton'])): ?>
                     <img src="<?= BASE_URL ?>assets/kantone/<?= strtolower(htmlspecialchars($user['default_canton'])) ?>.png" 
                         alt="<?= htmlspecialchars($cantons[$user['default_canton']] ?? '') ?>" 
-                        class="canton-flag-small">
-                <span id="cantonDisplay"><?= htmlspecialchars($cantons[$user['default_canton']] ?? 'Nicht festgelegt') ?></span>
+                        class="canton-flag-small" style="width: 16px; height: 16px; margin-right: 6px;">
+                    <span id="cantonDisplay" class="settings-badge"><?= htmlspecialchars($cantons[$user['default_canton']] ?? 'Nicht festgelegt') ?></span>
                 <?php else: ?>
-                    <span id="cantonDisplay">Alle Kantone</span>
+                    <span id="cantonDisplay" class="settings-badge">Alle Kantone</span>
                 <?php endif; ?>
         </div>
 
-        <div class="private-messages-status mt-3">
-            <span class="messages-label">Private Nachrichten: &nbsp;</span>
-            <span class="messages-value"><?= $user['messages_active'] ? 'An' : 'Aus' ?></span>
+        <div class="settings-display">
+            <span class="settings-label">Private Nachrichten:</span>
+            <span class="settings-badge"><?= $user['messages_active'] ? 'An' : 'Aus' ?></span>
         </div>
     </div>
 
@@ -319,7 +315,7 @@ $cantons = [
         </form>
         
             <!-- Blocked Users Section -->
-            <div class="user-block">
+            <div class="user-block col-md-8">
             <h3>Blockierte User</h3>
             <ul id="blocked-users-list">
                 <?php
@@ -365,7 +361,7 @@ $cantons = [
             <?php else: ?>
                     <!-- Display-only profile information for other users -->
                     <img src="uploads/avatars/<?= htmlspecialchars($user['avatar'] ?? '', ENT_QUOTES, 'UTF-8') ?>" alt="Profilbild">
-                    <h2><?= htmlspecialchars($user['username'] ?? '', ENT_QUOTES, 'UTF-8') ?></h2>
+                    <h2 class="profile-card-username"><?= htmlspecialchars($user['username'] ?? '', ENT_QUOTES, 'UTF-8') ?></h2>
                     <p><?= htmlspecialchars($user['bio'] ?? '', ENT_QUOTES, 'UTF-8') ?: 'Kein Profiltext hinterlegt.' ?></p>
                 <?php endif; ?>
             </div>
