@@ -198,7 +198,21 @@ require_once __DIR__ . '/includes/header.php';
                 <div class="post-element">
                     <!-- List Meta -->
                     <div class="list-meta mb-1">
-                        <p class="badge bg-erfahrung"><?= htmlspecialchars($post['category']) ?></p>
+                        <?php
+                        // Map category names to CSS classes
+                        $categoryClass = 'bg-erfahrung'; // default
+                        $categoryName = strtolower(trim($post['category']));
+                        if (strpos($categoryName, 'suche') !== false) {
+                            $categoryClass = 'bg-suche';
+                        } elseif (strpos($categoryName, 'gedanken') !== false) {
+                            $categoryClass = 'bg-gedanken';
+                        } elseif (strpos($categoryName, 'rant') !== false) {
+                            $categoryClass = 'bg-rant';
+                        } elseif (strpos($categoryName, 'erfahrung') !== false) {
+                            $categoryClass = 'bg-erfahrung';
+                        }
+                        ?>
+                        <p class="badge <?= $categoryClass ?>"><?= htmlspecialchars($post['category']) ?></p>
                         <div class="list-canton">
                             <img class="list-canton" src="<?= BASE_URL ?>assets/kantone/<?= strtolower(htmlspecialchars($post['canton'])) ?>.png" alt="<?= htmlspecialchars($post['canton']) ?> Flagge" >
                             <?= htmlspecialchars($post['canton']) ?>

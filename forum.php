@@ -392,7 +392,21 @@ require_once __DIR__ . '/includes/header.php';
                                     <div class="list-body col-md-10 col-sm-8 col-xs-8">
                                         <!-- List Meta -->
                                         <div class="list-meta mb-1">
-                                            <p class="badge bg-erfahrung"><?= htmlspecialchars($post['category']) ?></p>
+                                            <?php
+                                        // Map category names to CSS classes
+                                        $categoryClass = 'bg-erfahrung'; // default
+                                        $categoryName = strtolower(trim($post['category']));
+                                        if (strpos($categoryName, 'suche') !== false) {
+                                            $categoryClass = 'bg-suche';
+                                        } elseif (strpos($categoryName, 'gedanken') !== false) {
+                                            $categoryClass = 'bg-gedanken';
+                                        } elseif (strpos($categoryName, 'rant') !== false) {
+                                            $categoryClass = 'bg-rant';
+                                        } elseif (strpos($categoryName, 'erfahrung') !== false) {
+                                            $categoryClass = 'bg-erfahrung';
+                                        }
+                                        ?>
+                                        <p class="badge <?= $categoryClass ?>"><?= htmlspecialchars($post['category']) ?></p>
                                             <div class="list-canton">
                                                 <img class="list-canton" src="<?= BASE_URL ?>assets/kantone/<?= strtolower(htmlspecialchars($post['canton'])) ?>.png" alt="<?= htmlspecialchars($post['canton']) ?> Flagge" >
                                                 <?= htmlspecialchars($post['canton']) ?>
@@ -628,6 +642,15 @@ require_once __DIR__ . '/includes/header.php';
             // Generate tags HTML
             const tagsHtml = post.tags ? generateTagsHtml(post.tags) : '';
             
+            // Map category names to CSS classes
+            function getCategoryClass(category) {
+                const categoryName = category.toLowerCase();
+                if (categoryName.includes('suche')) return 'bg-suche';
+                if (categoryName.includes('gedanken')) return 'bg-gedanken';
+                if (categoryName.includes('rant')) return 'bg-rant';
+                return 'bg-erfahrung'; // default
+            }
+            
             // Add "Mehr" link for non-Erfahrung posts
             const mehrLink = (post.category !== 'Erfahrung' || !post.therapist) ? 
                 ` <a href="post.php?id=${post.id}" class="mehr-link">Mehr</a>` : '';
@@ -639,7 +662,7 @@ require_once __DIR__ . '/includes/header.php';
                         <div class="list-body col-md-10 col-sm-8 col-xs-8">
                             <!-- List Meta -->
                             <div class="list-meta mb-1">
-                                <p class="badge bg-erfahrung">${post.category}</p>
+                                <p class="badge ${getCategoryClass(post.category)}">${post.category}</p>
                                 <div class="list-canton">
                                     <img class="list-canton" src="${BASE_URL.replace(/\/$/, '')}/assets/kantone/${post.canton.toLowerCase()}.png" alt="${post.canton} Flagge">
                                     ${post.canton}
@@ -716,6 +739,15 @@ require_once __DIR__ . '/includes/header.php';
 
 <!-- Load-More -->
 <script>
+// Map category names to CSS classes for load more posts
+function getCategoryClassLoadMore(category) {
+    const categoryName = category.toLowerCase();
+    if (categoryName.includes('suche')) return 'bg-suche';
+    if (categoryName.includes('gedanken')) return 'bg-gedanken';
+    if (categoryName.includes('rant')) return 'bg-rant';
+    return 'bg-erfahrung'; // default
+}
+
 document.getElementById('load-more').addEventListener('click', function() {
     // Determine the current offset based on the number of posts already loaded.
     const postContainer = document.getElementById('post-load-more');
@@ -779,7 +811,7 @@ document.getElementById('load-more').addEventListener('click', function() {
                         <div class="list-body col-md-10 col-sm-8 col-xs-8">
                             <!-- List Meta -->
                             <div class="list-meta mb-1">
-                                <p class="badge bg-erfahrung">${post.category}</p>
+                                <p class="badge ${getCategoryClassLoadMore(post.category)}">${post.category}</p>
                                 <div class="list-canton">
                                     <img class="list-canton" src="${BASE_URL.replace(/\/$/, '')}/assets/kantone/${post.canton.toLowerCase()}.png" alt="${post.canton} Flagge">
                                     ${post.canton}

@@ -306,8 +306,18 @@ $('#previewBtn').click(function() {
     var content = $('#summernote').summernote('code');
     var tags = $('#tags').val();
 
-    // Set category
+    // Map category names to CSS classes
+    function getCategoryClassPreview(category) {
+        const categoryName = category.toLowerCase();
+        if (categoryName.includes('suche')) return 'bg-suche';
+        if (categoryName.includes('gedanken')) return 'bg-gedanken';
+        if (categoryName.includes('rant')) return 'bg-rant';
+        return 'bg-erfahrung'; // default
+    }
+
+    // Set category with dynamic class
     $('#preview-category').text(category);
+    $('#preview-category').removeClass('bg-erfahrung bg-suche bg-gedanken bg-rant').addClass(getCategoryClassPreview(category));
 
     // Set canton and flag
     $('#preview-canton').text(cantonCode);

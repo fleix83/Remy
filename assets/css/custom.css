@@ -22,6 +22,11 @@
 
     /* New */
     --primary: #ffd96d;
+    --red: #fb5252;
+    --salmon: #f48a6a;
+    --green: #2D936C;
+    --veilchen: #8075FF;
+
     /* --primary: #ffdd7e;  old */
     --background-body: #15272e;
     --background-element: #203f4a;
@@ -29,8 +34,9 @@
     --type-meta: #c4c4c4;
     --tags-color: white;
     --tags-bg: #2f6476;
-    --red: #fb5252;
-    --salmon: #f48a6a;
+  
+    
+
 }
 
 body {
@@ -85,13 +91,21 @@ a {
 }
 
 .bg-suche {
-    color: white;
-    background: #F07167;
+    color: var(--background-element);
+    background: var(--red);
+    margin-right: 10px;
 }
 
 .bg-rant {
-    color: white;
-    background: #FED9B7;
+    color: var(--background-element);
+    background: var(--veilchen);
+    margin-right: 10px;
+}
+
+.bg-gedanken {
+    color: var(--background-element);
+    background: var(--green);
+    margin-right: 10px;
 }
 
 .bg-navlinks {
@@ -367,7 +381,6 @@ p.intro {
 .new-post {
     background: var(--primary);
     width: auto;
-    margin-right: 15px;
     padding: 8px 10px;
 }
 
@@ -1399,32 +1412,40 @@ img.avatar {
 }
 
 .user-draft-post{
-    background: white;
-    border-radius: 5px;
-    padding: 20px;
+    background: var(--background-element);
+    border-radius: 20px;
+    padding: 30px;
     margin-bottom: 3px;
     text-align: left;
+    color: var(--primary);
+    box-shadow: inset 0 0 70px #9b8e7517;
+    font-family: "Nunito Sans", sans-serif;
     }
 
 .user-post-post{
-    background: white;
-    border-radius: 5px;
-    padding: 20px;
+    background: var(--background-element);
+    border-radius: 20px;
+    padding: 30px;
     margin-bottom: 3px;
     text-align: left;
+    color: var(--primary);
+    box-shadow: inset 0 0 70px #9b8e7517;
     font-family: "Nunito Sans", sans-serif;
     }
 
 .user-post-post h3 {
     font-family: "Nunito", sans-serif;
+    color: var(--primary);
 }
 
 .user-comment-post {
-    background: white;
-    border-radius: 15px;
-    padding: 20px;
+    background: var(--background-element);
+    border-radius: 20px;
+    padding: 30px;
     margin-bottom: 3px;
     text-align: left;
+    color: var(--primary);
+    box-shadow: inset 0 0 70px #9b8e7517;
     font-family: "Nunito Sans", sans-serif;
 }
 
@@ -1432,9 +1453,9 @@ img.avatar {
     font-family: "Nunito Sans", sans-serif;
 }
 
-
 .user-draft-post h3 {
     font-family: "Nunito", sans-serif;
+    color: var(--primary);
 }
 
                         @media (max-width: 768px) {
@@ -1558,19 +1579,23 @@ img.avatar {
                             }
 
                             .user-draft-post{
-                                background: white;
-                                border-radius: 15px;
-                                padding: 20px;
+                                background: var(--background-element);
+                                border-radius: 20px;
+                                padding: 30px;
                                 margin-bottom: 3px;
                                 text-align: left;
+                                color: var(--primary);
+                                box-shadow: inset 0 0 70px #9b8e7517;
                                 }
 
                             .user-post-post{
-                                background: white;
-                                border-radius: 15px;
-                                padding: 20px;
+                                background: var(--background-element);
+                                border-radius: 20px;
+                                padding: 30px;
                                 margin-bottom: 3px;
                                 text-align: left;
+                                color: var(--primary);
+                                box-shadow: inset 0 0 70px #9b8e7517;
                                 }
 
                         }
@@ -2687,7 +2712,7 @@ td button {
                                         
                                             /* Improve touch area for mobile */
                                             .nav-tabs .nav-link {
-                                                padding: 12px 20px;
+                                                padding: 6px 12px;
                                             }
                                         
                                             /* Add visual indicator for scrollable content */
