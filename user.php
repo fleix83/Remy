@@ -241,28 +241,36 @@ $cantons = [
     
         <div class="settings-display">
             <span class="settings-label">Bevorzugte Sprache:</span>
-            <?php if (!empty($user['language_preference'])): ?>
-                <span id="languageDisplay" class="settings-badge"><?= htmlspecialchars($languages[$user['language_preference']]['name'] ?? 'Nicht festgelegt') ?></span>
-            <?php else: ?>
-                <span id="languageDisplay" class="settings-badge">Nicht festgelegt</span>
-            <?php endif; ?>
+            <div class="settings-badge-container">
+                <?php if (!empty($user['language_preference'])): ?>
+                    <span id="languageDisplay" class="settings-badge"><?= htmlspecialchars($languages[$user['language_preference']]['name'] ?? 'Nicht festgelegt') ?></span>
+                <?php else: ?>
+                    <span id="languageDisplay" class="settings-badge">Nicht festgelegt</span>
+                <?php endif; ?>
+            </div>
         </div>
 
         <div class="settings-display">
                 <span class="settings-label">Standard Kanton:</span>
-                <?php if (!empty($user['default_canton'])): ?>
-                    <img src="<?= BASE_URL ?>assets/kantone/<?= strtolower(htmlspecialchars($user['default_canton'])) ?>.png" 
-                        alt="<?= htmlspecialchars($cantons[$user['default_canton']] ?? '') ?>" 
-                        class="canton-flag-small" style="width: 16px; height: 16px; margin-right: 6px;">
-                    <span id="cantonDisplay" class="settings-badge"><?= htmlspecialchars($cantons[$user['default_canton']] ?? 'Nicht festgelegt') ?></span>
-                <?php else: ?>
-                    <span id="cantonDisplay" class="settings-badge">Alle Kantone</span>
-                <?php endif; ?>
+                <div class="settings-badge-container">
+                    <?php if (!empty($user['default_canton'])): ?>
+                        <span id="cantonDisplay" class="settings-badge">
+                            <img src="<?= BASE_URL ?>assets/kantone/<?= strtolower(htmlspecialchars($user['default_canton'])) ?>.png" 
+                                alt="<?= htmlspecialchars($cantons[$user['default_canton']] ?? '') ?>" 
+                                class="canton-flag-small" style="width: 16px; height: 16px; margin-right: 6px;">
+                            <?= htmlspecialchars($cantons[$user['default_canton']] ?? 'Nicht festgelegt') ?>
+                        </span>
+                    <?php else: ?>
+                        <span id="cantonDisplay" class="settings-badge">Alle Kantone</span>
+                    <?php endif; ?>
+                </div>
         </div>
 
         <div class="settings-display">
             <span class="settings-label">Private Nachrichten:</span>
-            <span class="settings-badge"><?= $user['messages_active'] ? 'An' : 'Aus' ?></span>
+            <div class="settings-badge-container">
+                <span class="settings-badge"><?= $user['messages_active'] ? 'An' : 'Aus' ?></span>
+            </div>
         </div>
     </div>
 
@@ -309,9 +317,9 @@ $cantons = [
                                 </div>
                             </label>
                         </div>
-            </div>
             
             <button type="submit" id="saveBtn" class="btn btn-primary mt-3" style="display: none;">Speichern</button>
+            </div>
         </form>
         
             <!-- Blocked Users Section -->
