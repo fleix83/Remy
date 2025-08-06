@@ -199,6 +199,13 @@ a {
     width: auto;
 }
 
+.mobile-navbar-logo {
+    width: 120px; 
+    max-width: 100%; 
+    height: auto;
+    margin-bottom: -9px;
+}
+
 .mobile-brand-claim {
     display: flex;
     flex-direction: column;

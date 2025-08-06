@@ -46,43 +46,7 @@ $avatarCacheBuster = '?t=' . time(); // You can also use a hash of the file if p
 <nav class="navbar navbar-expand-lg navbar-light bg-light d-none d-lg-block">
     <div class="navbar-brand-container">
         <a href="<?php echo BASE_URL; ?>forum.php" class="brand-link">
-        <svg id="Ebene_1" data-name="Ebene 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 487 524.35">
-                <defs>
-                    <style>
-                        .cls-1 {
-                            font-family: NewZen-Regular, 'New Zen';
-                        }
-
-                        .cls-1, .cls-2 {
-                            fill: #ffd96d;
-                            font-size: 160px;
-                        }
-
-                        .cls-2 {
-                            font-family: Gesta-Regular, Gesta;
-                        }
-
-                        .cls-3 {
-                            fill: #15272e;
-                        }
-
-                        .cls-4 {
-                            letter-spacing: -.02em;
-                        }
-
-                        .cls-5 {
-                            letter-spacing: 0em;
-                        }
-                    </style>
-                </defs>
-                <rect class="cls-3" x="4" y="366" width="483" height="118"/>
-                <text class="cls-1" transform="translate(17.39 485.47)"><tspan x="0" y="0">RE</tspan><tspan class="cls-5" x="177.44" y="0">M</tspan><tspan class="cls-4" x="312" y="0">Y</tspan></text>
-                <rect class="cls-3" width="483" height="118"/>
-                <text class="cls-2" transform="translate(46.39 276.15)"><tspan x="0" y="0" xml:space="preserve">R  </tspan></text>
-                <text class="cls-2" transform="translate(206.69 274.41) rotate(177) scale(1 -1)"><tspan x="0" y="0">E</tspan></text>
-                <text class="cls-2" transform="translate(300.29 278.8) rotate(-3)"><tspan x="0" y="0">Y</tspan></text>
-                <text class="cls-2" transform="translate(185.63 274.61) rotate(3.61)"><tspan x="0" y="0">M</tspan></text>
-            </svg>
+        <img class="navbar-logo"  src="<?php echo BASE_URL; ?>/assets/img/remy_ei.png" alt="Remy Logo">
             <div class="brand-claim">
                 <span class="claim-line">FORUM FÜR</span>
                 <span class="claim-line">MENSCHEN IN</span>
@@ -196,36 +160,7 @@ $avatarCacheBuster = '?t=' . time(); // You can also use a hash of the file if p
     <!-- Mobile Brand Area -->
     <div class="mobile-brand-container">
         <a href="<?php echo BASE_URL; ?>forum.php" class="mobile-brand-link">
-        <svg id="Ebene_1" data-name="Ebene 1" xmlns="http://www.w3.org/2000/svg" viewBox="59 172 320 113">
-            <defs>
-                <style>
-                .cls-1 {
-                    font-family: NewZen-Regular, 'New Zen';
-                    font-size: 160px;
-                }
-
-                .cls-1, .cls-2 {
-                    fill: #ffd96d;
-                }
-
-                .cls-3 {
-                    fill: #15272e;
-                }
-
-                .cls-4 {
-                    letter-spacing: -.02em;
-                }
-
-                .cls-5 {
-                    letter-spacing: 0em;
-                }
-                </style>
-            </defs>
-            <path class="cls-2" d="M59.99,173.75c9.12-1.12,20-2.24,29.12-2.24,22.24,0,38.88,6.72,38.88,30.4,0,17.92-9.92,26.24-23.84,29.28,7.36,14.4,16.64,29.28,26.56,44.64l-.16.32h-13.76c-9.12-14.24-17.76-29.12-25.28-43.36-8.32,0-13.76-.32-19.68-.96v44.32h-11.84v-102.4ZM88.31,222.87c16.48,0,27.68-4,27.68-20.64s-10.56-20.16-26.88-20.16c-4.8,0-11.36.32-17.28.8v39.2c6.08.64,12.8.8,16.48.8Z"/>
-            <path class="cls-2" d="M193.11,275.12l-58.64,3.08-.55-10.38,46.82-2.46-1.96-37.39-39.31,2.06-.54-10.23,39.31-2.06-1.81-34.51-46.82,2.46-.55-10.39,58.64-3.08,5.4,102.9Z"/>
-            <path class="cls-2" d="M336.47,238.61c-14.51-20.07-26.74-39.29-38.23-62.88l12.78-.67c9.36,19.54,19.35,36,30.63,52.39l.64-.03c9.5-17.48,17.56-34.89,25.14-55.32l12.3-.65c-9.28,24.68-19.26,45.07-31.44,66.54l2,38.19-11.82.62-2-38.19Z"/>
-            <path class="cls-2" d="M208.73,172.82l17.09,1.08,22.49,72.93.64.04,31.33-69.52,17.09,1.08c.54,24.4-.05,69.26-1.23,103.17l-11.82-.75c1.03-28.95,1.62-58.58,1.94-89.02l-.64-.04-31.67,69.82-12.93-.82-22.63-73.25-.64-.04c-3.51,30.24-6.5,59.71-9.28,88.55l-11.5-.73c3.1-33.79,8.16-78.36,11.77-102.5Z"/>
-            </svg>
+        <img src="<?php echo BASE_URL; ?>/assets/img/remy_ei.png" alt="Remy Logo" class="mobile-navbar-logo">
             <div class="mobile-brand-claim">
                 <span class="claim-line">FORUM FÜR</span>
                 <span class="claim-line">MENSCHEN IN</span>
