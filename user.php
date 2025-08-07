@@ -422,7 +422,7 @@ $cantons = [
                                             </a></span>
                                     <?php endif; ?>
                                     <p><?= ($draft['content']) ?></p>
-                                    <small>Entwurf gespeichert am: <?= htmlspecialchars($draft['created_at']) ?></small>
+                                    <small>Entwurf gespeichert am: <?= formatSimpleDate($draft['created_at']) ?></small>
                                 </div>
                                 <div>
                                     <form action="delete_draft_process.php" method="post" class="d-inline-block">
@@ -468,7 +468,7 @@ $cantons = [
                                 <span class="badge <?= $statusClass ?> rounded-pill ml-auto"><?= $status ?></span>
                             </div>
                             <h3 class="mt-3 mb-0"><a href="post.php?id=<?= htmlspecialchars($post['id']) ?>"><?= htmlspecialchars($post['title']) ?></a></h3>
-                            <small class="mb-3">Erstellt am: <?= htmlspecialchars($post['created_at']) ?></small>
+                            <small class="mb-3">Erstellt am: <?= formatSimpleDate($post['created_at']) ?></small>
 
                            
                             <p><?= ($post['content']) ?>...</p>

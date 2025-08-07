@@ -251,9 +251,13 @@ require_once __DIR__ . '/includes/header.php';
                             <div class="forum-topbar-buttons">
                             <?php if (isset($user) && !$user['is_banned']): ?>
                                 <!-- New Post Button -->
-                                <a href="create_post.php" class=" new-post btn btn-secondary">Neu</a>
+                                <a href="create_post.php" class=" new-post btn btn-secondary">
+                                    <i class="bi bi-send"></i> Neu
+                                </a>
                                     <?php else: ?>
-                                        <button class="btn btn-secondary" disabled title="Nicht verfügbar für eingeschränkte Benutzer">Neuer Beitrag</button>
+                                        <button class="btn btn-secondary" disabled title="Nicht verfügbar für eingeschränkte Benutzer">
+                                            <i class="bi bi-send"></i> Neuer Beitrag
+                                        </button>
                                     <?php endif; ?>
                                 <!-- Toggle Filter Button -->
                                 <button id="toggle-filter" class="btn btn-outline-dark">Filter</button>

@@ -24,8 +24,8 @@
     --primary: #ffd96d;
     --red: #fb5252;
     --salmon: #f48a6a;
-    --green: #2D936C;
-    --veilchen: #8075FF;
+    --green: #2eb17f;
+    --veilchen: #a49cfe;
 
     /* --primary: #ffdd7e;  old */
     --background-body: #15272e;
@@ -386,9 +386,11 @@ p.intro {
 }
 
 .new-post {
+    color: var(--background-element);
     background: var(--primary);
-    width: auto;
-    padding: 8px 10px;
+    min-width: 80px;
+    padding: 8px 4px;
+    border-radius: 20px;
 }
 
 .post-content > .row {
@@ -844,9 +846,8 @@ footer {
                     font-size: 0.8rem;
                     line-height: 0.8rem;
                     font-weight: 500;
-                    width: auto;
-                    margin-right: 10px;
-                    border: none;
+                    min-width: 60px;
+                    border-radius: 20px;
                 }
 
                 #toggle-filter {
@@ -2679,8 +2680,8 @@ td button {
                                         }
                                         
                                         .bi {
-                                            font-size: 1rem;
-                                            color: #ffdd7e;
+                                            font-size: 0.8rem;
+                                            color: var(--background-element);
                                         }
                                         
                                         .action-buttons .btn-link {

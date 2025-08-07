@@ -14,6 +14,11 @@ function formatCustomDate($dateString) {
     
     return $day . '. ' . $month . ' ' . $year . ' ' . $time;
 }
+
+function formatSimpleDate($dateString) {
+    $date = new DateTime($dateString);
+    return $date->format('Y/m/d H:i');
+}
 ?>
 
 

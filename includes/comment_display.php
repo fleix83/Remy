@@ -20,7 +20,7 @@ function displayComment($comment, $current_user_id, $context = 'post', $index = 
                  class="avatar rounded-circle me-2" 
                  alt="Avatar">
             <div class="comment-meta">
-                <strong class="comment-user-date"><?= htmlspecialchars($comment['username']) ?> • <?= formatCustomDate($comment['created_at']) ?></strong>
+                <strong class="comment-user-date"><?= htmlspecialchars($comment['username']) ?> • <?= formatSimpleDate($comment['created_at']) ?></strong>
                 <?php if ($comment['is_edited']): ?>
                     <small class="edited-indicator text-muted ms-2">bearbeitet</small>
                 <?php endif; ?>
@@ -182,7 +182,7 @@ function displayProfileCommentsSection($comments, $current_user_id) {
                         <?php endif; ?>
                         <button type="button" class="btn btn-sm edit-comment-btn">Bearbeiten</button>
                     </div>
-                    <small class="comment-date text-muted">Erstellt am: <?= formatCustomDate($comment['created_at']) ?></small>
+                    <small class="comment-date text-muted">Erstellt am: <?= formatSimpleDate($comment['created_at']) ?></small>
                 </div>
             <?php endforeach; ?>
         <?php else: ?>
