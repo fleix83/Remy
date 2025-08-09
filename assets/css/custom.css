@@ -57,7 +57,7 @@ body {
 }
 
 h1,h2,h3,h4,h5,h6 {
-    color: var(--primary);
+    color: var(--type);
 } 
 
 h1 {
@@ -760,7 +760,7 @@ h5.count {
 }
 
 h2.list-title {
-    color: var(--primary);
+    color: var(--type);
     text-decoration: none;
     font-size: 1.4em;
     font-weight: 700;
@@ -959,7 +959,7 @@ footer {
                 }
 
                 h2.list-title  {
-                    color: var(--primary);
+                    color: var(--type);
                     line-height: 1.2rem;
                     font-size: 1.0em; 
                     font-weight: 700;
@@ -1743,7 +1743,6 @@ textarea#create-post-content-field::placeholder {
 
 h2.create-post {
     color: var(--fonts_elements);
-    color: red;
     margin-bottom: 7rem;
 }
 
@@ -1937,7 +1936,7 @@ h2.create-post {
                         }
 
                         h2.create-post {
-                            color: var(--primary);
+                            color: var(--type);
                             margin-bottom: 5rem;
                         }
 
@@ -2023,7 +2022,7 @@ h2.create-post {
 .post-element .btn-sm,
 #comments .btn {
     background: none;
-    color: var(--primary);
+    color: var(--type);
     border: 1px solid var(--primary);
     border-radius: 5px;
     transition: background-color 0.2s ease-in-out;
@@ -2339,7 +2338,7 @@ img.avatar {
 }
 
 h2.post-title {
-    color: var(--primary);
+    color: var(--type);
     font-size: 1.6rem;
     margin-top: 1rem;
 }
@@ -2425,7 +2424,7 @@ form button:hover {
                     }
                     
                     h2.post-title  {
-                        color: var(--primary);
+                        color: var(--type);
                         font-size: 1.4rem;
                         line-height: 1.9rem;
                         margin-top: 3.0rem;
