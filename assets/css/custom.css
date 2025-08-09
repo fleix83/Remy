@@ -22,6 +22,7 @@
 
     /* New */
     --primary: #ffd96d;
+    --white: #ffffff;
     --red: #fb5252;
     --salmon: #f48a6a;
     --green: #2eb17f;
@@ -388,10 +389,11 @@ p.intro {
 }
 
 .new-post {
-    color: var(--background-element);
+    color: var(--type);
     background: #ff8a6d;
     min-width: 80px;
     padding: 8px 4px;
+    border: none;
     border-radius: 20px;
 }
 
@@ -844,7 +846,6 @@ footer {
                 }
 
                 .new-post {
-                    color: #ff8a6d;
                     font-size: 0.8rem;
                     line-height: 0.8rem;
                     font-weight: 500;
@@ -853,11 +854,12 @@ footer {
                 }
 
                 #toggle-filter {
-                    color: #ffffff;
-                    background: var(--background-body);
+                    color: var(--type);
+                    background: var(--white);
                     font-size: 0.8rem;
                     padding: 6px 6px;
                     margin: 0px 10px;
+                    border: none;
                     border-radius: 15px;
                 }
 
@@ -897,7 +899,7 @@ footer {
                 }
 
                 #search-input::placeholder {
-                    color: var(--primary);
+                    color: var(--type);
                     font-size: 0.8rem;
                 }
 
@@ -2010,7 +2012,7 @@ h2.create-post {
 .post-element{
     flex: 1 1 auto;
     padding: 30px;
-    color: var(--primary);
+    color: var(--type);
     background: var(--background-element);
     border-radius: 20px;
     border: 0px solid #dcdcdc;

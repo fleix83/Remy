@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Ebene_1" data-name="Ebene 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 454.05 175.65">
+  <defs>
+    <style>
+      .cls-1 {
+        font-size: 146px;
+      }
+
+      .cls-2, .cls-3 {
+        font-size: 156px;
+      }
+
+      .cls-3 {
+        letter-spacing: -.01em;
+      }
+
+      .cls-4 {
+        fill: #ffd96d;
+        font-family: NewZen-Bold, 'New Zen';
+        font-weight: 700;
+      }
+    </style>
+  </defs>
+  <text class="cls-4" transform="translate(0 132.76)"><tspan class="cls-2" x="0" y="0">RE</tspan><tspan class="cls-3" x="184.86" y="0">M</tspan><tspan class="cls-2" x="323.07" y="0">Y</tspan><tspan class="cls-1" x="419.01" y="0"> </tspan></text>
+</svg>
