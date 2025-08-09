@@ -29,11 +29,10 @@
     --blue: #054c71;
 
     /* --primary: #ffdd7e;  old */
-    --background-body: #15272e;
-    --background-body: #203f4a;
-    --background-element: #203f4a;
-    --background-element: #1a3442;
+    --background-body: #e6dfce;
+    --background-element: #ede8dc;
     --background-textarea: #294b57;
+    --type: #79756b;
     --type-meta: #c4c4c4;
     --tags-color: white;
     --tags-bg: #2f6476;
@@ -390,7 +389,7 @@ p.intro {
 
 .new-post {
     color: var(--background-element);
-    background: var(--primary);
+    background: #ff8a6d;
     min-width: 80px;
     padding: 8px 4px;
     border-radius: 20px;
@@ -664,7 +663,7 @@ img.avatar-search {
 .comment-icon-circle {
     width: 22px;
     height: 22px;
-    background: var(--primary);
+    background: #ffffff;
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -845,7 +844,7 @@ footer {
                 }
 
                 .new-post {
-                    color: var(--background-element);
+                    color: #ff8a6d;
                     font-size: 0.8rem;
                     line-height: 0.8rem;
                     font-weight: 500;
@@ -854,11 +853,12 @@ footer {
                 }
 
                 #toggle-filter {
-                    color: var(--primary);
+                    color: #ffffff;
                     background: var(--background-body);
                     font-size: 0.8rem;
                     padding: 6px 6px;
                     margin: 0px 10px;
+                    border-radius: 15px;
                 }
 
                 #filter-form {
