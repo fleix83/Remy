@@ -24,9 +24,9 @@
     --primary: #ffd96d;
     --white: #ffffff;
     --red: #fb5252;
-    --salmon: #f48a6a;
-    --green: #2eb17f;
-    --veilchen: #a49cfe;
+    --salmon: #ff8a6d;
+    --green: #70e8bd;
+    --veilchen: #c1bbff;
     --blue: #054c71;
 
     /* --primary: #ffdd7e;  old */
@@ -118,8 +118,8 @@ a {
 }
 
 .bg-tags {
-    color: var(--tags-color);
-    background: var(--tags-bg);
+    color: var(--type);
+    background: var(--background-body);
     font-size: 0.7rem;
 }
 
@@ -218,7 +218,7 @@ a {
 }
 
 .mobile-brand-claim .claim-line {
-    color: var(--primary);
+    color: var(--salmon);
     font-size: 11px;
     font-weight: 400;
     margin: 0;
@@ -390,7 +390,7 @@ p.intro {
 
 .new-post {
     color: var(--type);
-    background: #ff8a6d;
+    background: var(--salmon);
     min-width: 80px;
     padding: 8px 4px;
     border: none;

@@ -46,7 +46,7 @@ $avatarCacheBuster = '?t=' . time(); // You can also use a hash of the file if p
 <nav class="navbar navbar-expand-lg navbar-light bg-light d-none d-lg-block">
     <div class="navbar-brand-container">
         <a href="<?php echo BASE_URL; ?>forum.php" class="brand-link">
-        <img class="navbar-logo"  src="<?php echo BASE_URL; ?>/assets/img/remy_zen.png" alt="Remy Logo">
+        <img class="navbar-logo"  src="<?php echo BASE_URL; ?>/assets/img/remy_sal.png" alt="Remy Logo">
             <div class="brand-claim">
                 <span class="claim-line">FORUM FÜR</span>
                 <span class="claim-line">MENSCHEN IN</span>
@@ -160,7 +160,7 @@ $avatarCacheBuster = '?t=' . time(); // You can also use a hash of the file if p
     <!-- Mobile Brand Area -->
     <div class="mobile-brand-container">
         <a href="<?php echo BASE_URL; ?>forum.php" class="mobile-brand-link">
-        <img src="<?php echo BASE_URL; ?>/assets/img/remy_zen.png" alt="Remy Logo" class="mobile-navbar-logo">
+        <img src="<?php echo BASE_URL; ?>/assets/img/remy_sal.png" alt="Remy Logo" class="mobile-navbar-logo">
             <div class="mobile-brand-claim">
                 <span class="claim-line">FORUM FÜR</span>
                 <span class="claim-line">MENSCHEN IN</span>
