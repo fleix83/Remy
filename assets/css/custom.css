@@ -30,8 +30,8 @@
     --blue: #054c71;
 
     /* --primary: #ffdd7e;  old */
-    --background-body: #e6dfce;
-    --background-element: #ede8dc;
+    --background-body: #fffff;
+    --background-element: #f4efe5;
     --background-textarea: #294b57;
     --type: #79756b;
     --type-meta: #c4c4c4;
@@ -734,13 +734,13 @@ h5.count {
     margin: 0;
     font-size: 0.775rem;
     font-weight: 600;
-    color: var(--type-meta);
+    color: var(--type);
     line-height: 0.8rem;
 }
 
 .list-date {
     margin: 0;
-    color: var(--type-meta);
+    color: var(--type);
     font-size: 0.675rem;
     line-height: 0.8rem;
 }
@@ -905,7 +905,7 @@ footer {
 
                 .bi-search::before {
                     content: "\f52a";
-                    color: var(--primary);
+                    color: var(--type);
                     position: absolute;
                     top: -8px;
                     right: -40px;
