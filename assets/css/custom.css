@@ -88,25 +88,25 @@ a {
 }
 
 .bg-erfahrung {
-    color: var(--background-element);
+    color: var(--type);
     background: var(--primary);
     margin-right: 10px;
 }
 
 .bg-suche {
-    color: var(--background-element);
+    color: var(--type);
     background: var(--red);
     margin-right: 10px;
 }
 
 .bg-rant {
-    color: var(--background-element);
+    color: var(--type);
     background: var(--veilchen);
     margin-right: 10px;
 }
 
 .bg-gedanken {
-    color: var(--background-element);
+    color: var(--type);
     background: var(--green);
     margin-right: 10px;
 }
@@ -557,7 +557,7 @@ button.filter {
 }
 
 .search-results-title {
-    color: var(--primary);
+    color: var(--type);
     font-weight: 600;
     margin-bottom: 1rem;
 }
@@ -676,7 +676,7 @@ img.avatar-search {
 .comment-icon-circle svg {
     width: 13px;
     height: 13px;
-    fill: var(--background-element);
+    fill: var(---type);
 }
 
 /* Comment Count Badge */
@@ -2904,6 +2904,7 @@ td button {
 }
 
 .bi-send::before {
+    color: var(--type);
     content: "\f6c0";
     background: none;
 }
