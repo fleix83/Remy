@@ -26,10 +26,13 @@
     --salmon: #f48a6a;
     --green: #2eb17f;
     --veilchen: #a49cfe;
+    --blue: #054c71;
 
     /* --primary: #ffdd7e;  old */
     --background-body: #15272e;
+    --background-body: #203f4a;
     --background-element: #203f4a;
+    --background-element: #1a3442;
     --background-textarea: #294b57;
     --type-meta: #c4c4c4;
     --tags-color: white;
@@ -1059,7 +1062,6 @@ img.avatar {
 
 .profile-box {
     position: relative;
-    font-family: "M PLUS Rounded 1c", sans-serif;
     background: transparent;
     border: 0px solid #ccc;
     border-radius: 30px;
@@ -1480,6 +1482,7 @@ img.avatar {
 
                             .profile-box {
                                 padding: 40px 20px;
+                                margin: 2rem auto;
                             }
 
                             #profileInfo {
@@ -1545,7 +1548,7 @@ img.avatar {
                             
                             .settings-badge-container {
                                 position: absolute;
-                                left: 200px;
+                                left: 175px;
                             }
 
                             .settings-badge {
@@ -2431,7 +2434,7 @@ form button:hover {
                     }
                     
                     .post-content {
-                        font-size: 0.8rem;
+                        font-size: 0.9rem;
                         margin: 0.0rem 0rem;
 
                         
@@ -2443,25 +2446,36 @@ form button:hover {
 
                     .therapist-lead {
                         margin-bottom: 15px;
-                        /* border-left: 3px solid var(--primary); */
-                        /* border-right: 3px solid var(--primary); */
-                        border-radius: 20px;
-                        padding: 15px 0px;
                         display: inline-block;
                         width: fit-content;
+                        max-width: 70%;
+                        background: transparent;
+                        color: var(--background-element);
+                        font-size: 0.9rem;
+                        font-weight: 500;
+                        position: relative;
+                        left: 0;
+                        line-height: 1.6;
                     }
 
                     a.therapist-link {
-                        display: inline-flex;
-                        align-items: center;     /* vertically center icon */
-                        color: var(--primary);
-                        font-size: 1.0rem;
-                        font-weight: 600;
-                        width: fit-content;
-                        line-height: 1.4;        /* more readable line height */
+                        display: inline;
+                        color: var(--background-element);
+                        background: var(--primary);
+                        font-size: 0.9rem;
+                        font-weight: 500;
+                        line-height: 1.8;
                         font-style: normal;
-                        padding: 2px 0;
+                        padding: 2px 4px;
                         text-decoration: none;
+                        box-decoration-break: clone;
+                        -webkit-box-decoration-break: clone;
+                        border-radius: 6px;
+                    }
+
+                    a.therapist-link:hover {
+                        color: var(--background-element);
+                        text-decoration: underline;
                     }
 
                     .therapist-link i {

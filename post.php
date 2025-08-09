@@ -245,7 +245,7 @@ require_once __DIR__ . '/includes/header.php';
 
                     <!-- Therapist Info -->
                     <?php if ($post['category'] === 'Erfahrung' && $post['therapist']): ?>
-                        <div class="therapist-lead mt-2 mb-0">
+                        <div class="therapist-lead mt-4 mb-2">
                             <a href="therapeut_profil.php?id=<?= htmlspecialchars($post['therapist']) ?>" class="therapist-link">
                                 <!-- <i class="bi bi-bullseye"></i> --> Erfahrung mit
                                 <?php
