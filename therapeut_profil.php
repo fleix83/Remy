@@ -97,38 +97,104 @@ require_once 'navbar.php';
             object-fit: cover;
         }
 
-        /* Therapist profile specific styling */
-        .therapist-header {
-            background: #ffffff;
-            color: white;
-            padding: 2rem;
-            border-radius: 20px;
-            margin-bottom: 60px;
-                }
-
-        .therapist-name {
-            font-size: 1.75rem;
-            font-weight: 600;
-            margin-bottom: 1rem;
+        /* Profile info container and edit link positioning */
+        #profileInfo {
+            position: relative;
+        }
+        
+        .edit-link-top-right {
+            position: absolute;
+            top: 11px;
+            right: 20px;
+            z-index: 10;
+            color: var(--background-element);
+            text-decoration: none;
+            font-weight: 500;
         }
 
-        .therapist-detail {
+        .edit-link-top-right:hover {
+            color: var(--background-element);
+            text-decoration: underline;
+        }
+
+        /* Canton display styling - copied from user.php */
+        .canton-display {
             display: flex;
             align-items: center;
-            gap: 0.5rem;
-            margin-bottom: 0.5rem;
-            font-size: 0.9rem;
+            gap: 10px;
+            margin-top: 10px;
         }
-
-        .therapist-detail i {
-            width: 1.2rem;
-            opacity: 0.8;
+        
+        .canton-label {
+            font-weight: 500;
+            color: #666;
         }
-
-        .canton-flag {
+        
+        .canton-flag-small {
             width: 20px;
             height: 20px;
-            margin-right: 0.5rem;
+            object-fit: cover;
+            border-radius: 3px;
+        }
+
+        /* Profile box styling - override to match user profile */
+        .profile-box {
+            background: var(--primary) !important;
+            color: var(--background-element) !important;
+            border-radius: 30px !important;
+            padding: 60px 40px 40px 40px !important;
+            margin: 1rem auto !important;
+            position: relative !important;
+        }
+
+        /* Settings display styling - with icons instead of labels */
+        .settings-display {
+            position: relative;
+            display: flex;
+            align-items: center;
+            margin: 12px 0;
+            min-height: 32px;
+        }
+        
+        .settings-icon {
+            font-size: 1.2rem;
+            color: var(--background-element);
+            margin-right: 0;
+            width: 20px;
+        }
+        
+        .settings-badge-container {
+            position: absolute;
+            left: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+        }
+        
+        .settings-badge {
+            background: white;
+            color: var(--background-element);
+            padding: 6px 14px;
+            border-radius: 15px;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        /* Canton flag styling within settings badges */
+        .settings-display .canton-flag-small {
+            width: 16px !important;
+            height: 16px !important;
+            margin-right: 6px !important;
+            vertical-align: middle;
+        }
+
+        /* Text color overrides */
+        .profile-box p {
+            color: var(--background-element);
+        }
+
+        .profile-card-username {
+            color: var(--background-element) !important;
         }
 
         /* Post cards matching forum style */
@@ -273,36 +339,63 @@ require_once 'navbar.php';
     </style>
 </head>
 <body>
-    <div class="profile-container">
+    <div class="container col-md-12">
         <!-- Page Title -->
-        <h1 class="page-title mb-4">Therapeutenprofil</h1>
+        <!-- <h1 class="page-title mb-4">Therapeutenprofil</h1> -->
         
-        <!-- Therapist Header -->
-        <div class="therapist-header">
-            <h1 class="therapist-name">
-                <?php echo htmlspecialchars($therapist['form_of_address'] . ' ' . $therapist['first_name'] . ' ' . $therapist['last_name']); ?>
-            </h1>
-            <div class="therapist-detail">
-                <i class="bi bi-geo-alt-fill"></i>
-                <img class="canton-flag" src="<?= BASE_URL ?>assets/kantone/<?php echo strtolower(htmlspecialchars($therapist['canton'])); ?>.png" alt="<?php echo htmlspecialchars($therapist['canton']); ?> Flagge">
-                <?php echo htmlspecialchars($therapist['canton']); ?>
-            </div>
-            <div class="therapist-detail">
-                <i class="bi bi-person-badge"></i>
-                <?php echo htmlspecialchars($therapist['designation']); ?>
-            </div>
-            <?php if (!empty($therapist['description'])): ?>
-                <div class="therapist-detail">
-                    <i class="bi bi-file-text"></i>
-                    <?php echo htmlspecialchars($therapist['description']); ?>
+        <!-- Therapist Profile -->
+        <div class="profile-box col-md-8">
+            <div id="profileInfo">
+                <!-- Edit Link -->
+                <a href="#" id="editTherapistBtn" class="edit-link-top-right" data-bs-toggle="modal" data-bs-target="#editTherapistModal">Bearbeiten</a>
+                
+                <!-- Therapist Name -->
+                <h2 class="profile-card-username">
+                    <?php echo htmlspecialchars($therapist['form_of_address'] . ' ' . $therapist['first_name'] . ' ' . $therapist['last_name']); ?>
+                </h2>
+
+                <!-- Bio/Description (no icon, just text like user profile) -->
+                <?php if (!empty($therapist['description'])): ?>
+                    <p><?php echo htmlspecialchars($therapist['description']); ?></p>
+                <?php else: ?>
+                    <p>Keine Beschreibung hinterlegt.</p>
+                <?php endif; ?>
+                
+                <!-- Location with Canton -->
+                <div class="settings-display">
+                    <i class="bi bi-geo-alt-fill settings-icon"></i>
+                    <div class="settings-badge-container">
+                        <span class="settings-badge">
+                            <img src="<?= BASE_URL ?>assets/kantone/<?php echo strtolower(htmlspecialchars($therapist['canton'])); ?>.png" 
+                                alt="<?php echo htmlspecialchars($therapist['canton']); ?>" 
+                                class="canton-flag-small">
+                            <?php echo htmlspecialchars($therapist['canton']); ?>
+                        </span>
+                    </div>
                 </div>
-            <?php endif; ?>
-            <?php if (!empty($therapist['institution'])): ?>
-                <div class="therapist-detail">
-                    <i class="bi bi-building"></i>
-                    <?php echo htmlspecialchars($therapist['institution']); ?>
+
+                <!-- Designation -->
+                <div class="settings-display">
+                    <i class="bi bi-person-badge settings-icon"></i>
+                    <div class="settings-badge-container">
+                        <span class="settings-badge">
+                            <?php echo htmlspecialchars($therapist['designation']); ?>
+                        </span>
+                    </div>
                 </div>
-            <?php endif; ?>
+
+                <!-- Institution -->
+                <?php if (!empty($therapist['institution'])): ?>
+                    <div class="settings-display">
+                        <i class="bi bi-building settings-icon"></i>
+                        <div class="settings-badge-container">
+                            <span class="settings-badge">
+                                <?php echo htmlspecialchars($therapist['institution']); ?>
+                            </span>
+                        </div>
+                    </div>
+                <?php endif; ?>
+            </div>
         </div>
 
         <!-- Posts Section -->
