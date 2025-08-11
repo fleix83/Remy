@@ -793,7 +793,7 @@ h2.list-title:hover {
 }
 
 a.therapist-link {
-    color: var(--primary);
+    color: var(--type);
     font-size: 0.9rem;
 }
 
@@ -2462,7 +2462,7 @@ form button:hover {
                     a.therapist-link {
                         display: inline;
                         color: var(--background-element);
-                        background: var(--primary);
+                        background: var(--salmon);
                         font-size: 0.9rem;
                         font-weight: 500;
                         line-height: 1.8;
@@ -3191,7 +3191,7 @@ td button {
     margin-right: 0.25rem;
 }
 .post-content {
-    color: var(--primary);
+    color: var(--type);
     margin-bottom: 1rem;
 }
 .read-more {
